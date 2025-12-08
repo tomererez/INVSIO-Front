@@ -1,46 +1,84 @@
-import { motion } from "framer-motion";
-import { Card, CardContent } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Button } from "@/components/ui/button";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Mail, Send } from "lucide-react";
-import { useState, useEffect } from "react";
+
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import {
+  Mail, MessageSquare, Twitter, Send,
+  MapPin, Globe, CheckCircle2, ArrowRight,
+  Zap, Radio, ChevronDown
+} from 'lucide-react';
+import { GlassCard } from '../components/ui/glass-card';
+import { Button } from '../components/ui/marketing-button';
+
+// --- VISUAL HELPERS ---
+
+const GlowingOrb = ({ color, className }) => (
+  <div className={`absolute rounded-full blur-[100px] mix-blend-screen pointer-events-none opacity-10 ${className}`} style={{ background: color }} />
+);
+
+const ContactOption = ({ icon, title, desc, action, delay, onClick }) => (
+  <motion.div
+    initial={{ opacity: 0, y: 20 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    viewport={{ once: true }}
+    transition={{ delay, duration: 0.5 }}
+    className="h-full"
+    onClick={onClick}
+  >
+    <GlassCard className="p-6 h-full flex flex-col justify-between group cursor-pointer border-white/5 hover:border-indigo-500/30 transition-colors">
+      <div>
+        <div className="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-slate-300 group-hover:text-indigo-400 group-hover:scale-110 transition-all duration-300 mb-4">
+          {icon}
+        </div>
+        <h3 className="text-lg font-medium text-white mb-2">{title}</h3>
+        <p className="text-sm text-slate-400 leading-relaxed mb-6">{desc}</p>
+      </div>
+      <div className="flex items-center text-xs font-bold uppercase tracking-wider text-indigo-400 group-hover:text-indigo-300">
+        {action} <ArrowRight className="w-3 h-3 ml-2 group-hover:translate-x-1 transition-transform" />
+      </div>
+    </GlassCard>
+  </motion.div>
+);
+
+const InputField = ({ label, type = "text", placeholder, rows, value, onChange }) => (
+  <div className="space-y-1.5 group">
+    <label className="text-xs font-medium text-slate-500 uppercase tracking-wider group-focus-within:text-indigo-400 transition-colors">{label}</label>
+    {rows ? (
+      <textarea
+        rows={rows}
+        placeholder={placeholder}
+        value={value}
+        onChange={onChange}
+        className="w-full bg-black/20 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder:text-slate-600 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none transition-all resize-none"
+      />
+    ) : (
+      <input
+        type={type}
+        placeholder={placeholder}
+        value={value}
+        onChange={onChange}
+        className="w-full bg-black/20 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder:text-slate-600 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none transition-all"
+      />
+    )}
+  </div>
+);
 
 export default function Contact() {
-  const [theme, setTheme] = useState('dark');
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    topic: '',
-    message: ''
-  });
-  const [submitted, setSubmitted] = useState(false);
-
-  useEffect(() => {
-    const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
-    setTheme(currentTheme);
-    
-    const observer = new MutationObserver(() => {
-      const newTheme = document.documentElement.getAttribute('data-theme') || 'dark';
-      setTheme(newTheme);
-    });
-    
-    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
-    return () => observer.disconnect();
-  }, []);
-
-  const isDark = theme === 'dark';
+  const [formState, setFormState] = useState({ name: '', email: '', topic: '', message: '' });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSent, setIsSent] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setSubmitted(true);
+    setIsSubmitting(true);
+    // Simulate network request
     setTimeout(() => {
-      setSubmitted(false);
-      setFormData({ name: '', email: '', topic: '', message: '' });
-    }, 3000);
+      setIsSubmitting(false);
+      setIsSent(true);
+      // Reset form after a while if desired, but here we show "Message Received" state
+    }, 2000);
   };
 
+  // Preserved logic from original Terminal App Contact.jsx
   const handleEmailClick = () => {
     const subject = encodeURIComponent('SmarTrading Support Request');
     const body = encodeURIComponent(`Hello SmarTrading Team,
@@ -56,167 +94,227 @@ Best regards,
     window.open(`mailto:support@smartrading.com?subject=${subject}&body=${body}`, '_blank');
   };
 
+  const handleTwitterClick = () => {
+    window.open("https://twitter.com/invsio", "_blank");
+  };
+
   return (
-    <div className={`min-h-screen ${isDark ? 'bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950' : 'bg-gradient-to-br from-gray-50 via-white to-gray-100'}`}>
-      <div className={`relative overflow-hidden border-b ${isDark ? 'border-slate-800/50 bg-gradient-to-b from-slate-900/50' : 'border-gray-200 bg-gradient-to-b from-white/50'} to-transparent`}>
-        <div className="absolute inset-0 bg-grid-pattern opacity-5" />
-        
-        <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl animate-pulse" />
-          <div className="absolute bottom-1/4 left-1/4 w-96 h-96 bg-teal-500/10 rounded-full blur-3xl animate-pulse delay-1000" />
-        </div>
+    <div className="min-h-screen bg-transparent relative overflow-hidden pt-32 pb-20">
 
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 py-20 sm:py-32">
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="text-center"
-          >
-            <motion.h1
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.3 }}
-              className="text-5xl sm:text-7xl font-bold mb-6 bg-gradient-to-l from-emerald-400 via-teal-400 to-cyan-400 bg-clip-text text-transparent"
-            >
-              Contact Us
-            </motion.h1>
+      {/* Background Ambience */}
+      <div className="fixed inset-0 pointer-events-none">
+        {/* Original Top-Left Orb */}
+        <GlowingOrb color="#6366f1" className="top-[-100px] left-[20%] w-[600px] h-[600px]" />
 
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.4 }}
-              className={`text-xl sm:text-2xl max-w-3xl mx-auto ${isDark ? 'text-slate-300' : 'text-gray-700'}`}
-            >
-              We are here to help with anything you need.
-            </motion.p>
-          </motion.div>
-        </div>
+        {/* Strong Pink Nebula Center-Left */}
+        <GlowingOrb color="#ec4899" className="top-1/2 left-[-150px] -translate-y-1/2 w-[900px] h-[900px] opacity-15" />
+
+        {/* Original Bottom-Right Orb */}
+        <GlowingOrb color="#ec4899" className="bottom-[10%] right-[10%] w-[500px] h-[500px]" />
       </div>
 
-      <div className="max-w-3xl mx-auto px-4 sm:px-6 py-16 sm:py-20">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-        >
-          <Card className={`${isDark ? 'bg-slate-900/50 border-slate-800' : 'bg-white border-gray-200 shadow-lg'} mb-8`}>
-            <CardContent className="p-8">
-              <div className="flex items-center gap-3 mb-6">
-                <div className={`w-12 h-12 ${isDark ? 'bg-emerald-500/20' : 'bg-emerald-100'} rounded-xl flex items-center justify-center`}>
-                  <Mail className="w-6 h-6 text-emerald-400" />
+      <div className="max-w-7xl mx-auto px-6 relative z-10">
+
+        {/* HERO SECTION */}
+        <div className="text-center max-w-3xl mx-auto mb-20">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-300 text-[10px] font-bold uppercase tracking-widest backdrop-blur-md mb-6"
+          >
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-indigo-500"></span>
+            </span>
+            Systems Online
+          </motion.div>
+
+          <motion.h1
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="text-5xl md:text-7xl font-light text-white mb-6 tracking-tight"
+          >
+            Establish <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-cyan-400 font-normal">Connection.</span>
+          </motion.h1>
+
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1 }}
+            className="text-xl text-slate-400 font-light"
+          >
+            Questions about the terminal? Enterprise inquiries? <br className="hidden md:block" />
+            Our team is ready to deploy assistance.
+          </motion.p>
+        </div>
+
+        {/* MAIN CONTENT GRID */}
+        <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-stretch">
+
+          {/* LEFT: INFO CARDS */}
+          <div className="space-y-6">
+            <div className="grid sm:grid-cols-2 gap-6">
+              <ContactOption
+                icon={<MessageSquare className="w-6 h-6" />}
+                title="Live Support"
+                desc="Technical issues or account help? Our engineers respond in <50ms (usually)."
+                action="Open Chat"
+                delay={0.2}
+              />
+              <ContactOption
+                icon={<Mail className="w-6 h-6" />}
+                title="Email Us"
+                desc="For partnerships, press, or detailed inquiries that require deep analysis."
+                action="Send Email"
+                delay={0.3}
+                onClick={handleEmailClick}
+              />
+              <ContactOption
+                icon={<Twitter className="w-6 h-6" />}
+                title="Twitter / X"
+                desc="Follow the flow. Get real-time updates and join the public discourse."
+                action="Follow @INVSIO"
+                delay={0.4}
+                onClick={handleTwitterClick}
+              />
+              <ContactOption
+                icon={<Globe className="w-6 h-6" />}
+                title="HQ / Base"
+                desc="Global distributed team. Digital-first, but grounded in reality."
+                action="View Regions"
+                delay={0.5}
+              />
+            </div>
+
+            {/* Status Indicator */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              transition={{ delay: 0.6 }}
+              className="p-6 rounded-2xl border border-emerald-500/20 bg-emerald-900/5 flex items-center justify-between backdrop-blur-sm"
+            >
+              <div className="flex items-center gap-4">
+                <div className="p-3 rounded-full bg-emerald-500/10 text-emerald-400">
+                  <Radio className="w-6 h-6" />
                 </div>
                 <div>
-                  <h2 className={`text-2xl font-bold ${isDark ? 'text-white' : 'text-gray-900'}`}>
-                    Send us a message
-                  </h2>
-                  <p className={`text-sm ${isDark ? 'text-slate-400' : 'text-gray-600'}`}>
-                    We'll get back to you as soon as possible
-                  </p>
+                  <div className="text-white font-medium">Support Status</div>
+                  <div className="text-xs text-emerald-400 font-mono mt-0.5">OPERATIONAL // LOW LATENCY</div>
                 </div>
               </div>
+              <div className="text-2xl font-light text-white">100%</div>
+            </motion.div>
+          </div>
 
-              {submitted ? (
-                <div className={`p-6 rounded-xl ${isDark ? 'bg-emerald-500/10 border border-emerald-500/30' : 'bg-emerald-50 border border-emerald-300'} text-center`}>
-                  <p className={`text-lg font-bold ${isDark ? 'text-emerald-300' : 'text-emerald-700'}`}>
-                    ✓ Message sent successfully!
-                  </p>
-                  <p className={`text-sm mt-2 ${isDark ? 'text-slate-400' : 'text-gray-600'}`}>
-                    We'll respond within 24 hours.
-                  </p>
-                </div>
-              ) : (
-                <form onSubmit={handleSubmit} className="space-y-6">
-                  <div>
-                    <label className={`block font-bold mb-2 ${isDark ? 'text-white' : 'text-gray-900'}`}>
-                      Name
-                    </label>
-                    <Input
-                      type="text"
-                      required
-                      value={formData.name}
-                      onChange={(e) => setFormData({...formData, name: e.target.value})}
-                      placeholder="Your name"
-                      className={`h-12 ${isDark ? 'bg-slate-800 border-slate-700 text-white placeholder:text-slate-500' : 'bg-white border-gray-300 text-gray-900 placeholder:text-gray-400'}`}
-                    />
-                  </div>
-
-                  <div>
-                    <label className={`block font-bold mb-2 ${isDark ? 'text-white' : 'text-gray-900'}`}>
-                      Email
-                    </label>
-                    <Input
-                      type="email"
-                      required
-                      value={formData.email}
-                      onChange={(e) => setFormData({...formData, email: e.target.value})}
-                      placeholder="your@email.com"
-                      className={`h-12 ${isDark ? 'bg-slate-800 border-slate-700 text-white placeholder:text-slate-500' : 'bg-white border-gray-300 text-gray-900 placeholder:text-gray-400'}`}
-                    />
-                  </div>
-
-                  <div>
-                    <label className={`block font-bold mb-2 ${isDark ? 'text-white' : 'text-gray-900'}`}>
-                      Topic
-                    </label>
-                    <Select value={formData.topic} onValueChange={(value) => setFormData({...formData, topic: value})}>
-                      <SelectTrigger className={`h-12 ${isDark ? 'bg-slate-800 border-slate-700 text-white' : 'bg-white border-gray-300 text-gray-900'}`}>
-                        <SelectValue placeholder="Select a topic" />
-                      </SelectTrigger>
-                      <SelectContent className={isDark ? 'bg-slate-800 border-slate-700' : 'bg-white border-gray-300'}>
-                        <SelectItem value="product">Product</SelectItem>
-                        <SelectItem value="pricing">Pricing</SelectItem>
-                        <SelectItem value="tools">Tools</SelectItem>
-                        <SelectItem value="security">Security & Data</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-
-                  <div>
-                    <label className={`block font-bold mb-2 ${isDark ? 'text-white' : 'text-gray-900'}`}>
-                      Message
-                    </label>
-                    <Textarea
-                      required
-                      value={formData.message}
-                      onChange={(e) => setFormData({...formData, message: e.target.value})}
-                      placeholder="How can we help you?"
-                      className={`min-h-32 ${isDark ? 'bg-slate-800 border-slate-700 text-white placeholder:text-slate-500' : 'bg-white border-gray-300 text-gray-900 placeholder:text-gray-400'}`}
-                    />
-                  </div>
-
-                  <Button
-                    type="submit"
-                    className="w-full h-12 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white font-bold shadow-lg"
-                  >
-                    <Send className="w-4 h-4 mr-2" />
-                    Send Message
-                  </Button>
-                </form>
-              )}
-            </CardContent>
-          </Card>
-
-          <Card 
-            onClick={handleEmailClick}
-            className={`${isDark ? 'bg-gradient-to-br from-emerald-900/20 to-teal-900/20 border-emerald-500/30 hover:border-emerald-500/50' : 'bg-gradient-to-br from-emerald-50 to-teal-50 border-emerald-300 hover:border-emerald-400'} cursor-pointer transition-all duration-200 hover:scale-[1.02]`}
+          {/* RIGHT: THE FORM */}
+          <motion.div
+            initial={{ opacity: 0, x: 20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="h-full"
           >
-            <CardContent className="p-6 text-center">
-              <Mail className="w-12 h-12 text-emerald-400 mx-auto mb-3" />
-              <h3 className={`text-lg font-bold mb-2 ${isDark ? 'text-white' : 'text-gray-900'}`}>
-                Email Support
-              </h3>
-              <a 
-                className="text-emerald-400 hover:text-emerald-300 font-semibold text-lg transition-colors"
-              >
-                support@smartrading.com
-              </a>
-              <p className={`text-xs mt-2 ${isDark ? 'text-slate-400' : 'text-gray-600'}`}>
-                Click to open your email client
-              </p>
-            </CardContent>
-          </Card>
-        </motion.div>
+            <GlassCard className="p-8 md:p-10 relative overflow-hidden h-full flex flex-col justify-between">
+              <div className="absolute top-0 right-0 p-4 opacity-20">
+                <Zap className="w-24 h-24 text-indigo-500 -rotate-12" />
+              </div>
+
+              <div className="relative z-10">
+                <h2 className="text-2xl font-light text-white mb-2">Get in Touch</h2>
+                <p className="text-sm text-slate-400 mb-8">Fill out the form below. We'll get back to you shortly.</p>
+
+                <AnimatePresence mode="wait">
+                  {isSent ? (
+                    <motion.div
+                      initial={{ opacity: 0, scale: 0.9 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      className="flex flex-col items-center justify-center py-20 text-center"
+                    >
+                      <div className="w-20 h-20 bg-emerald-500/10 rounded-full flex items-center justify-center mb-6 border border-emerald-500/20">
+                        <CheckCircle2 className="w-10 h-10 text-emerald-400" />
+                      </div>
+                      <h3 className="text-2xl text-white font-medium mb-2">Message Received</h3>
+                      <p className="text-slate-400 max-w-xs mx-auto">
+                        Our team has logged your message. Expect a response shortly.
+                      </p>
+                      <Button variant="secondary" className="mt-8" onClick={() => { setIsSent(false); setFormState({ name: '', email: '', topic: '', message: '' }) }}>
+                        Send Another
+                      </Button>
+                    </motion.div>
+                  ) : (
+                    <motion.form
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      onSubmit={handleSubmit}
+                      className="space-y-6"
+                    >
+                      <div className="grid md:grid-cols-2 gap-6">
+                        <InputField
+                          label="Full Name"
+                          placeholder="John Doe"
+                          value={formState.name}
+                          onChange={(e) => setFormState({ ...formState, name: e.target.value })}
+                        />
+                        <InputField
+                          label="Email Address"
+                          type="email"
+                          placeholder="john@example.com"
+                          value={formState.email}
+                          onChange={(e) => setFormState({ ...formState, email: e.target.value })}
+                        />
+                      </div>
+
+                      <div className="space-y-1.5 group">
+                        <label className="text-xs font-medium text-slate-500 uppercase tracking-wider group-focus-within:text-indigo-400 transition-colors">Topic</label>
+                        <div className="relative">
+                          <select
+                            value={formState.topic}
+                            onChange={(e) => setFormState({ ...formState, topic: e.target.value })}
+                            className="w-full bg-black/20 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none transition-all appearance-none cursor-pointer"
+                          >
+                            <option value="" disabled className="bg-slate-900 text-slate-500">Select a topic...</option>
+                            <option value="pricing" className="bg-slate-900">Pricing & Plans</option>
+                            <option value="features" className="bg-slate-900">Platform Features</option>
+                            <option value="security" className="bg-slate-900">Security & Data</option>
+                            <option value="other" className="bg-slate-900">Other</option>
+                          </select>
+                          <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500 pointer-events-none" />
+                        </div>
+                      </div>
+
+                      <InputField
+                        label="Message"
+                        rows={5}
+                        placeholder="How can we help you?"
+                        value={formState.message}
+                        onChange={(e) => setFormState({ ...formState, message: e.target.value })}
+                      />
+
+                      <Button
+                        variant="primary"
+                        size="lg"
+                        className="w-full relative overflow-hidden"
+                        disabled={isSubmitting}
+                      >
+                        <span className={`flex items-center gap-2 transition-opacity ${isSubmitting ? 'opacity-0' : 'opacity-100'}`}>
+                          Send <Send className="w-4 h-4" />
+                        </span>
+
+                        {isSubmitting && (
+                          <div className="absolute inset-0 flex items-center justify-center">
+                            <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                          </div>
+                        )}
+                      </Button>
+                    </motion.form>
+                  )}
+                </AnimatePresence>
+              </div>
+            </GlassCard>
+          </motion.div>
+
+        </div>
       </div>
     </div>
   );

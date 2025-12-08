@@ -250,23 +250,40 @@ export default function About() {
             </section>
 
             {/* 6. FINAL CTA */}
-            <section className="py-32 px-6 text-center relative overflow-hidden">
-                {/* Background Rays */}
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[200%] h-[500px] bg-gradient-to-r from-transparent via-indigo-500/10 to-transparent rotate-45 blur-3xl pointer-events-none" />
+            <section className="relative py-48 px-6 mt-10 flex flex-col items-center justify-center">
 
-                <div className="relative z-10 max-w-2xl mx-auto">
-                    <h2 className="text-4xl md:text-6xl text-white font-light mb-8">Stop Guessing. <br /><span className="text-indigo-400">Start Knowing.</span></h2>
-                    <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                        <a href={TERMINAL_URL} target="_blank" rel="noopener noreferrer">
-                            <Button size="lg" variant="primary" className="w-full sm:w-auto min-w-[200px]">
-                                Launch Terminal
+                {/* Central Nebula Gradient - Extended container for smooth edges */}
+                <div className="absolute -inset-40 pointer-events-none overflow-visible">
+                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] bg-indigo-500/15 rounded-full blur-[150px]" />
+                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[300px] bg-cyan-400/8 rounded-full blur-[120px]" />
+                </div>
+
+                <motion.div
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    className="w-full max-w-4xl mx-auto relative z-10 text-center"
+                >
+                    <h2 className="text-4xl md:text-5xl font-light text-white mb-6 tracking-tight">
+                        Stop Guessing. <br /><span className="text-indigo-400 font-normal">Start Knowing.</span>
+                    </h2>
+
+                    <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-8">
+                        <a href="http://localhost:4200" target="_blank" rel="noopener noreferrer">
+                            <Button variant="primary" size="lg" className="min-w-[180px] shadow-[0_0_30px_rgba(79,70,229,0.3)] hover:shadow-[0_0_50px_rgba(79,70,229,0.5)] border-indigo-500/50">
+                                Launch Terminal <ArrowRight className="w-4 h-4 ml-2" />
                             </Button>
                         </a>
-                        <Button size="lg" variant="secondary" className="w-full sm:w-auto min-w-[200px]">
-                            Read Documentation
+                        <Button
+                            variant="secondary"
+                            size="lg"
+                            className="min-w-[180px] bg-white/5 border-white/10 hover:bg-white/10"
+                            onClick={() => window.location.href = '/features'}
+                        >
+                            View Features
                         </Button>
                     </div>
-                </div>
+                </motion.div>
             </section>
 
         </div>

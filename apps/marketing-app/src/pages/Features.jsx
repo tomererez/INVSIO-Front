@@ -831,10 +831,17 @@ export default function Features() {
                                 </p>
 
                                 <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                                    <Button variant="primary" size="lg" className="min-w-[180px] shadow-[0_0_30px_rgba(79,70,229,0.3)] hover:shadow-[0_0_50px_rgba(79,70,229,0.5)] border-indigo-500/50">
-                                        Launch Terminal <ArrowRight className="w-4 h-4 ml-2" />
-                                    </Button>
-                                    <Button variant="secondary" size="lg" className="min-w-[180px] bg-white/5 border-white/10 hover:bg-white/10">
+                                    <a href="http://localhost:4200" target="_blank" rel="noopener noreferrer">
+                                        <Button variant="primary" size="lg" className="min-w-[180px] shadow-[0_0_30px_rgba(79,70,229,0.3)] hover:shadow-[0_0_50px_rgba(79,70,229,0.5)] border-indigo-500/50">
+                                            Launch Terminal <ArrowRight className="w-4 h-4 ml-2" />
+                                        </Button>
+                                    </a>
+                                    <Button
+                                        variant="secondary"
+                                        size="lg"
+                                        className="min-w-[180px] bg-white/5 border-white/10 hover:bg-white/10"
+                                        onClick={() => window.location.href = '/pricing'}
+                                    >
                                         View Pricing
                                     </Button>
                                 </div>
