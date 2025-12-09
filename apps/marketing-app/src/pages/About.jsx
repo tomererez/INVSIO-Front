@@ -43,7 +43,7 @@ export default function About() {
     const TERMINAL_URL = "http://localhost:5181";
 
     return (
-        <div ref={containerRef} className="relative min-h-screen">
+        <div ref={containerRef} className="relative min-h-screen overflow-x-hidden">
 
             {/* Background Ambience */}
             <div className="fixed inset-0 pointer-events-none">

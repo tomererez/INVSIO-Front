@@ -13,7 +13,7 @@ export default function Home() {
     const TERMINAL_URL = "http://localhost:4200";
 
     return (
-        <div className="relative min-h-screen">
+        <div className="relative min-h-screen overflow-x-hidden">
             <Hero />
             <Testimonials />
             <BentoGrid />
