@@ -1,8 +1,30 @@
 import React, { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { ArrowRight, Activity, Zap } from 'lucide-react';
+import { ArrowRight, Activity, Zap, TrendingUp, TrendingDown } from 'lucide-react';
 import { Button } from '../ui/button';
 import { ComparisonSection } from './ComparisonSection';
+
+// Alert data for the phone mockup
+const ALERTS = [
+    {
+        title: "BTC Liquidity Sweep",
+        subtext: "Sweep below 94,200 → OI compression + CVD reversal.",
+        bias: "LONG",
+        confidence: "86%"
+    },
+    {
+        title: "Smart Money Absorption",
+        subtext: "Sell-off absorbed → strong CVD divergence.",
+        bias: "LONG",
+        confidence: "78%"
+    },
+    {
+        title: "Trend Shift Trigger",
+        subtext: "Structure weakening + volatility lift-off.",
+        bias: "SHORT",
+        confidence: "72%"
+    }
+];
 
 export const Hero = () => {
     const containerRef = useRef(null);
@@ -13,6 +35,8 @@ export const Hero = () => {
     const yText = useTransform(scrollY, [0, 500], [0, 200]);
     const opacityText = useTransform(scrollY, [0, 300], [1, 0]);
     const yPhone = useTransform(scrollY, [0, 1000], [0, -150]);
+
+    const TERMINAL_URL = "http://localhost:4200";
 
     return (
         <section ref={containerRef} className="relative min-h-screen flex flex-col items-center pt-32 px-4">
@@ -29,7 +53,7 @@ export const Hero = () => {
             {/* Content (Text Layer with Parallax) */}
             <motion.div
                 style={{ y: yText, opacity: opacityText }}
-                className="relative z-10 text-center max-w-4xl mx-auto mb-16"
+                className="relative z-10 text-center max-w-5xl mx-auto mb-16"
             >
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
@@ -50,16 +74,17 @@ export const Hero = () => {
                     transition={{ duration: 0.8, delay: 0.1, ease: "easeOut" }}
                     className="text-5xl md:text-7xl font-light tracking-tight text-white mb-6 leading-[1.1]"
                 >
-                    Your edge, now on <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 to-cyan-400 font-normal">autopilot.</span>
+                    Smart Money Edge.<br />
+                    <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 to-cyan-400 font-normal">In the palm of your hand.</span>
                 </motion.h1>
 
                 <motion.p
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.8, delay: 0.2 }}
-                    className="text-lg md:text-xl text-slate-400 max-w-2xl mx-auto mb-10 leading-relaxed font-light"
+                    className="text-lg md:text-xl text-slate-400 max-w-3xl mx-auto mb-10 leading-relaxed font-light"
                 >
-                    The Instagram of the market. Real-time AI analysis of order flow, liquidity, and sentiment in a simple, scrollable feed.
+                    Your all-in-one trading system: AI-driven market intelligence, behavioral analysis, and precision risk management unified to elevate every decision you make.
                 </motion.p>
 
                 <motion.div
@@ -68,7 +93,7 @@ export const Hero = () => {
                     transition={{ duration: 0.8, delay: 0.3 }}
                     className="flex flex-col sm:flex-row items-center justify-center gap-4"
                 >
-                    <a href="http://localhost:5181" target="_blank" rel="noopener noreferrer">
+                    <a href={TERMINAL_URL} target="_blank" rel="noopener noreferrer">
                         <Button variant="primary" size="lg">
                             Launch App <ArrowRight className="w-5 h-5" />
                         </Button>
@@ -102,32 +127,69 @@ export const Hero = () => {
                             </div>
                         </div>
 
-                        {/* Simulated Animated Feed List */}
-                        <div className="flex-1 p-4 space-y-3 overflow-hidden opacity-80 mask-image-b">
-                            {[1, 2, 3].map((i) => (
-                                <motion.div
-                                    key={i}
-                                    initial={{ y: 0 }}
-                                    animate={{ y: -100 }}
-                                    transition={{ duration: 10, repeat: Infinity, ease: "linear", repeatType: "loop" }}
-                                    className="bg-white/5 border border-white/5 rounded-xl p-3 backdrop-blur-md"
-                                >
-                                    <div className="flex items-center justify-between mb-2">
-                                        <div className="h-2 w-8 bg-slate-700 rounded-full" />
-                                        <div className="h-2 w-16 bg-slate-700 rounded-full" />
-                                    </div>
-                                    <div className="h-16 bg-gradient-to-r from-indigo-500/10 to-transparent rounded-lg mb-2 relative overflow-hidden">
-                                        <div className="absolute bottom-0 left-0 right-0 h-px bg-indigo-500/50" />
-                                        <svg className="absolute inset-0 w-full h-full text-indigo-400" fill="none" viewBox="0 0 100 40">
-                                            <path d="M0 30 Q 25 35 50 20 T 100 10" stroke="currentColor" strokeWidth="2" />
-                                        </svg>
-                                    </div>
-                                    <div className="space-y-1">
-                                        <div className="h-2 w-full bg-slate-800 rounded-full" />
-                                        <div className="h-2 w-2/3 bg-slate-800 rounded-full" />
-                                    </div>
-                                </motion.div>
-                            ))}
+                        {/* Simulated Animated Feed List - Now with real alert content */}
+                        <div className="flex-1 p-4 relative overflow-hidden mask-image-b">
+                            <div className="space-y-3">
+                                {ALERTS.map((alert, i) => (
+                                    <motion.div
+                                        key={i}
+                                        initial={{ opacity: 0, y: 20 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        transition={{ delay: 1 + (i * 0.2), duration: 0.5 }}
+                                        className="bg-white/5 border border-white/5 rounded-xl p-4 backdrop-blur-md hover:bg-white/10 transition-colors"
+                                    >
+                                        <div className="flex items-center justify-between mb-2">
+                                            <div className="flex items-center gap-2">
+                                                {alert.bias === 'LONG' ? (
+                                                    <TrendingUp className="w-3.5 h-3.5 text-emerald-400" />
+                                                ) : (
+                                                    <TrendingDown className="w-3.5 h-3.5 text-rose-400" />
+                                                )}
+                                                <h3 className="text-white text-xs font-semibold tracking-wide">{alert.title}</h3>
+                                            </div>
+                                            <div className={`text-[9px] font-bold px-1.5 py-0.5 rounded border ${alert.bias === 'LONG'
+                                                ? 'bg-emerald-500/10 border-emerald-500/20 text-emerald-400'
+                                                : 'bg-rose-500/10 border-rose-500/20 text-rose-400'
+                                                }`}>
+                                                {alert.bias} {alert.confidence}
+                                            </div>
+                                        </div>
+
+                                        <p className="text-[11px] text-slate-400 leading-snug mb-3 font-light">
+                                            {alert.subtext.split('→').map((part, idx, arr) => (
+                                                <React.Fragment key={idx}>
+                                                    {part.trim()}
+                                                    {idx < arr.length - 1 && <span className="text-slate-600 mx-1">→</span>}
+                                                </React.Fragment>
+                                            ))}
+                                        </p>
+
+                                        {/* Confidence Bar */}
+                                        <div className="h-1 w-full bg-white/5 rounded-full overflow-hidden">
+                                            <motion.div
+                                                initial={{ width: 0 }}
+                                                animate={{ width: alert.confidence }}
+                                                transition={{ delay: 1.5 + (i * 0.2), duration: 1 }}
+                                                className={`h-full rounded-full ${alert.bias === 'LONG' ? 'bg-emerald-500' : 'bg-rose-500'
+                                                    }`}
+                                            />
+                                        </div>
+                                    </motion.div>
+                                ))}
+
+                                {/* Faded partial card at bottom to imply more content */}
+                                <div className="bg-white/5 border border-white/5 rounded-xl p-4 backdrop-blur-md opacity-30">
+                                    <div className="h-3 w-24 bg-slate-700 rounded-full mb-2" />
+                                    <div className="h-2 w-full bg-slate-800 rounded-full" />
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Bottom Nav Hint */}
+                        <div className="h-12 border-t border-white/5 bg-black/40 backdrop-blur-md flex justify-around items-center px-6">
+                            <div className="w-4 h-4 rounded-full bg-indigo-500/20" />
+                            <div className="w-4 h-4 rounded-full bg-white/5" />
+                            <div className="w-4 h-4 rounded-full bg-white/5" />
                         </div>
                     </div>
                 </div>

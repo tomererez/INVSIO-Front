@@ -1,8 +1,29 @@
 
 import React, { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { ArrowRight, Activity, Zap } from 'lucide-react';
+import { ArrowRight, Activity, Zap, TrendingUp, TrendingDown, Layers } from 'lucide-react';
 import { Button } from '../ui/Button';
+
+const ALERTS = [
+  {
+    title: "BTC Liquidity Sweep",
+    subtext: "Sweep below 94,200 → OI compression + CVD reversal.",
+    bias: "LONG",
+    confidence: "86%"
+  },
+  {
+    title: "Smart Money Absorption",
+    subtext: "Sell-off absorbed → strong CVD divergence.",
+    bias: "LONG",
+    confidence: "78%"
+  },
+  {
+    title: "Trend Shift Trigger",
+    subtext: "Structure weakening + volatility lift-off.",
+    bias: "SHORT",
+    confidence: "72%"
+  }
+];
 
 export const Hero: React.FC = () => {
   const containerRef = useRef<HTMLElement>(null);
@@ -16,9 +37,9 @@ export const Hero: React.FC = () => {
 
   return (
     <section ref={containerRef} className="relative min-h-screen flex flex-col items-center justify-center pt-32 pb-20 px-4 overflow-hidden">
-      
+
       {/* Background Aurora Effect (Parallax Layer) */}
-      <motion.div 
+      <motion.div
         style={{ y: yBackground }}
         className="absolute inset-0 z-0 pointer-events-none"
       >
@@ -27,42 +48,43 @@ export const Hero: React.FC = () => {
       </motion.div>
 
       {/* Content (Text Layer with Parallax) */}
-      <motion.div 
+      <motion.div
         style={{ y: yText, opacity: opacityText }}
-        className="relative z-10 text-center max-w-4xl mx-auto mb-16"
+        className="relative z-10 text-center max-w-5xl mx-auto mb-16"
       >
         <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
-            className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-xs font-medium tracking-wide text-cyan-400 mb-6 uppercase"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-xs font-medium tracking-wide text-cyan-400 mb-6 uppercase"
         >
-            <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-cyan-500"></span>
-            </span>
-            Live Market Intelligence
+          <span className="relative flex h-2 w-2">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-cyan-500"></span>
+          </span>
+          Live Market Intelligence
         </motion.div>
 
-        <motion.h1 
+        <motion.h1
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.1, ease: "easeOut" }}
           className="text-5xl md:text-7xl font-light tracking-tight text-white mb-6 leading-[1.1]"
         >
-          Your edge, now on <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 to-cyan-400 font-normal">autopilot.</span>
+          Smart Money Edge.<br />
+          <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 to-cyan-400 font-normal">In the palm of your hand.</span>
         </motion.h1>
 
-        <motion.p 
+        <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className="text-lg md:text-xl text-slate-400 max-w-2xl mx-auto mb-10 leading-relaxed font-light"
+          className="text-lg md:text-xl text-slate-400 max-w-3xl mx-auto mb-10 leading-relaxed font-light"
         >
-          The Instagram of the market. Real-time AI analysis of order flow, liquidity, and sentiment in a simple, scrollable feed.
+          Your all-in-one trading system: AI-driven market intelligence, behavioral analysis, and precision risk management unified to elevate every decision you make.
         </motion.p>
 
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.3 }}
@@ -78,7 +100,7 @@ export const Hero: React.FC = () => {
       </motion.div>
 
       {/* Phone Mockup Visual (Foreground Parallax) */}
-      <motion.div 
+      <motion.div
         style={{ y: yPhone }}
         initial={{ opacity: 0, scale: 0.9, rotateX: 20 }}
         animate={{ opacity: 1, scale: 1, rotateX: 0 }}
@@ -88,44 +110,84 @@ export const Hero: React.FC = () => {
         <div className="relative rounded-[3rem] border-8 border-slate-900 bg-[#02040A] shadow-2xl shadow-indigo-500/20 overflow-hidden aspect-[9/19.5]">
           {/* Mockup Notch */}
           <div className="absolute top-0 left-1/2 -translate-x-1/2 h-7 w-32 bg-slate-900 rounded-b-2xl z-20"></div>
-          
+
           {/* Mockup Screen Content (Simulated Feed) */}
           <div className="absolute inset-0 bg-gradient-to-b from-slate-900/50 to-[#02040A] flex flex-col">
             {/* Status Bar */}
             <div className="flex justify-between px-6 pt-3 pb-2 text-[10px] text-white font-medium">
-                <span>9:41</span>
-                <div className="flex gap-1">
-                    <Activity className="w-3 h-3" />
-                    <Zap className="w-3 h-3" />
-                </div>
+              <span>9:41</span>
+              <div className="flex gap-1">
+                <Activity className="w-3 h-3" />
+                <Zap className="w-3 h-3" />
+              </div>
             </div>
 
             {/* Simulated Animated Feed List */}
-            <div className="flex-1 p-4 space-y-3 overflow-hidden opacity-80 mask-image-b">
-                {[1, 2, 3].map((i) => (
-                    <motion.div 
-                        key={i}
-                        initial={{ y: 0 }}
-                        animate={{ y: -100 }}
-                        transition={{ duration: 10, repeat: Infinity, ease: "linear", repeatType: "loop" }}
-                        className="bg-white/5 border border-white/5 rounded-xl p-3 backdrop-blur-md"
-                    >
-                        <div className="flex items-center justify-between mb-2">
-                            <div className="h-2 w-8 bg-slate-700 rounded-full" />
-                            <div className="h-2 w-16 bg-slate-700 rounded-full" />
-                        </div>
-                        <div className="h-16 bg-gradient-to-r from-indigo-500/10 to-transparent rounded-lg mb-2 relative overflow-hidden">
-                           <div className="absolute bottom-0 left-0 right-0 h-px bg-indigo-500/50" />
-                           <svg className="absolute inset-0 w-full h-full text-indigo-400" fill="none" viewBox="0 0 100 40">
-                             <path d="M0 30 Q 25 35 50 20 T 100 10" stroke="currentColor" strokeWidth="2" />
-                           </svg>
-                        </div>
-                        <div className="space-y-1">
-                             <div className="h-2 w-full bg-slate-800 rounded-full" />
-                             <div className="h-2 w-2/3 bg-slate-800 rounded-full" />
-                        </div>
-                    </motion.div>
+            <div className="flex-1 p-4 relative overflow-hidden mask-image-b">
+              <div className="space-y-3">
+                {/* We duplicate the array to create a seamless loop effect if we wanted, 
+                        but for 3 items simply displaying them cleanly works well for readability 
+                        in the hero. We'll add a gentle entrance animation. */}
+
+                {ALERTS.map((alert, i) => (
+                  <motion.div
+                    key={i}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 1 + (i * 0.2), duration: 0.5 }}
+                    className="bg-white/5 border border-white/5 rounded-xl p-4 backdrop-blur-md hover:bg-white/10 transition-colors"
+                  >
+                    <div className="flex items-center justify-between mb-2">
+                      <div className="flex items-center gap-2">
+                        {alert.bias === 'LONG' ? (
+                          <TrendingUp className="w-3.5 h-3.5 text-emerald-400" />
+                        ) : (
+                          <TrendingDown className="w-3.5 h-3.5 text-rose-400" />
+                        )}
+                        <h3 className="text-white text-xs font-semibold tracking-wide">{alert.title}</h3>
+                      </div>
+                      <div className={`text-[9px] font-bold px-1.5 py-0.5 rounded border ${alert.bias === 'LONG'
+                        ? 'bg-emerald-500/10 border-emerald-500/20 text-emerald-400'
+                        : 'bg-rose-500/10 border-rose-500/20 text-rose-400'
+                        }`}>
+                        {alert.bias} {alert.confidence}
+                      </div>
+                    </div>
+
+                    <p className="text-[11px] text-slate-400 leading-snug mb-3 font-light">
+                      {alert.subtext.split('→').map((part, idx, arr) => (
+                        <React.Fragment key={idx}>
+                          {part.trim()}
+                          {idx < arr.length - 1 && <span className="text-slate-600 mx-1">→</span>}
+                        </React.Fragment>
+                      ))}
+                    </p>
+
+                    {/* Minimal Visual Indicator */}
+                    <div className="h-1 w-full bg-white/5 rounded-full overflow-hidden">
+                      <motion.div
+                        initial={{ width: 0 }}
+                        animate={{ width: alert.confidence }}
+                        transition={{ delay: 1.5 + (i * 0.2), duration: 1 }}
+                        className={`h-full rounded-full ${alert.bias === 'LONG' ? 'bg-emerald-500' : 'bg-rose-500'}`}
+                      />
+                    </div>
+                  </motion.div>
                 ))}
+
+                {/* Faded partial card at bottom to imply scroll */}
+                <div className="bg-white/5 border border-white/5 rounded-xl p-4 backdrop-blur-md opacity-30">
+                  <div className="h-3 w-24 bg-slate-700 rounded-full mb-2" />
+                  <div className="h-2 w-full bg-slate-800 rounded-full" />
+                </div>
+              </div>
+            </div>
+
+            {/* Bottom Nav Hint */}
+            <div className="h-12 border-t border-white/5 bg-black/40 backdrop-blur-md flex justify-around items-center px-6">
+              <div className="w-4 h-4 rounded-full bg-indigo-500/20" />
+              <div className="w-4 h-4 rounded-full bg-white/5" />
+              <div className="w-4 h-4 rounded-full bg-white/5" />
             </div>
           </div>
         </div>
