@@ -8,6 +8,7 @@ import { LanguageProvider, useLanguage } from '@/components/LanguageContext';
 import { api } from "@/api/client";
 import { useQuery } from "@tanstack/react-query";
 import ExportModal from '@/components/ExportModal';
+import { config } from '@/config';
 
 function LayoutContent({ children }) {
     const location = useLocation();
@@ -115,7 +116,7 @@ function LayoutContent({ children }) {
                 <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-white/30 to-transparent" />
                 <div className="w-full max-w-[1600px] mx-auto px-4 md:px-8">
                     <div className="flex items-center justify-between h-[72px] w-full">
-                        <a href="http://localhost:2800" className="flex items-center gap-3 group cursor-pointer">
+                        <a href={config.MARKETING_URL} className="flex items-center gap-3 group cursor-pointer">
                             <div className="w-9 h-9 rounded-md bg-gradient-to-br from-indigo-500 to-cyan-500 flex items-center justify-center text-white font-bold text-base shadow-lg group-hover:shadow-indigo-500/50 transition-shadow">
                                 <Brain className="w-5 h-5 text-white" />
                             </div>

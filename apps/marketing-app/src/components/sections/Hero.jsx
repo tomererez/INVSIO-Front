@@ -3,6 +3,7 @@ import { motion, useScroll, useTransform } from 'framer-motion';
 import { ArrowRight, Activity, Zap, TrendingUp, TrendingDown } from 'lucide-react';
 import { Button } from '../ui/button';
 import { ComparisonSection } from './ComparisonSection';
+import { config } from '@/config';
 
 // Alert data for the phone mockup
 const ALERTS = [
@@ -36,7 +37,7 @@ export const Hero = () => {
     const opacityText = useTransform(scrollY, [0, 300], [1, 0]);
     const yPhone = useTransform(scrollY, [0, 1000], [0, -150]);
 
-    const TERMINAL_URL = "http://localhost:4200";
+    const TERMINAL_URL = config.TERMINAL_URL;
 
     return (
         <section ref={containerRef} className="relative min-h-screen flex flex-col items-center pt-32 px-4">

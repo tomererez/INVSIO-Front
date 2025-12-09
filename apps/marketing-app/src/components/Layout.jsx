@@ -4,8 +4,9 @@ import { motion, AnimatePresence } from "framer-motion";
 import { createPageUrl } from "@/utils";
 import { useState, useEffect, useRef } from "react";
 import { TorchEffect } from "./ui/torch-effect";
+import { config } from "@/config";
 
-const TERMINAL_URL = "http://localhost:4200";
+const TERMINAL_URL = config.TERMINAL_URL;
 
 export default function Layout({ children }) {
     const location = useLocation();

@@ -7,6 +7,7 @@ import {
 } from 'lucide-react';
 import { GlassCard } from '../components/ui/glass-card';
 import { Button } from '../components/ui/button';
+import { config } from '@/config';
 
 // --- VISUAL COMPONENTS ---
 
@@ -839,7 +840,7 @@ export default function Features() {
                                     >
                                         Go to Dashboard <ArrowRight className="w-4 h-4 ml-2" />
                                     </Button>
-                                    <a href="http://localhost:2800/pricing" target="_blank" rel="noopener noreferrer">
+                                    <a href={`${config.MARKETING_URL}/pricing`} target="_blank" rel="noopener noreferrer">
                                         <Button
                                             variant="secondary"
                                             size="lg"

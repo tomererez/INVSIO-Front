@@ -8,6 +8,7 @@ import {
 } from 'lucide-react';
 import { GlassCard } from '../components/ui/glass-card';
 import { Button } from '../components/ui/button';
+import { config } from '@/config';
 
 // --- VISUAL COMPONENTS ---
 
@@ -40,7 +41,7 @@ export default function About() {
     const { scrollYProgress } = useScroll({ target: containerRef });
 
     const yParallax = useTransform(scrollYProgress, [0, 1], [0, -100]);
-    const TERMINAL_URL = "http://localhost:5181";
+    const TERMINAL_URL = config.TERMINAL_URL;
 
     return (
         <div ref={containerRef} className="relative min-h-screen overflow-x-hidden">
@@ -269,7 +270,7 @@ export default function About() {
                     </h2>
 
                     <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-8">
-                        <a href="http://localhost:4200" target="_blank" rel="noopener noreferrer">
+                        <a href={config.TERMINAL_URL} target="_blank" rel="noopener noreferrer">
                             <Button variant="primary" size="lg" className="min-w-[180px] shadow-[0_0_30px_rgba(79,70,229,0.3)] hover:shadow-[0_0_50px_rgba(79,70,229,0.5)] border-indigo-500/50">
                                 Launch Terminal <ArrowRight className="w-4 h-4 ml-2" />
                             </Button>

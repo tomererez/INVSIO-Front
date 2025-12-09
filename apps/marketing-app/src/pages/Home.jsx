@@ -7,10 +7,11 @@ import { BentoGrid } from "../components/sections/BentoGrid";
 import { Testimonials } from "../components/sections/Testimonials";
 import { GlassCard } from '../components/ui/glass-card';
 import { Button } from '../components/ui/button';
+import { config } from '@/config';
 
 export default function Home() {
     const navigate = useNavigate();
-    const TERMINAL_URL = "http://localhost:4200";
+    const TERMINAL_URL = config.TERMINAL_URL;
 
     return (
         <div className="relative min-h-screen overflow-x-hidden">

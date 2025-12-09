@@ -7,6 +7,7 @@ import {
 } from 'lucide-react';
 import { GlassCard } from '../components/ui/glass-card';
 import { Button } from '../components/ui/button';
+import { config } from '@/config';
 
 // --- VISUAL COMPONENTS ---
 
@@ -831,7 +832,7 @@ export default function Features() {
                                 </p>
 
                                 <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                                    <a href="http://localhost:4200" target="_blank" rel="noopener noreferrer">
+                                    <a href={config.TERMINAL_URL} target="_blank" rel="noopener noreferrer">
                                         <Button variant="primary" size="lg" className="min-w-[180px] shadow-[0_0_30px_rgba(79,70,229,0.3)] hover:shadow-[0_0_50px_rgba(79,70,229,0.5)] border-indigo-500/50">
                                             Launch Terminal <ArrowRight className="w-4 h-4 ml-2" />
                                         </Button>
