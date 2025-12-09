@@ -44,7 +44,7 @@ export default function About() {
     const TERMINAL_URL = config.TERMINAL_URL;
 
     return (
-        <div ref={containerRef} className="relative min-h-screen overflow-x-hidden">
+        <div ref={containerRef} className="relative min-h-screen">
 
             {/* Background Ambience */}
             <div className="fixed inset-0 pointer-events-none">

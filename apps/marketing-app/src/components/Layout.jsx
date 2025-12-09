@@ -68,7 +68,7 @@ export default function Layout({ children }) {
     };
 
     return (
-        <div className="min-h-screen bg-transparent text-slate-50 font-sans selection:bg-indigo-500/30 selection:text-white">
+        <div className="min-h-screen bg-transparent text-slate-50 font-sans selection:bg-indigo-500/30 selection:text-white overflow-x-hidden">
             <TorchEffect />
             <nav className="fixed top-0 left-0 right-0 z-50 px-4 h-[72px] flex justify-between items-center backdrop-blur-xl bg-white/[0.02] shadow-lg shadow-black/20 transition-all duration-300">
                 <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-white/30 to-transparent" />
