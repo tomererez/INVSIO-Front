@@ -1,9 +1,24 @@
-import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React, { useState, useEffect, useRef } from 'react';
+import { motion, AnimatePresence, useSpring, useTransform } from 'framer-motion';
 import { Check, HelpCircle, ArrowRight, Zap, Plus, Minus } from 'lucide-react';
 import { GlassCard } from '../components/ui/glass-card';
 import { Button } from '../components/ui/button';
 import { PRICING_TIERS } from '../constants';
+
+// Animated Price Counter Component
+const AnimatedPrice = ({ value }) => {
+    const springValue = useSpring(value, { stiffness: 100, damping: 30 });
+    const displayValue = useTransform(springValue, (v) => Math.round(v));
+    const [display, setDisplay] = useState(value);
+
+    useEffect(() => {
+        springValue.set(value);
+        const unsubscribe = displayValue.on("change", (v) => setDisplay(v));
+        return () => unsubscribe();
+    }, [value, springValue, displayValue]);
+
+    return <span>{display}</span>;
+};
 
 const FAQ_ITEMS = [
     {
@@ -183,7 +198,7 @@ export default function Pricing() {
                                     <h3 className={`text-xl font-medium mb-2 ${tier.isEnterprise ? 'text-amber-200' : 'text-white'}`}>{tier.name}</h3>
                                     <div className="flex items-baseline text-white">
                                         <span className="text-5xl font-light tracking-tighter">
-                                            ${billingCycle === 'monthly' ? tier.priceMonthly : tier.priceYearly}
+                                            $<AnimatedPrice value={billingCycle === 'monthly' ? tier.priceMonthly : tier.priceYearly} />
                                         </span>
                                         <span className="ml-2 text-lg text-slate-500 font-light">/mo</span>
                                     </div>

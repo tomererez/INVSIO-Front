@@ -1,125 +1,310 @@
-import { motion } from "framer-motion";
-import { Card, CardContent } from "@/components/ui/card";
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { HelpCircle, Rocket, ArrowRight } from "lucide-react";
-import { useState, useEffect } from "react";
 
-const TERMINAL_URL = "http://localhost:5181";
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import {
+    Search, Plus, Minus, Box, DollarSign,
+    Zap, Shield, HelpCircle, MessageCircle, Mail, ArrowRight
+} from 'lucide-react';
+import { GlassCard } from '../components/ui/glass-card';
+import { Button } from '../components/ui/button';
+import { Link } from 'react-router-dom';
+import { createPageUrl } from '../utils';
+
+// --- PRESERVED FAQ DATA FROM ORIGINAL ---
+
+const FAQ_DATA = [
+    // Getting Started
+    {
+        category: 'product',
+        question: "What is INVSIO?",
+        answer: "INVSIO is a professional trading intelligence platform designed for crypto futures traders. We provide institutional-grade analysis tools including CVD, Open Interest, and Funding Rate analysis."
+    },
+    {
+        category: 'product',
+        question: "How do I get started?",
+        answer: "Click 'Launch Terminal' to access the platform. You can start with our free tier to explore the basic features, then upgrade as needed."
+    },
+    {
+        category: 'product',
+        question: "Is there a free trial?",
+        answer: "Yes! Our free tier gives you access to basic features forever. You can upgrade anytime to unlock advanced features."
+    },
+
+    // Features & Tools
+    {
+        category: 'tools',
+        question: "What analysis tools are available?",
+        answer: "We offer AI Market Analyzer, Technical Analysis, Risk Calculator, Trading Journal, and comprehensive educational resources on smart money concepts."
+    },
+    {
+        category: 'tools',
+        question: "What is CVD, OI, and Funding Rate?",
+        answer: "CVD (Cumulative Volume Delta) shows buying vs selling pressure. OI (Open Interest) shows total open positions. Funding Rate shows the cost of holding leveraged positions. Together they reveal smart money positioning."
+    },
+    {
+        category: 'tools',
+        question: "Can I track my trades?",
+        answer: "Yes! Our Trading Journal allows you to log every trade with detailed analytics including win rates, profit factors, and performance patterns."
+    },
+
+    // Pricing & Billing
+    {
+        category: 'pricing',
+        question: "What payment methods do you accept?",
+        answer: "We accept all major credit cards through Stripe and PayPal for maximum flexibility."
+    },
+    {
+        category: 'pricing',
+        question: "Can I cancel anytime?",
+        answer: "Yes! You can cancel your subscription at any time. You'll continue to have access until the end of your billing period."
+    },
+    {
+        category: 'pricing',
+        question: "How do I upgrade or downgrade?",
+        answer: "You can change your plan at any time from your account settings. Changes take effect immediately."
+    },
+
+    // Security
+    {
+        category: 'security',
+        question: "Is my personal data safe?",
+        answer: "Security is our priority. We use bank-grade AES-256 encryption for all data transmission. We do not sell your personal data or trading history to third parties."
+    },
+    {
+        category: 'security',
+        question: "Do you have access to my exchange account?",
+        answer: "No. INVSIO is an analytics layer. We do not execute trades on your behalf and we never ask for your private keys or withdrawal permissions."
+    }
+];
+
+const CATEGORIES = [
+    { id: 'product', label: 'Product', icon: <Box className="w-4 h-4" /> },
+    { id: 'pricing', label: 'Pricing', icon: <DollarSign className="w-4 h-4" /> },
+    { id: 'tools', label: 'Tools & Features', icon: <Zap className="w-4 h-4" /> },
+    { id: 'security', label: 'Security & Data', icon: <Shield className="w-4 h-4" /> },
+];
+
+// --- COMPONENTS ---
+
+const GlowingOrb = ({ color, className }) => (
+    <div className={`absolute rounded-full blur-[100px] mix-blend-screen pointer-events-none opacity-10 ${className}`} style={{ background: color }} />
+);
+
+const AccordionItem = ({ item, isOpen, onClick, index }) => {
+    return (
+        <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: index * 0.05 }}
+            className={`group relative overflow-hidden rounded-xl border transition-all duration-300 mb-4 ${isOpen
+                ? 'border-indigo-500/30 bg-indigo-500/[0.05]'
+                : 'border-white/5 bg-white/[0.02] hover:border-white/10 hover:bg-white/[0.04]'
+                }`}
+        >
+            {/* Glow Effect */}
+            <div className={`absolute inset-0 bg-gradient-to-r from-indigo-500/10 to-transparent opacity-0 transition-opacity duration-500 pointer-events-none ${isOpen ? 'opacity-100' : ''}`} />
+
+            <button
+                onClick={onClick}
+                className="w-full flex items-center justify-between p-6 text-left relative z-10 focus:outline-none"
+            >
+                <span className={`text-base md:text-lg font-medium transition-colors duration-300 pr-8 ${isOpen ? 'text-white' : 'text-slate-300 group-hover:text-white'}`}>
+                    {item.question}
+                </span>
+                <div className={`shrink-0 p-2 rounded-full border transition-all duration-300 flex items-center justify-center ${isOpen
+                    ? 'border-indigo-500 text-indigo-400 bg-indigo-500/10 rotate-90'
+                    : 'border-white/10 text-slate-500 bg-white/5 group-hover:border-white/20 group-hover:text-white group-hover:bg-white/10'
+                    }`}>
+                    {isOpen ? <Minus className="w-4 h-4" /> : <Plus className="w-4 h-4" />}
+                </div>
+            </button>
+
+            <AnimatePresence initial={false}>
+                {isOpen && (
+                    <motion.div
+                        key="content"
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: "auto", opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.3, ease: [0.04, 0.62, 0.23, 0.98] }}
+                    >
+                        <div className="px-6 pb-6 pt-0 relative z-10">
+                            <div className="h-px w-full bg-white/5 mb-4" />
+                            <p className="text-slate-400 text-sm md:text-base leading-relaxed">
+                                {item.answer}
+                            </p>
+                        </div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
+        </motion.div>
+    );
+};
 
 export default function FAQ() {
-    const [theme, setTheme] = useState('dark');
+    const [activeCategory, setActiveCategory] = useState('product');
+    const [searchQuery, setSearchQuery] = useState('');
+    const [openIndex, setOpenIndex] = useState(null);
 
-    useEffect(() => {
-        const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
-        setTheme(currentTheme);
+    const filteredItems = FAQ_DATA.filter(item => {
+        const matchesCategory = item.category === activeCategory;
+        const matchesSearch = item.question.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            item.answer.toLowerCase().includes(searchQuery.toLowerCase());
 
-        const observer = new MutationObserver(() => {
-            const newTheme = document.documentElement.getAttribute('data-theme') || 'dark';
-            setTheme(newTheme);
-        });
-
-        observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
-        return () => observer.disconnect();
-    }, []);
-
-    const isDark = theme === 'dark';
-
-    const faqCategories = [
-        {
-            title: "Getting Started",
-            faqs: [
-                { question: "What is INVSIO?", answer: "INVSIO is a professional trading intelligence platform designed for crypto futures traders. We provide institutional-grade analysis tools including CVD, Open Interest, and Funding Rate analysis." },
-                { question: "How do I get started?", answer: "Click 'Launch Terminal' to access the platform. You can start with our free tier to explore the basic features, then upgrade as needed." },
-                { question: "Is there a free trial?", answer: "Yes! Our free tier gives you access to basic features forever. You can upgrade anytime to unlock advanced features." }
-            ]
-        },
-        {
-            title: "Features & Tools",
-            faqs: [
-                { question: "What analysis tools are available?", answer: "We offer AI Market Analyzer, Technical Analysis, Risk Calculator, Trading Journal, and comprehensive educational resources on smart money concepts." },
-                { question: "What is CVD, OI, and Funding Rate?", answer: "CVD (Cumulative Volume Delta) shows buying vs selling pressure. OI (Open Interest) shows total open positions. Funding Rate shows the cost of holding leveraged positions. Together they reveal smart money positioning." },
-                { question: "Can I track my trades?", answer: "Yes! Our Trading Journal allows you to log every trade with detailed analytics including win rates, profit factors, and performance patterns." }
-            ]
-        },
-        {
-            title: "Pricing & Billing",
-            faqs: [
-                { question: "What payment methods do you accept?", answer: "We accept all major credit cards through Stripe and PayPal for maximum flexibility." },
-                { question: "Can I cancel anytime?", answer: "Yes! You can cancel your subscription at any time. You'll continue to have access until the end of your billing period." },
-                { question: "How do I upgrade or downgrade?", answer: "You can change your plan at any time from your account settings. Changes take effect immediately." }
-            ]
-        }
-    ];
+        return searchQuery ? matchesSearch : matchesCategory;
+    });
 
     return (
-        <div className={`min-h-screen ${isDark ? 'bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950' : 'bg-gradient-to-br from-gray-50 via-white to-gray-100'}`}>
-            {/* Hero Section */}
-            <div className={`relative overflow-hidden border-b ${isDark ? 'border-slate-800/50' : 'border-gray-200'}`}>
-                <div className="absolute inset-0 bg-grid-pattern opacity-5" />
-                <div className="relative max-w-7xl mx-auto px-4 sm:px-6 py-20">
-                    <motion.div
-                        initial={{ opacity: 0, y: -20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.6 }}
-                        className="text-center"
-                    >
-                        <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-emerald-500 via-teal-500 to-cyan-500 rounded-2xl mb-8 shadow-2xl shadow-emerald-500/50">
-                            <HelpCircle className="w-12 h-12 text-white" />
-                        </div>
-                        <h1 className={`text-4xl lg:text-6xl font-bold mb-6 ${isDark ? 'text-white' : 'text-gray-900'}`}>
-                            Frequently Asked Questions
-                        </h1>
-                        <p className={`text-xl max-w-3xl mx-auto ${isDark ? 'text-slate-400' : 'text-gray-600'}`}>
-                            Find answers to common questions about INVSIO
-                        </p>
-                    </motion.div>
-                </div>
+        <div className="min-h-screen bg-transparent pt-32 pb-20 px-6 relative overflow-hidden">
+
+            {/* Background Ambience */}
+            <div className="fixed inset-0 pointer-events-none">
+                <GlowingOrb color="#6366f1" className="top-[5%] left-[10%] w-[500px] h-[500px] opacity-15" />
+                <GlowingOrb color="#06b6d4" className="bottom-[20%] right-[10%] w-[600px] h-[600px] opacity-15" />
             </div>
 
-            {/* FAQ Content */}
-            <div className="max-w-4xl mx-auto px-4 sm:px-6 py-16">
-                {faqCategories.map((category, catIndex) => (
+            <div className="max-w-4xl mx-auto relative z-10">
+
+                {/* Header Section */}
+                <div className="text-center mb-16">
                     <motion.div
-                        key={catIndex}
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.6, delay: 0.1 * catIndex }}
-                        className="mb-12"
+                        className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-indigo-300 text-[10px] font-bold uppercase tracking-widest mb-6 backdrop-blur-md"
                     >
-                        <h2 className={`text-2xl font-bold mb-6 ${isDark ? 'text-white' : 'text-gray-900'}`}>{category.title}</h2>
-                        <Card className={`${isDark ? 'bg-slate-900/50 border-slate-800' : 'bg-white border-gray-200 shadow-lg'}`}>
-                            <CardContent className="p-6">
-                                <Accordion type="single" collapsible className="w-full">
-                                    {category.faqs.map((faq, index) => (
-                                        <AccordionItem key={index} value={`item-${catIndex}-${index}`} className={`${isDark ? 'border-slate-800' : 'border-gray-200'}`}>
-                                            <AccordionTrigger className={`text-left ${isDark ? 'text-white hover:text-emerald-400' : 'text-gray-900 hover:text-emerald-600'}`}>
-                                                {faq.question}
-                                            </AccordionTrigger>
-                                            <AccordionContent className={`${isDark ? 'text-slate-400' : 'text-gray-600'}`}>
-                                                {faq.answer}
-                                            </AccordionContent>
-                                        </AccordionItem>
-                                    ))}
-                                </Accordion>
-                            </CardContent>
-                        </Card>
+                        <HelpCircle className="w-3.5 h-3.5" /> Knowledge Base
                     </motion.div>
-                ))}
 
-                {/* CTA */}
-                <Card className={`${isDark ? 'bg-gradient-to-br from-emerald-900/30 to-teal-900/30 border-emerald-500/30' : 'bg-gradient-to-br from-emerald-50 to-teal-50 border-emerald-300'} mt-12`}>
-                    <CardContent className="p-8 text-center">
-                        <h3 className={`text-2xl font-bold mb-4 ${isDark ? 'text-white' : 'text-gray-900'}`}>Still have questions?</h3>
-                        <p className={`mb-6 ${isDark ? 'text-slate-300' : 'text-gray-700'}`}>Launch the Terminal and explore our features firsthand.</p>
-                        <a href={TERMINAL_URL} target="_blank" rel="noopener noreferrer">
-                            <button className="px-6 py-3 bg-gradient-to-r from-emerald-600 to-teal-600 text-white rounded-xl font-semibold hover:from-emerald-700 hover:to-teal-700 transition-all shadow-lg flex items-center gap-2 mx-auto">
-                                <Rocket className="w-5 h-5" />
-                                Launch Terminal
-                                <ArrowRight className="w-5 h-5" />
-                            </button>
-                        </a>
-                    </CardContent>
-                </Card>
+                    <motion.h1
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.1 }}
+                        className="text-4xl md:text-6xl font-light text-white mb-6 tracking-tight"
+                    >
+                        How can we <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-cyan-400 font-normal">help?</span>
+                    </motion.h1>
+
+                    {/* Search Bar */}
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.2 }}
+                        className="max-w-xl mx-auto relative group"
+                    >
+                        <div className="absolute inset-0 bg-indigo-500/20 rounded-2xl blur-xl opacity-0 group-focus-within:opacity-100 transition-opacity duration-500" />
+                        <div className="relative">
+                            <Search className="absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-500 group-focus-within:text-indigo-400 transition-colors" />
+                            <input
+                                type="text"
+                                placeholder="Search for answers..."
+                                value={searchQuery}
+                                onChange={(e) => setSearchQuery(e.target.value)}
+                                className="w-full bg-white/5 border border-white/10 rounded-2xl py-4 pl-14 pr-6 text-white placeholder:text-slate-500 focus:border-indigo-500/50 focus:bg-black/60 outline-none transition-all backdrop-blur-xl shadow-lg"
+                            />
+                        </div>
+                    </motion.div>
+                </div>
+
+                {/* Category Tabs */}
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.3 }}
+                    className={`flex flex-wrap justify-center gap-3 mb-10 transition-all duration-500 ${searchQuery ? 'opacity-50 pointer-events-none grayscale' : 'opacity-100'}`}
+                >
+                    {CATEGORIES.map((cat) => (
+                        <button
+                            key={cat.id}
+                            onClick={() => { setActiveCategory(cat.id); setOpenIndex(null); }}
+                            className={`
+                        flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 border backdrop-blur-md
+                        ${activeCategory === cat.id
+                                    ? 'bg-gradient-to-r from-indigo-600 to-cyan-600 text-white border-white/20 shadow-[0_0_20px_rgba(79,70,229,0.3)]'
+                                    : 'bg-white/5 text-slate-400 border-white/5 hover:bg-white/10 hover:text-white hover:border-white/10'}
+                    `}
+                        >
+                            {cat.icon}
+                            {cat.label}
+                        </button>
+                    ))}
+                </motion.div>
+
+                {/* FAQ List */}
+                <motion.div
+                    layout
+                    className="relative min-h-[300px]"
+                >
+                    <AnimatePresence mode="wait">
+                        {filteredItems.length > 0 ? (
+                            <motion.div
+                                key={activeCategory + searchQuery}
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0, y: -20 }}
+                                transition={{ duration: 0.3 }}
+                            >
+                                {filteredItems.map((item, index) => (
+                                    <AccordionItem
+                                        key={index}
+                                        item={item}
+                                        isOpen={openIndex === index}
+                                        onClick={() => setOpenIndex(openIndex === index ? null : index)}
+                                        index={index}
+                                    />
+                                ))}
+                            </motion.div>
+                        ) : (
+                            <motion.div
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                className="py-20 text-center text-slate-500 border border-dashed border-white/10 rounded-2xl bg-white/[0.02]"
+                            >
+                                <Search className="w-12 h-12 mx-auto mb-4 opacity-20" />
+                                <p className="text-lg font-light mb-2">No results found for "{searchQuery}"</p>
+                                <p className="text-sm mb-6">Try adjusting your search terms</p>
+                                <Button
+                                    variant="secondary"
+                                    onClick={() => setSearchQuery('')}
+                                    size="sm"
+                                >
+                                    Clear Search
+                                </Button>
+                            </motion.div>
+                        )}
+                    </AnimatePresence>
+                </motion.div>
+
+                {/* Footer Support CTA */}
+                <motion.div
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    className="mt-20"
+                >
+                    <GlassCard className="p-8 md:p-10 border-indigo-500/20 bg-indigo-900/5 relative overflow-hidden text-center">
+                        {/* Internal Glow */}
+                        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] bg-indigo-500/10 rounded-full blur-[80px] pointer-events-none" />
+
+                        <div className="relative z-10">
+                            <h3 className="text-2xl font-light text-white mb-3">Still have questions?</h3>
+                            <p className="text-slate-400 mb-8 max-w-md mx-auto">
+                                Can't find the answer you're looking for? Our support team is here to help you get back to trading.
+                            </p>
+
+                            <div className="flex flex-col sm:flex-row justify-center gap-4">
+                                <Button variant="primary" className="shadow-lg shadow-indigo-500/20">
+                                    <MessageCircle className="w-4 h-4 mr-2" /> Chat with Support
+                                </Button>
+                                <Link to={createPageUrl("Contact")}>
+                                    <Button variant="secondary">
+                                        <Mail className="w-4 h-4 mr-2" /> Email Us
+                                    </Button>
+                                </Link>
+                            </div>
+                        </div>
+                    </GlassCard>
+                </motion.div>
+
             </div>
         </div>
     );

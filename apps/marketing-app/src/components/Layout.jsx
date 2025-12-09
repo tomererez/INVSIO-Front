@@ -35,7 +35,6 @@ export default function Layout({ children }) {
     const helpCenterItems = [
         { name: "FAQ", label: "FAQ", icon: HelpCircle },
         { name: "Contact", label: "Contact / Support", icon: Mail },
-        { name: "QuickStartGuide", label: "Quick Start Guide", icon: BookMarked },
     ];
 
     const handleMenuClick = () => {
@@ -72,7 +71,7 @@ export default function Layout({ children }) {
             <TorchEffect />
             <nav className="fixed top-0 left-0 right-0 z-50 px-4 h-[72px] flex justify-between items-center backdrop-blur-xl bg-white/[0.02] shadow-lg shadow-black/20 transition-all duration-300">
                 <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-white/30 to-transparent" />
-                <div className="w-full">
+                <div className="w-full max-w-[1600px] mx-auto px-4 md:px-8">
                     <div className="flex items-center justify-between h-[72px] w-full">
                         <Link to={createPageUrl("Home")} className="flex items-center gap-3 group cursor-pointer">
                             <div className="w-9 h-9 rounded-md bg-gradient-to-br from-indigo-500 to-cyan-500 flex items-center justify-center text-white font-bold text-base shadow-lg group-hover:shadow-indigo-500/50 transition-shadow">

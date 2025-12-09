@@ -4,7 +4,6 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { Toaster } from "@/components/ui/toaster"
 import Layout from './components/Layout'
 import Dashboard from './pages/Dashboard'
-import AdminDashboard from './pages/AdminDashboard'
 import AIMarketAnalyzer from './pages/AIMarketAnalyzer'
 import AIMarketAnalyzerV21 from './pages/AIMarketAnalyzerV21'
 import TechnicalAnalysis from './pages/TechnicalAnalysis'
@@ -18,6 +17,8 @@ import FAQ from './pages/FAQ'
 import Contact from './pages/Contact'
 import QuickStartGuide from './pages/QuickStartGuide'
 import Login from './pages/Login'
+import Features from './pages/Features'
+import MarketParametersGuide from './pages/MarketParametersGuide'
 import { StarryBackground } from './components/layout/StarryBackground'
 
 const queryClient = new QueryClient({
@@ -39,8 +40,7 @@ function App() {
                         <Routes>
                             <Route path="/" element={<Dashboard />} />
                             <Route path="/dashboard" element={<Dashboard />} />
-                            <Route path="/admin" element={<AdminDashboard />} />
-                            <Route path="/admindashboard" element={<AdminDashboard />} />
+                            <Route path="/features" element={<Features />} />
                             <Route path="/aimarketanalyzer" element={<AIMarketAnalyzer />} />
                             <Route path="/aimarketanalyzerv21" element={<AIMarketAnalyzerV21 />} />
                             <Route path="/technicalanalysis" element={<TechnicalAnalysis />} />
@@ -48,6 +48,8 @@ function App() {
                             <Route path="/riskcalculator" element={<RiskCalculator />} />
                             <Route path="/tradingjournal" element={<TradingJournal />} />
                             <Route path="/cryptoguide" element={<CryptoGuide />} />
+                            <Route path="/parameters" element={<MarketParametersGuide />} />
+                            <Route path="/marketparametersguide" element={<MarketParametersGuide />} />
                             <Route path="/settings" element={<Settings />} />
                             <Route path="/myaccount" element={<MyAccount />} />
                             <Route path="/faq" element={<FAQ />} />

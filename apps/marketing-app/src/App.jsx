@@ -7,7 +7,6 @@ import Pricing from './pages/Pricing'
 import Features from './pages/Features'
 import FAQ from './pages/FAQ'
 import Contact from './pages/Contact'
-import QuickStartGuide from './pages/QuickStartGuide'
 import { StarryBackground } from './components/layout/StarryBackground'
 
 function App() {
@@ -24,7 +23,6 @@ function App() {
                         <Route path="/features" element={<Features />} />
                         <Route path="/faq" element={<FAQ />} />
                         <Route path="/contact" element={<Contact />} />
-                        <Route path="/quickstartguide" element={<QuickStartGuide />} />
                     </Routes>
                 </div>
             </Layout>

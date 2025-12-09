@@ -1,0 +1,80 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    :root {
+        /* INVSIO Dark Space Theme - Admin */
+        --background: 225 66% 2%;
+        --foreground: 210 40% 98%;
+        --card: 223 38% 7%;
+        --card-foreground: 210 40% 98%;
+        --popover: 223 38% 7%;
+        --popover-foreground: 210 40% 98%;
+        --primary: 243 75% 59%;
+        --primary-foreground: 210 40% 98%;
+        --secondary: 263 70% 50%;
+        --secondary-foreground: 210 40% 98%;
+        --muted: 217 33% 17%;
+        --muted-foreground: 215 20% 65%;
+        --accent: 217 33% 17%;
+        --accent-foreground: 210 40% 98%;
+        --destructive: 0 62.8% 30.6%;
+        --destructive-foreground: 210 40% 98%;
+        --border: 217 33% 17%;
+        --input: 217 33% 17%;
+        --ring: 243 75% 59%;
+        --radius: 0.5rem;
+    }
+
+    .dark {
+        --background: 225 66% 2%;
+        --foreground: 210 40% 98%;
+        --card: 223 38% 7%;
+        --card-foreground: 210 40% 98%;
+        --popover: 223 38% 7%;
+        --popover-foreground: 210 40% 98%;
+        --primary: 243 75% 59%;
+        --primary-foreground: 210 40% 98%;
+        --secondary: 263 70% 50%;
+        --secondary-foreground: 210 40% 98%;
+        --muted: 217 33% 17%;
+        --muted-foreground: 215 20% 65%;
+        --accent: 217 33% 17%;
+        --accent-foreground: 210 40% 98%;
+        --destructive: 0 62.8% 30.6%;
+        --destructive-foreground: 210 40% 98%;
+        --border: 217 33% 17%;
+        --input: 217 33% 17%;
+        --ring: 243 75% 59%;
+    }
+}
+
+@layer base {
+    * {
+        @apply border-border outline-ring/50;
+    }
+
+    body {
+        @apply bg-background text-foreground font-sans;
+        background-color: #02040A;
+    }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #02040A;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #1e293b;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #334155;
+}

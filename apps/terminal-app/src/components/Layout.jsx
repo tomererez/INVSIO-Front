@@ -74,7 +74,6 @@ function LayoutContent({ children }) {
     const helpCenterItems = [
         { name: "FAQ", label: "FAQ", icon: HelpCircle },
         { name: "Contact", label: "Contact / Support", icon: Mail },
-        { name: "QuickStartGuide", label: "Quick Start Guide", icon: BookMarked },
     ];
 
     const handleMenuClick = () => {
@@ -112,41 +111,43 @@ function LayoutContent({ children }) {
 
     return (
         <div className="min-h-screen bg-transparent text-slate-50 font-sans selection:bg-indigo-500/30 selection:text-white" style={{ fontSize: '110%' }}>
-            <nav className="fixed top-0 left-0 right-0 z-50 px-4 h-14 flex justify-between items-center backdrop-blur-xl bg-white/[0.02] shadow-lg shadow-black/20 transition-all duration-300">
+            <nav className="fixed top-0 left-0 right-0 z-50 px-4 h-[72px] flex justify-between items-center backdrop-blur-xl bg-white/[0.02] shadow-lg shadow-black/20 transition-all duration-300">
                 <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-white/30 to-transparent" />
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 w-full">
-                    <div className="flex items-center justify-between h-14 w-full">
-                        <Link to="/" className="flex items-center gap-2 group cursor-pointer">
-                            <div className="w-7 h-7 rounded-md bg-gradient-to-br from-indigo-500 to-cyan-500 flex items-center justify-center text-white font-bold text-base shadow-lg group-hover:shadow-indigo-500/50 transition-shadow">
-                                <Brain className="w-4 h-4 text-white" />
+                <div className="w-full max-w-[1600px] mx-auto px-4 md:px-8">
+                    <div className="flex items-center justify-between h-[72px] w-full">
+                        <a href="http://localhost:2800" className="flex items-center gap-3 group cursor-pointer">
+                            <div className="w-9 h-9 rounded-md bg-gradient-to-br from-indigo-500 to-cyan-500 flex items-center justify-center text-white font-bold text-base shadow-lg group-hover:shadow-indigo-500/50 transition-shadow">
+                                <Brain className="w-5 h-5 text-white" />
                             </div>
                             <div className="flex flex-col">
-                                <span className="text-xs font-bold text-white leading-none tracking-tight">
+                                <span className="text-sm font-bold text-white leading-none tracking-tight">
                                     INVSIO
                                 </span>
-                                <span className="text-[8px] text-slate-400 leading-none">
+                                <span className="text-[10px] text-slate-400 leading-none mt-0.5">
                                     Terminal Edition
                                 </span>
                             </div>
-                        </Link>
+                        </a>
 
-                        <div className="hidden lg:flex items-center gap-1 text-[11px] font-medium text-slate-400">
+                        <div className="hidden lg:flex items-center gap-2 text-xs font-medium text-slate-400">
                             {/* Features Dropdown */}
                             <div className="relative" onMouseEnter={handleFeaturesEnter} onMouseLeave={handleFeaturesLeave}>
-                                <button className={`relative flex items-center gap-1.5 px-3 py-2 rounded-lg transition-colors ${featureItems.slice(1).some(f => isActive(f.name)) ? "text-white" : "hover:text-white"}`}>
-                                    {featureItems.slice(1).some(f => isActive(f.name)) && (
-                                        <motion.div
-                                            layoutId="nav-glass-pill"
-                                            className="absolute inset-0 bg-white/[0.08] backdrop-blur-md border border-white/10 rounded-lg shadow-sm"
-                                            transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                                        />
-                                    )}
-                                    <span className="relative z-10 flex items-center gap-1.5">
-                                        <Grid className="w-3.5 h-3.5" />
-                                        <span>Features</span>
-                                        <ChevronDown className="w-3 h-3" />
-                                    </span>
-                                </button>
+                                <Link to={createPageUrl("Features")}>
+                                    <button className={`relative flex items-center gap-1.5 px-3 py-2 rounded-lg transition-colors ${isActive("Features") || featureItems.slice(1).some(f => isActive(f.name)) ? "text-white" : "hover:text-white"}`}>
+                                        {(isActive("Features") || featureItems.slice(1).some(f => isActive(f.name))) && (
+                                            <motion.div
+                                                layoutId="nav-glass-pill"
+                                                className="absolute inset-0 bg-white/[0.08] backdrop-blur-md border border-white/10 rounded-lg shadow-sm"
+                                                transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                                            />
+                                        )}
+                                        <span className="relative z-10 flex items-center gap-1.5">
+                                            <Grid className="w-3.5 h-3.5" />
+                                            <span>Features</span>
+                                            <ChevronDown className="w-3 h-3" />
+                                        </span>
+                                    </button>
+                                </Link>
 
                                 {featuresOpen && (
                                     <div className="absolute top-full left-0 mt-1 w-64 rounded-xl shadow-2xl border bg-card border-white/10 py-2 z-50 backdrop-blur-xl">
