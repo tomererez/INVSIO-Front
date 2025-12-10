@@ -26,7 +26,7 @@ import { useAuth } from '../context/AuthContext';
 
 export default function Login() {
     const navigate = useNavigate();
-    const { login, signUp, user, loading: authLoading } = useAuth();
+    const { login, signUp, loginWithGoogle, user, loading: authLoading } = useAuth();
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -45,6 +45,19 @@ export default function Login() {
             navigate('/dashboard');
         }
     }, [user, authLoading, navigate]);
+
+    const handleGoogleLogin = async () => {
+        setIsLoading(true);
+        setError(null);
+        try {
+            const { error } = await loginWithGoogle();
+            if (error) throw error;
+            // Redirect happens automatically by Supabase
+        } catch (err) {
+            setError(err.message);
+            setIsLoading(false);
+        }
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -194,6 +207,7 @@ export default function Login() {
                         {/* Social Auth */}
                         <button
                             type="button"
+                            onClick={handleGoogleLogin}
                             disabled={isLoading}
                             className="w-full flex items-center justify-center gap-3 py-3 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 transition-all mb-4"
                         >

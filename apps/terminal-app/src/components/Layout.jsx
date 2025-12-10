@@ -1,5 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
-import { Calculator, BarChart3, Brain, BookOpen, Menu, X, User, Grid, Sun, Moon, ChevronDown, HelpCircle, Mail, BookMarked, LogOut, Settings, CreditCard, Download, Archive, Palette, Sparkles, Activity, LayoutDashboard } from "lucide-react";
+import { Calculator, BarChart3, Brain, BookOpen, Menu, X, User, Grid, ChevronDown, HelpCircle, Mail, BookMarked, LogOut, Settings, CreditCard, Download, Archive, Sparkles, Activity, LayoutDashboard, Crown, Shield, Zap } from "lucide-react";
 import { motion } from "framer-motion";
 import { createPageUrl } from "@/utils";
 import { useState, useEffect, useRef } from "react";
@@ -9,6 +9,7 @@ import { api } from "@/api/client";
 import { useQuery } from "@tanstack/react-query";
 import ExportModal from '@/components/ExportModal';
 import { config } from '@/config';
+import { useAuth } from '@/context/AuthContext';
 
 function LayoutContent({ children }) {
     const location = useLocation();
@@ -25,15 +26,8 @@ function LayoutContent({ children }) {
     });
     const { t } = useLanguage();
 
-    const { data: user } = useQuery({
-        queryKey: ['currentUser'],
-        queryFn: async () => {
-            const isAuth = await api.auth.isAuthenticated();
-            if (!isAuth) return null;
-            return await api.auth.me();
-        },
-        retry: 1,
-    });
+    // Use Supabase auth context instead of the old mocked api.auth
+    const { user, signOut } = useAuth();
 
     const { data: trades = [] } = useQuery({
         queryKey: ['trades'],
@@ -58,14 +52,14 @@ function LayoutContent({ children }) {
     };
 
     const handleLogout = () => {
-        api.auth.logout();
+        signOut();
     };
 
     const featureItems = [
         { name: "Dashboard", label: "Dashboard", icon: LayoutDashboard },
         { name: "AIMarketAnalyzer", label: "AI Market Analyzer", icon: Sparkles },
         { name: "AIMarketAnalyzerV21", label: "AI Market Analyzer v2.1", icon: Brain },
-        { name: "CryptoGuide", label: "Market Parameters Guide", icon: BookOpen },
+        { name: "MarketParametersGuide", label: "Market Parameters Guide", icon: BookOpen },
         { name: "TechnicalAnalysis", label: "Technical Analysis", icon: BarChart3 },
         { name: "AIAnalysis", label: "AI Analysis", icon: Brain },
         { name: "RiskCalculator", label: t('nav.riskCalculator'), icon: Calculator },
@@ -203,50 +197,109 @@ function LayoutContent({ children }) {
                                 )}
                             </div>
 
-                            {/* Theme Toggle */}
-                            <button onClick={handleToggleTheme} className={`p-2.5 rounded-xl transition-all duration-200 ${isDark ? 'text-slate-300 hover:bg-slate-800/50' : 'text-gray-700 hover:bg-gray-100'}`}>
-                                {isDark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
-                            </button>
-
                             <div className="h-4 w-px bg-white/10 mx-1" />
 
                             {/* User Menu */}
                             {user && (
                                 <div className="relative" onMouseEnter={handleUserMenuEnter} onMouseLeave={handleUserMenuLeave}>
-                                    <button className="flex items-center gap-2 px-3 py-2 rounded-xl transition-all duration-200 text-slate-400 hover:text-white">
-                                        <div className="w-8 h-8 rounded-full bg-indigo-500/20 flex items-center justify-center border border-indigo-500/30 text-indigo-300 font-bold text-xs hover:border-indigo-400 transition-colors">
-                                            {user.full_name ? user.full_name.charAt(0) : <User className="w-4 h-4" />}
-                                        </div>
-                                    </button>
+                                    <Link to={createPageUrl("MyAccount")}>
+                                        <button className="flex items-center gap-2 px-3 py-2 rounded-xl transition-all duration-200 text-slate-400 hover:text-white">
+                                            <div className="w-8 h-8 rounded-full bg-indigo-500/20 flex items-center justify-center border border-indigo-500/30 text-indigo-300 font-bold text-xs hover:border-indigo-400 transition-colors">
+                                                <User className="w-4 h-4" />
+                                            </div>
+                                        </button>
+                                    </Link>
 
                                     {userMenuOpen && (
-                                        <div className="absolute top-full right-0 mt-2 w-72 rounded-xl shadow-2xl border bg-card border-white/10 overflow-hidden z-50">
-                                            <div className="px-5 py-4 bg-white/5">
-                                                <p className="font-bold text-base text-white">{user.full_name}</p>
-                                                <p className="text-sm mt-0.5 text-slate-400">{user.email}</p>
+                                        <div className="absolute top-full right-0 mt-2 w-80 rounded-xl shadow-2xl border bg-card border-white/10 overflow-hidden z-50">
+                                            {/* Plan Widget */}
+                                            <div className="p-4 bg-gradient-to-br from-indigo-900/50 to-purple-900/50 border-b border-white/10 relative overflow-hidden">
+                                                {/* Background decoration */}
+                                                <div className="absolute top-0 right-0 w-24 h-24 bg-white/5 rounded-full blur-2xl -mr-10 -mt-10" />
+
+                                                <div className="relative z-10">
+                                                    <div className="flex items-center justify-between mb-3">
+                                                        <div className="flex items-center gap-2">
+                                                            <div className="p-1.5 rounded-lg bg-white/10 backdrop-blur-md border border-white/10">
+                                                                {user?.subscription_tier === 'elite' ? <Crown className="w-3.5 h-3.5 text-amber-400" /> :
+                                                                    user?.subscription_tier === 'pro' ? <Zap className="w-3.5 h-3.5 text-emerald-400" /> :
+                                                                        <Shield className="w-3.5 h-3.5 text-blue-400" />}
+                                                            </div>
+                                                            <div>
+                                                                <p className="text-xs font-bold text-white uppercase tracking-wider">
+                                                                    {user?.subscription_tier || 'Free'} Plan
+                                                                </p>
+                                                                <p className="text-[10px] text-emerald-300 font-medium flex items-center gap-1">
+                                                                    <div className="w-1 h-1 rounded-full bg-emerald-400" />
+                                                                    Active
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                        <Link to={createPageUrl("MyAccount")}>
+                                                            <button className="text-[10px] px-2 py-1 rounded bg-white/10 hover:bg-white/20 text-white font-medium transition-colors border border-white/5">
+                                                                Manage
+                                                            </button>
+                                                        </Link>
+                                                    </div>
+
+                                                    {/* Usage Stats (Mocked) */}
+                                                    <div className="space-y-2">
+                                                        <div>
+                                                            <div className="flex justify-between text-[10px] text-slate-300 mb-1">
+                                                                <span>Trades Logged</span>
+                                                                <span>12 / 50</span>
+                                                            </div>
+                                                            <div className="h-1 bg-black/20 rounded-full overflow-hidden">
+                                                                <div className="h-full w-[24%] bg-indigo-400 rounded-full" />
+                                                            </div>
+                                                        </div>
+                                                        <div>
+                                                            <div className="flex justify-between text-[10px] text-slate-300 mb-1">
+                                                                <span>AI Credits</span>
+                                                                <span>85%</span>
+                                                            </div>
+                                                            <div className="h-1 bg-black/20 rounded-full overflow-hidden">
+                                                                <div className="h-full w-[85%] bg-purple-400 rounded-full" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    {!['pro', 'elite'].includes(user?.subscription_tier) && (
+                                                        <Link to={createPageUrl("MyAccount")}>
+                                                            <button className="w-full mt-4 py-2 bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-white text-xs font-bold rounded-lg shadow-lg shadow-emerald-900/20 transition-all flex items-center justify-center gap-1.5">
+                                                                <Sparkles className="w-3.5 h-3.5" />
+                                                                Upgrade to Pro
+                                                            </button>
+                                                        </Link>
+                                                    )}
+                                                </div>
                                             </div>
+
+                                            {/* User Info */}
+                                            <div className="px-5 py-3 border-b border-white/5 bg-white/5">
+                                                <p className="font-bold text-sm text-white truncate">{user?.user_metadata?.full_name || user?.email}</p>
+                                                <p className="text-xs text-slate-400 truncate">{user.email}</p>
+                                            </div>
+
+                                            {/* Menu Items */}
                                             <div className="py-2">
                                                 <Link to={createPageUrl("MyAccount")} className="block">
-                                                    <button onClick={() => setUserMenuOpen(false)} className="w-full flex items-center gap-3 px-5 py-3 transition-all duration-200 text-left text-slate-400 hover:text-white hover:bg-white/5">
+                                                    <button onClick={() => setUserMenuOpen(false)} className="w-full flex items-center gap-3 px-5 py-2.5 transition-all duration-200 text-left text-slate-400 hover:text-white hover:bg-white/5">
                                                         <Settings className="w-4 h-4" />
-                                                        <span className="font-medium text-sm">Profile & Account Settings</span>
+                                                        <span className="font-medium text-sm">Account Settings</span>
                                                     </button>
                                                 </Link>
-                                                <button onClick={handleToggleTheme} className="w-full flex items-center gap-3 px-5 py-3 transition-all duration-200 text-left text-slate-400 hover:text-white hover:bg-white/5">
-                                                    <Palette className="w-4 h-4" />
-                                                    <span className="font-medium text-sm">Appearance</span>
-                                                    <span className="ml-auto text-xs px-2 py-1 rounded-md bg-white/10 text-slate-300">
-                                                        {theme === 'dark' ? 'Dark' : 'Light'}
-                                                    </span>
-                                                </button>
-                                                <button onClick={() => { setShowExportModal(true); setUserMenuOpen(false); }} className="w-full flex items-center gap-3 px-5 py-3 transition-all duration-200 text-left text-slate-400 hover:text-white hover:bg-white/5">
+
+                                                <button onClick={() => { setShowExportModal(true); setUserMenuOpen(false); }} className="w-full flex items-center gap-3 px-5 py-2.5 transition-all duration-200 text-left text-slate-400 hover:text-white hover:bg-white/5">
                                                     <Download className="w-4 h-4" />
-                                                    <span className="font-medium text-sm">Export My Trades (CSV)</span>
+                                                    <span className="font-medium text-sm">Export Data</span>
                                                 </button>
                                             </div>
+
                                             <div className="border-t border-white/10" />
+
                                             <div className="py-2">
-                                                <button onClick={handleLogout} className="w-full flex items-center gap-3 px-5 py-3 transition-all duration-200 text-left text-red-500 hover:bg-red-500/10">
+                                                <button onClick={handleLogout} className="w-full flex items-center gap-3 px-5 py-2.5 transition-all duration-200 text-left text-red-400 hover:bg-red-500/10">
                                                     <LogOut className="w-4 h-4" />
                                                     <span className="font-bold text-sm">Logout</span>
                                                 </button>
@@ -284,9 +337,6 @@ function LayoutContent({ children }) {
                         </div>
 
                         <div className="flex lg:hidden items-center gap-2">
-                            <button onClick={handleToggleTheme} className="p-2 rounded-lg transition-colors text-slate-400 hover:text-white">
-                                {isDark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
-                            </button>
                             <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="p-2 rounded-lg transition-colors text-slate-400 hover:text-white">
                                 {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
                             </button>
@@ -300,7 +350,7 @@ function LayoutContent({ children }) {
                         {user && (
                             <>
                                 <div className={`px-4 py-4 rounded-xl mb-3 ${isDark ? 'bg-slate-800/50' : 'bg-gray-50'}`}>
-                                    <p className={`font-bold text-base ${isDark ? 'text-white' : 'text-gray-900'}`}>{user.full_name}</p>
+                                    <p className={`font-bold text-base ${isDark ? 'text-white' : 'text-gray-900'}`}>{user?.user_metadata?.full_name || user?.email}</p>
                                     <p className={`text-sm mt-0.5 ${isDark ? 'text-slate-400' : 'text-gray-600'}`}>{user.email}</p>
                                 </div>
                                 <Link to={createPageUrl("MyAccount")}>

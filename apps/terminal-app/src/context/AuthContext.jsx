@@ -35,6 +35,7 @@ export const AuthProvider = ({ children }) => {
     const value = {
         signUp: authService.signUp,
         login: authService.login,
+        loginWithGoogle: authService.loginWithGoogle,
         signOut: authService.signOut,
         user,
         session,

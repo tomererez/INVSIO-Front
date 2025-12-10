@@ -85,21 +85,15 @@ const StatCard = ({ label, value, sub, icon: Icon, trend, delay = 0 }) => {
 };
 
 // --- MAIN DASHBOARD ---
+// --- CHANGED: USE REAL SUPABASE AUTH ---
+import { useAuth } from "../context/AuthContext";
+
 export default function Dashboard() {
   const [activeTab, setActiveTab] = useState("dashboard");
   const queryClient = useQueryClient();
   const navigate = useNavigate();
 
-  // --- ORIGINAL LOGIC (PRESERVED) ---
-  const { data: user, isLoading: userLoading } = useQuery({
-    queryKey: ["currentUser"],
-    queryFn: async () => {
-      const isAuth = await api.auth.isAuthenticated();
-      if (!isAuth) return null;
-      return await api.auth.me();
-    },
-    retry: false,
-  });
+  const { user, loading: userLoading } = useAuth();
 
   // --- REDIRECT IF NOT LOGGED IN ---
   useEffect(() => {
@@ -350,7 +344,7 @@ export default function Dashboard() {
               <Activity className="w-5 h-5" />
             </div>
             <h1 className="text-3xl md:text-4xl font-semibold text-white tracking-tight">
-              Welcome back, {user?.full_name?.split(" ")[0] || "Trader"}
+              Welcome back, {user?.user_metadata?.full_name?.split(" ")[0] || "Trader"}
             </h1>
           </motion.div>
 
@@ -641,7 +635,7 @@ export default function Dashboard() {
                 </div>
                 <div>
                   <Label className="text-sm font-bold text-slate-400">Full Name</Label>
-                  <p className="font-medium mt-1 text-white">{user?.full_name}</p>
+                  <p className="font-medium mt-1 text-white">{user?.user_metadata?.full_name}</p>
                 </div>
                 <div>
                   <Label className="text-sm font-bold text-slate-400">Current Tier</Label>

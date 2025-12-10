@@ -10,7 +10,6 @@ import TechnicalAnalysis from './pages/TechnicalAnalysis'
 import AIAnalysis from './pages/AIAnalysis'
 import RiskCalculator from './pages/RiskCalculator'
 import TradingJournal from './pages/TradingJournal'
-import CryptoGuide from './pages/CryptoGuide'
 import Settings from './pages/Settings'
 import MyAccount from './pages/MyAccount'
 import FAQ from './pages/FAQ'
@@ -50,7 +49,6 @@ function App() {
                                 <Route path="/aianalysis" element={<AIAnalysis />} />
                                 <Route path="/riskcalculator" element={<RiskCalculator />} />
                                 <Route path="/tradingjournal" element={<TradingJournal />} />
-                                <Route path="/cryptoguide" element={<CryptoGuide />} />
                                 <Route path="/parameters" element={<MarketParametersGuide />} />
                                 <Route path="/marketparametersguide" element={<MarketParametersGuide />} />
                                 <Route path="/settings" element={<Settings />} />
