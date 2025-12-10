@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -42,6 +43,15 @@ export default function AIMarketAnalyzerV21() {
 
   const isDark = theme === 'dark';
 
+  const navigate = useNavigate();
+
+  // Redirect if not logged in
+  useEffect(() => {
+    if (!userLoading && !user) {
+      navigate('/login');
+    }
+  }, [user, userLoading, navigate]);
+
   // Show loading while checking auth
   if (userLoading) {
     return (
@@ -51,9 +61,11 @@ export default function AIMarketAnalyzerV21() {
     );
   }
 
-  // Show login required if not authenticated
+
+
+  // Show loading required if not authenticated
   if (!user) {
-    return <UserNotRegisteredError />;
+    return null;
   }
 
   const runFullAnalysis = async () => {

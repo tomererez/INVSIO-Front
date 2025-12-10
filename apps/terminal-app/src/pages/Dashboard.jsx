@@ -2,7 +2,7 @@ import React, { useState, useEffect, useMemo } from "react";
 import { api } from "@/api/client";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { createPageUrl } from "../utils";
 import {
   TrendingUp,
@@ -61,10 +61,10 @@ const StatCard = ({ label, value, sub, icon: Icon, trend, delay = 0 }) => {
           {trend && (
             <div
               className={`text-[10px] px-2 py-0.5 rounded-full border ${trend === "up"
-                  ? "text-emerald-400 border-emerald-500/20 bg-emerald-500/10"
-                  : trend === "down"
-                    ? "text-rose-400 border-rose-500/20 bg-rose-500/10"
-                    : "text-slate-400 border-slate-500/20 bg-slate-500/10"
+                ? "text-emerald-400 border-emerald-500/20 bg-emerald-500/10"
+                : trend === "down"
+                  ? "text-rose-400 border-rose-500/20 bg-rose-500/10"
+                  : "text-slate-400 border-slate-500/20 bg-slate-500/10"
                 }`}
             >
               {trend === "up" ? "Good" : trend === "down" ? "Concern" : "Neutral"}
@@ -88,6 +88,7 @@ const StatCard = ({ label, value, sub, icon: Icon, trend, delay = 0 }) => {
 export default function Dashboard() {
   const [activeTab, setActiveTab] = useState("dashboard");
   const queryClient = useQueryClient();
+  const navigate = useNavigate();
 
   // --- ORIGINAL LOGIC (PRESERVED) ---
   const { data: user, isLoading: userLoading } = useQuery({
@@ -99,6 +100,13 @@ export default function Dashboard() {
     },
     retry: false,
   });
+
+  // --- REDIRECT IF NOT LOGGED IN ---
+  useEffect(() => {
+    if (!userLoading && !user) {
+      navigate('/login');
+    }
+  }, [user, userLoading, navigate]);
 
   const { data: settings } = useQuery({
     queryKey: ["settings"],
@@ -319,75 +327,12 @@ export default function Dashboard() {
     );
   }
 
-  // --- NOT LOGGED IN STATE ---
+  // --- REDIRECT IF NOT LOGGED IN ---
+
+
+  // If not logged in, return null (or a spinner) while redirecting
   if (!user) {
-    return (
-      <div className="min-h-screen flex items-center justify-center p-4 relative z-10">
-        <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.5 }}
-          className="max-w-2xl w-full"
-        >
-          <GlassCard className="p-12 text-center border-indigo-500/20">
-            <div className="w-24 h-24 bg-gradient-to-r from-emerald-500 to-teal-600 rounded-3xl flex items-center justify-center mx-auto mb-8 shadow-lg shadow-emerald-500/30">
-              <Lock className="w-12 h-12 text-white" />
-            </div>
-
-            <h1 className="text-4xl font-light mb-4 text-white">
-              You're Not <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400">Logged In</span>
-            </h1>
-
-            <p className="text-lg mb-8 text-slate-400">
-              Login or create a free account to access your trading dashboard
-            </p>
-
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button
-                size="lg"
-                onClick={() => api.auth.redirectToLogin(window.location.pathname)}
-                className="bg-gradient-to-r from-emerald-600 to-teal-600 text-white hover:from-emerald-700 hover:to-teal-700 shadow-lg"
-              >
-                <LogIn className="w-5 h-5 mr-2" />
-                Login
-              </Button>
-
-              <Button
-                size="lg"
-                onClick={() => api.auth.redirectToLogin(window.location.pathname)}
-                variant="outline"
-                className="border-white/10 hover:bg-white/5 text-white"
-              >
-                <UserPlus className="w-5 h-5 mr-2" />
-                Create Account
-              </Button>
-            </div>
-
-            <div className="mt-12 p-6 rounded-xl bg-emerald-500/10 border border-emerald-500/20">
-              <h3 className="text-lg font-medium mb-3 text-emerald-300">What You'll Get:</h3>
-              <ul className="space-y-2 text-left max-w-md mx-auto text-slate-300">
-                <li className="flex items-center gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-400 flex-shrink-0" />
-                  Professional trading journal with unlimited trades
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-400 flex-shrink-0" />
-                  Advanced position size calculator with R-multiples
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-400 flex-shrink-0" />
-                  AI-powered market analysis and insights
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-400 flex-shrink-0" />
-                  Real-time performance tracking and analytics
-                </li>
-              </ul>
-            </div>
-          </GlassCard>
-        </motion.div>
-      </div>
-    );
+    return null;
   }
 
   // --- MAIN DASHBOARD UI ---
@@ -444,8 +389,8 @@ export default function Dashboard() {
         <button
           onClick={() => setActiveTab("dashboard")}
           className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${activeTab === "dashboard"
-              ? "border-indigo-500 text-white"
-              : "border-transparent text-slate-500 hover:text-slate-300"
+            ? "border-indigo-500 text-white"
+            : "border-transparent text-slate-500 hover:text-slate-300"
             }`}
         >
           Dashboard
@@ -453,8 +398,8 @@ export default function Dashboard() {
         <button
           onClick={() => setActiveTab("settings")}
           className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${activeTab === "settings"
-              ? "border-indigo-500 text-white"
-              : "border-transparent text-slate-500 hover:text-slate-300"
+            ? "border-indigo-500 text-white"
+            : "border-transparent text-slate-500 hover:text-slate-300"
             }`}
         >
           Settings

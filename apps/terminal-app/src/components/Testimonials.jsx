@@ -9,12 +9,12 @@ export default function Testimonials() {
   useEffect(() => {
     const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
     setTheme(currentTheme);
-    
+
     const observer = new MutationObserver(() => {
       const newTheme = document.documentElement.getAttribute('data-theme') || 'dark';
       setTheme(newTheme);
     });
-    
+
     observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
     return () => observer.disconnect();
   }, []);
@@ -50,7 +50,7 @@ export default function Testimonials() {
       name: "Emily Rodriguez",
       role: "Full-Time Trader",
       image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop",
-      content: "I was skeptical at first, but SmarTrading transformed how I approach the markets. The AI insights helped me identify patterns I was completely missing.",
+      content: "I was skeptical at first, but INVSIO transformed how I approach the markets. The AI insights helped me identify patterns I was completely missing.",
       rating: 5,
       profit: "From -$3k to +$8k"
     },
@@ -99,11 +99,10 @@ export default function Testimonials() {
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
             >
-              <Card className={`h-full ${
-                isDark 
-                  ? 'bg-slate-900/50 border-slate-800 shadow-xl' 
+              <Card className={`h-full ${isDark
+                  ? 'bg-slate-900/50 border-slate-800 shadow-xl'
                   : 'bg-white border-gray-200 shadow-lg'
-              } hover:shadow-2xl transition-all duration-300 hover:-translate-y-1`}>
+                } hover:shadow-2xl transition-all duration-300 hover:-translate-y-1`}>
                 <CardContent className="p-8 h-full flex flex-col">
                   {/* Quote Icon */}
                   <div className="mb-4">
@@ -116,7 +115,7 @@ export default function Testimonials() {
                       <Star key={i} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
                     ))}
                   </div>
-                  
+
                   {/* Content */}
                   <p className={`text-base leading-relaxed mb-6 flex-grow ${isDark ? 'text-slate-300' : 'text-gray-700'}`}>
                     "{testimonial.content}"
@@ -125,8 +124,8 @@ export default function Testimonials() {
                   {/* Author Info */}
                   <div className="mt-auto space-y-4">
                     <div className={`flex items-center gap-4 pt-4 border-t ${isDark ? 'border-slate-800' : 'border-gray-200'}`}>
-                      <img 
-                        src={testimonial.image} 
+                      <img
+                        src={testimonial.image}
                         alt={testimonial.name}
                         className="w-14 h-14 rounded-full object-cover ring-2 ring-emerald-500/20"
                       />
@@ -144,11 +143,10 @@ export default function Testimonials() {
                     </div>
 
                     {/* Performance Badge */}
-                    <div className={`rounded-lg p-3 ${
-                      isDark 
-                        ? 'bg-emerald-500/10 border border-emerald-500/30' 
+                    <div className={`rounded-lg p-3 ${isDark
+                        ? 'bg-emerald-500/10 border border-emerald-500/30'
                         : 'bg-emerald-50 border border-emerald-200'
-                    }`}>
+                      }`}>
                       <p className={`text-sm font-bold ${isDark ? 'text-emerald-400' : 'text-emerald-700'}`}>
                         📈 {testimonial.profit}
                       </p>
@@ -168,11 +166,10 @@ export default function Testimonials() {
           transition={{ duration: 0.6, delay: 0.3 }}
           className="text-center"
         >
-          <div className={`inline-flex items-center gap-3 px-8 py-4 rounded-full border ${
-            isDark 
-              ? 'bg-slate-900/50 border-slate-800' 
+          <div className={`inline-flex items-center gap-3 px-8 py-4 rounded-full border ${isDark
+              ? 'bg-slate-900/50 border-slate-800'
               : 'bg-white border-gray-200 shadow-md'
-          }`}>
+            }`}>
             <p className={`text-base font-semibold ${isDark ? 'text-slate-300' : 'text-gray-700'}`}>
               Join <span className="text-emerald-400 font-bold">2,400+</span> active traders
             </p>

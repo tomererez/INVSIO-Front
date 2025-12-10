@@ -1,4 +1,5 @@
 import React, { useState, useMemo, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { api } from "@/api/client";
 import { useQuery } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
@@ -114,10 +115,18 @@ export default function TradingJournal() {
   // Current month for calendar
   const [currentMonth, setCurrentMonth] = useState(moment());
 
-  const { data: user } = useQuery({
+  const { data: user, isLoading: userLoading } = useQuery({
     queryKey: ['currentUser'],
     queryFn: () => api.auth.me(),
   });
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!userLoading && !user) {
+      navigate('/login');
+    }
+  }, [user, userLoading, navigate]);
 
   const { data: trades = [] } = useQuery({
     queryKey: ['trades'],

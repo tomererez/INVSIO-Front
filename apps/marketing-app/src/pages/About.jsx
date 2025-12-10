@@ -62,7 +62,7 @@ export default function About() {
                         className="inline-block mb-6"
                     >
                         <div className="px-4 py-1.5 rounded-full border border-indigo-500/30 bg-indigo-500/10 text-indigo-300 text-xs font-medium tracking-widest uppercase backdrop-blur-md">
-                            The MarketFlow Manifesto
+                            The INVSIO Manifesto
                         </div>
                     </motion.div>
 
@@ -82,7 +82,7 @@ export default function About() {
                         transition={{ delay: 0.2, duration: 0.8 }}
                         className="text-lg md:text-2xl text-slate-400 font-light max-w-3xl mx-auto leading-relaxed"
                     >
-                        We built <span className="text-white">MarketFlow</span> to remove the blindfold.
+                        We built <span className="text-white">INVSIO</span> to remove the blindfold.
                         To replace "gut feeling" with institutional-grade vision.
                     </motion.p>
                 </div>
@@ -231,10 +231,10 @@ export default function About() {
                     >
                         <Quote className="absolute top-0 left-0 -translate-x-1/2 -translate-y-1/2 w-10 h-10 text-indigo-500 bg-void p-2 border border-indigo-500/30 rounded-full" />
 
-                        <h3 className="text-sm font-bold text-indigo-400 uppercase tracking-widest mb-6">Mission Control</h3>
+                        <h3 className="text-sm font-bold text-indigo-400 uppercase tracking-widest mb-6">My Vision for INVSIO</h3>
 
                         <p className="text-xl md:text-2xl text-slate-300 font-light italic leading-relaxed mb-8">
-                            "I didn't build MarketFlow to sell you signals. I built it because I was tired of retail traders being the liquidity for institutions. Real trading isn't about guessing; it's about seeing the board clearly."
+                            “I built INVSIO so traders can stop guessing and thrive from there — seeing what the market is really doing, managing risk with confidence, and not wasting hours glued to charts just to make one decision.”
                         </p>
 
                         <div className="flex items-center gap-4">
@@ -242,8 +242,8 @@ export default function About() {
                                 T
                             </div>
                             <div>
-                                <div className="text-white font-medium">Tomer</div>
-                                <div className="text-slate-500 text-sm">Founder, MarketFlow</div>
+                                <div className="text-white font-medium">Tom</div>
+                                <div className="text-slate-500 text-sm">Founder, INVSIO</div>
                             </div>
                         </div>
                     </motion.div>

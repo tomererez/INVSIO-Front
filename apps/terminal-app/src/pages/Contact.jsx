@@ -80,8 +80,8 @@ export default function Contact() {
 
   // Preserved logic from original Terminal App Contact.jsx
   const handleEmailClick = () => {
-    const subject = encodeURIComponent('SmarTrading Support Request');
-    const body = encodeURIComponent(`Hello SmarTrading Team,
+    const subject = encodeURIComponent('INVSIO Support Request');
+    const body = encodeURIComponent(`Hello INVSIO Team,
 
 I need help with:
 
@@ -91,7 +91,7 @@ Please describe your issue here
 
 Best regards,
 `);
-    window.open(`mailto:support@smartrading.com?subject=${subject}&body=${body}`, '_blank');
+    window.open(`mailto:support@invsio.ai?subject=${subject}&body=${body}`, '_blank');
   };
 
   const handleTwitterClick = () => {

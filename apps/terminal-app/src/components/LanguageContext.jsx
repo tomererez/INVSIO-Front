@@ -9,11 +9,11 @@ const translations = {
       riskCalculator: "Position Calculator",
       tradingJournal: "Trading Journal",
       settings: "Settings",
-      smartTrading: "SmarTrading",
+      smartTrading: "INVSIO",
       tagline: "Trade Like Smart Money"
     },
     home: {
-      title: "SmarTrading",
+      title: "INVSIO",
       subtitle: "Professional Trading Intelligence Platform",
       description: "Stop trading on emotions and retail mentality. Use institutional-grade tools to analyze markets, manage risk, and make data-driven decisions like professional traders.",
       features: {
@@ -320,7 +320,7 @@ const translations = {
 const getTranslation = (lang, key) => {
   const keys = key.split('.');
   let value = translations[lang];
-  
+
   for (const k of keys) {
     if (value && typeof value === 'object') {
       value = value[k];
@@ -328,7 +328,7 @@ const getTranslation = (lang, key) => {
       return key;
     }
   }
-  
+
   return value || key;
 };
 

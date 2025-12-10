@@ -16,13 +16,13 @@ const FAQ_DATA = [
   // Product
   {
     category: 'product',
-    question: "What is SmarTrading?",
-    answer: "SmarTrading is a professional trading intelligence platform designed for cryptocurrency futures traders. It provides institutional-grade analytical tools including smart money flow analysis, position calculators, and comprehensive trading journals to help you make data-driven decisions."
+    question: "What is INVSIO?",
+    answer: "INVSIO is a professional trading intelligence platform designed for cryptocurrency futures traders. It provides institutional-grade analytical tools including smart money flow analysis, position calculators, and comprehensive trading journals to help you make data-driven decisions."
   },
   {
     category: 'product',
-    question: "Who is SmarTrading for?",
-    answer: "SmarTrading is built for serious crypto futures traders who want to move beyond emotional trading. It's perfect for traders who understand technical analysis, prioritize risk management, and are ready to learn institutional-grade concepts like CVD, Open Interest, and funding rate analysis."
+    question: "Who is INVSIO for?",
+    answer: "INVSIO is built for serious crypto futures traders who want to move beyond emotional trading. It's perfect for traders who understand technical analysis, prioritize risk management, and are ready to learn institutional-grade concepts like CVD, Open Interest, and funding rate analysis."
   },
   {
     category: 'product',
@@ -31,25 +31,25 @@ const FAQ_DATA = [
   },
   {
     category: 'product',
-    question: "What exchanges does SmarTrading work with?",
-    answer: "SmarTrading is exchange-agnostic. You manually input your trade data from any exchange (Binance, Bybit, OKX, etc.). Our position calculator works with any exchange that offers leverage trading, and our analysis tools interpret universal market data."
+    question: "What exchanges does INVSIO work with?",
+    answer: "INVSIO is exchange-agnostic. You manually input your trade data from any exchange (Binance, Bybit, OKX, etc.). Our position calculator works with any exchange that offers leverage trading, and our analysis tools interpret universal market data."
   },
   {
     category: 'product',
     question: "Is this a signal service or trading bot?",
-    answer: "No. SmarTrading is NOT a signal service or automated bot. We provide professional analytical tools and calculators to help YOU make informed decisions. You maintain complete control over your trading—we just give you institutional-grade intelligence to guide your choices."
+    answer: "No. INVSIO is NOT a signal service or automated bot. We provide professional analytical tools and calculators to help YOU make informed decisions. You maintain complete control over your trading—we just give you institutional-grade intelligence to guide your choices."
   },
 
   // Pricing
   {
     category: 'pricing',
-    question: "How much does SmarTrading cost?",
+    question: "How much does INVSIO cost?",
     answer: "We offer flexible pricing plans to suit different trader needs. Check our Pricing page for current plans and features. We believe in transparent pricing with no hidden fees."
   },
   {
     category: 'pricing',
     question: "Is there a free trial?",
-    answer: "Yes! We offer a free trial period so you can test all features and see if SmarTrading fits your trading workflow. No credit card required to start."
+    answer: "Yes! We offer a free trial period so you can test all features and see if INVSIO fits your trading workflow. No credit card required to start."
   },
   {
     category: 'pricing',
@@ -103,7 +103,7 @@ const FAQ_DATA = [
   {
     category: 'security',
     question: "Do you need access to my exchange accounts?",
-    answer: "No! SmarTrading NEVER asks for your exchange API keys or login credentials. You manually input trade data, and we never touch your actual funds or accounts. This eliminates security risks entirely."
+    answer: "No! INVSIO NEVER asks for your exchange API keys or login credentials. You manually input trade data, and we never touch your actual funds or accounts. This eliminates security risks entirely."
   },
   {
     category: 'security',

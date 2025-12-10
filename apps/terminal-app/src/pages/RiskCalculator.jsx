@@ -10,7 +10,7 @@ import { useLanguage } from "../components/LanguageContext";
 import AddTradeModal from "../components/trading-journal/AddTradeModal";
 import { api } from "@/api/client";
 import { useQuery } from "@tanstack/react-query";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { createPageUrl } from "../utils";
 import { FeatureGate } from "../components/FeatureGate";
 
@@ -43,6 +43,19 @@ export default function RiskCalculator() {
     queryKey: ['trades'],
     queryFn: () => api.entities.Trade.list(),
   });
+
+  const { data: user, isLoading: userLoading } = useQuery({
+    queryKey: ['currentUser'],
+    queryFn: () => api.auth.me(),
+  });
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!userLoading && !user) {
+      navigate('/login');
+    }
+  }, [user, userLoading, navigate]);
 
   const settings = settingsList[0] || null;
 

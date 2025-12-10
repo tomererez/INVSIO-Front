@@ -2,7 +2,7 @@
 export const TESTIMONIALS = [
     { id: '1', handle: '@CryptoWizard', avatar: 'https://picsum.photos/100/100', quote: "The feed speed is unmatched. It's like having a team of analysts in my pocket.", rating: 5 },
     { id: '2', handle: '@AlphaSeeker', avatar: 'https://picsum.photos/101/101', quote: "Finally, a tool that cuts through the noise. The UI is absolutely gorgeous.", rating: 5 },
-    { id: '3', handle: '@DayTradePro', avatar: 'https://picsum.photos/102/102', quote: "MarketFlow paid for itself in the first 20 minutes. Incredible insights.", rating: 5 },
+    { id: '3', handle: '@DayTradePro', avatar: 'https://picsum.photos/102/102', quote: "INVSIO paid for itself in the first 20 minutes. Incredible insights.", rating: 5 },
     { id: '4', handle: '@HedgeFundDropout', avatar: 'https://picsum.photos/103/103', quote: "I stopped using my Bloomberg terminal for this. Serious edge.", rating: 5 },
     { id: '5', handle: '@SatoshiDisciple', avatar: 'https://picsum.photos/104/104', quote: "The liquidity zone visualization is a game changer.", rating: 5 },
 ];

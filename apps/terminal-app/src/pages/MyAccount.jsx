@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo } from "react";
+import { useNavigate } from "react-router-dom";
 import { api } from "@/api/client";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -90,17 +91,16 @@ export default function MyAccount() {
     }
   }, [user, theme]);
 
+  const navigate = useNavigate();
+
   useEffect(() => {
     const checkAuth = async () => {
       if (!userLoading && !user) {
-        const isAuth = await api.auth.isAuthenticated();
-        if (!isAuth) {
-          api.auth.redirectToLogin(window.location.pathname);
-        }
+        navigate('/login');
       }
     };
     checkAuth();
-  }, [user, userLoading]);
+  }, [user, userLoading, navigate]);
 
   const createSettingsMutation = useMutation({
     mutationFn: (data) => api.entities.Settings.create(data),
@@ -203,51 +203,7 @@ export default function MyAccount() {
   }, [user]);
 
   if (!user && !userLoading) {
-    return (
-      <div className={`min-h-screen ${isDark ? 'bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950' : 'bg-gradient-to-br from-gray-50 via-white to-gray-100'} flex items-center justify-center p-4`}>
-        <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.5 }}
-          className="max-w-md w-full"
-        >
-          <Card className={`${isDark ? 'bg-slate-900/50 border-slate-800' : 'bg-white border-gray-200 shadow-2xl'} backdrop-blur-sm`}>
-            <CardContent className="p-8 sm:p-12 text-center">
-              <div className="w-20 h-20 bg-gradient-to-r from-purple-500 to-pink-600 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg shadow-purple-500/30">
-                <Lock className="w-10 h-10 text-white" />
-              </div>
-              <h1 className="text-3xl sm:text-4xl font-bold mb-3 bg-gradient-to-l from-purple-400 via-pink-400 to-purple-400 bg-clip-text text-transparent">
-                Authentication Required
-              </h1>
-              <p className={`text-base font-semibold mb-6 ${isDark ? 'text-slate-300' : 'text-gray-700'}`}>
-                Redirecting you to login...
-              </p>
-
-              <div className="flex items-center justify-center gap-2 mb-6">
-                <div className="w-2 h-2 bg-purple-500 rounded-full animate-pulse"></div>
-                <div className="w-2 h-2 bg-pink-500 rounded-full animate-pulse" style={{ animationDelay: '0.2s' }}></div>
-                <div className="w-2 h-2 bg-purple-500 rounded-full animate-pulse" style={{ animationDelay: '0.4s' }}></div>
-              </div>
-
-              <div className={`mt-8 ${isDark ? 'bg-blue-500/10 border-blue-500/30' : 'bg-blue-50 border-blue-300'} border rounded-lg p-4`}>
-                <div className="flex items-start gap-3">
-                  <Sparkles className="w-5 h-5 text-blue-400 flex-shrink-0 mt-0.5" />
-                  <div className={`text-sm ${isDark ? 'text-blue-300' : 'text-blue-700'}`}>
-                    <p className="font-bold mb-2">What you'll get:</p>
-                    <ul className="space-y-1 text-xs font-semibold text-left">
-                      <li>✓ Professional trading journal</li>
-                      <li>✓ Advanced position calculator</li>
-                      <li>✓ AI-powered market analysis</li>
-                      <li>✓ Portfolio tracking & insights</li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </motion.div>
-      </div>
-    );
+    return null;
   }
 
   if (userLoading) {

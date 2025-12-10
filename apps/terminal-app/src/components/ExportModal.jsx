@@ -11,12 +11,12 @@ export default function ExportModal({ onClose, trades, user }) {
   useEffect(() => {
     const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
     setTheme(currentTheme);
-    
+
     const observer = new MutationObserver(() => {
       const newTheme = document.documentElement.getAttribute('data-theme') || 'dark';
       setTheme(newTheme);
     });
-    
+
     observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
     return () => observer.disconnect();
   }, []);
@@ -65,12 +65,12 @@ export default function ExportModal({ onClose, trades, user }) {
       const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
       const link = document.createElement('a');
       link.href = URL.createObjectURL(blob);
-      link.download = `smartrading-trades-${new Date().toISOString().split('T')[0]}.csv`;
+      link.download = `invsio-trades-${new Date().toISOString().split('T')[0]}.csv`;
       link.click();
 
       setIsExporting(false);
       setExportComplete(true);
-      
+
       setTimeout(() => {
         onClose();
       }, 2000);
@@ -99,12 +99,12 @@ export default function ExportModal({ onClose, trades, user }) {
       const blob = new Blob([JSON.stringify(backup, null, 2)], { type: 'application/json' });
       const link = document.createElement('a');
       link.href = URL.createObjectURL(blob);
-      link.download = `smartrading-journal-backup-${new Date().toISOString().split('T')[0]}.json`;
+      link.download = `invsio-journal-backup-${new Date().toISOString().split('T')[0]}.json`;
       link.click();
 
       setIsExporting(false);
       setExportComplete(true);
-      
+
       setTimeout(() => {
         onClose();
       }, 2000);
@@ -128,9 +128,8 @@ export default function ExportModal({ onClose, trades, user }) {
           initial={{ opacity: 0, scale: 0.95, y: 20 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.95, y: 20 }}
-          className={`relative w-full max-w-md rounded-2xl shadow-2xl border ${
-            isDark ? 'bg-slate-900 border-slate-800' : 'bg-white border-gray-200'
-          } overflow-hidden`}
+          className={`relative w-full max-w-md rounded-2xl shadow-2xl border ${isDark ? 'bg-slate-900 border-slate-800' : 'bg-white border-gray-200'
+            } overflow-hidden`}
         >
           {/* Header */}
           <div className={`px-6 py-4 border-b ${isDark ? 'border-slate-800' : 'border-gray-200'}`}>
@@ -140,9 +139,8 @@ export default function ExportModal({ onClose, trades, user }) {
               </h2>
               <button
                 onClick={onClose}
-                className={`p-2 rounded-lg transition-colors ${
-                  isDark ? 'hover:bg-slate-800 text-slate-400' : 'hover:bg-gray-100 text-gray-600'
-                }`}
+                className={`p-2 rounded-lg transition-colors ${isDark ? 'hover:bg-slate-800 text-slate-400' : 'hover:bg-gray-100 text-gray-600'
+                  }`}
               >
                 <X className="w-5 h-5" />
               </button>
@@ -173,9 +171,8 @@ export default function ExportModal({ onClose, trades, user }) {
                 animate={{ opacity: 1 }}
                 className="text-center py-8"
               >
-                <Loader2 className={`w-12 h-12 mx-auto mb-4 animate-spin ${
-                  isDark ? 'text-emerald-400' : 'text-emerald-600'
-                }`} />
+                <Loader2 className={`w-12 h-12 mx-auto mb-4 animate-spin ${isDark ? 'text-emerald-400' : 'text-emerald-600'
+                  }`} />
                 <h3 className={`text-lg font-bold mb-2 ${isDark ? 'text-white' : 'text-gray-900'}`}>
                   Preparing Export...
                 </h3>
@@ -192,16 +189,14 @@ export default function ExportModal({ onClose, trades, user }) {
                 {/* Export CSV Option */}
                 <button
                   onClick={handleExportCSV}
-                  className={`w-full p-4 rounded-xl border-2 transition-all duration-200 text-left ${
-                    isDark 
-                      ? 'border-slate-700 hover:border-emerald-600 hover:bg-slate-800/50' 
+                  className={`w-full p-4 rounded-xl border-2 transition-all duration-200 text-left ${isDark
+                      ? 'border-slate-700 hover:border-emerald-600 hover:bg-slate-800/50'
                       : 'border-gray-200 hover:border-emerald-600 hover:bg-emerald-50'
-                  }`}
+                    }`}
                 >
                   <div className="flex items-start gap-4">
-                    <div className={`w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 ${
-                      isDark ? 'bg-emerald-500/20' : 'bg-emerald-100'
-                    }`}>
+                    <div className={`w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 ${isDark ? 'bg-emerald-500/20' : 'bg-emerald-100'
+                      }`}>
                       <Download className="w-6 h-6 text-emerald-500" />
                     </div>
                     <div className="flex-1">
@@ -221,16 +216,14 @@ export default function ExportModal({ onClose, trades, user }) {
                 {/* Backup Journal Option */}
                 <button
                   onClick={handleBackupJournal}
-                  className={`w-full p-4 rounded-xl border-2 transition-all duration-200 text-left ${
-                    isDark 
-                      ? 'border-slate-700 hover:border-teal-600 hover:bg-slate-800/50' 
+                  className={`w-full p-4 rounded-xl border-2 transition-all duration-200 text-left ${isDark
+                      ? 'border-slate-700 hover:border-teal-600 hover:bg-slate-800/50'
                       : 'border-gray-200 hover:border-teal-600 hover:bg-teal-50'
-                  }`}
+                    }`}
                 >
                   <div className="flex items-start gap-4">
-                    <div className={`w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 ${
-                      isDark ? 'bg-teal-500/20' : 'bg-teal-100'
-                    }`}>
+                    <div className={`w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 ${isDark ? 'bg-teal-500/20' : 'bg-teal-100'
+                      }`}>
                       <Archive className="w-6 h-6 text-teal-500" />
                     </div>
                     <div className="flex-1">
@@ -247,9 +240,8 @@ export default function ExportModal({ onClose, trades, user }) {
                   </div>
                 </button>
 
-                <div className={`mt-4 p-4 rounded-xl ${
-                  isDark ? 'bg-slate-800/50' : 'bg-gray-50'
-                }`}>
+                <div className={`mt-4 p-4 rounded-xl ${isDark ? 'bg-slate-800/50' : 'bg-gray-50'
+                  }`}>
                   <p className={`text-xs ${isDark ? 'text-slate-400' : 'text-gray-600'}`}>
                     💡 <strong>Tip:</strong> Regular backups help protect your trading history. We recommend backing up your journal monthly.
                   </p>

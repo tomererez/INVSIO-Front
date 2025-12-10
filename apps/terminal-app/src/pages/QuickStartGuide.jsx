@@ -11,12 +11,12 @@ export default function QuickStartGuide() {
   useEffect(() => {
     const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
     setTheme(currentTheme);
-    
+
     const observer = new MutationObserver(() => {
       const newTheme = document.documentElement.getAttribute('data-theme') || 'dark';
       setTheme(newTheme);
     });
-    
+
     observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
     return () => observer.disconnect();
   }, []);
@@ -27,7 +27,7 @@ export default function QuickStartGuide() {
     {
       number: 1,
       title: "Set Up Your Account",
-      description: "Create your SmarTrading account and customize your profile settings. This takes less than 2 minutes.",
+      description: "Create your INVSIO account and customize your profile settings. This takes less than 2 minutes.",
       icon: User,
       color: "from-blue-500 to-indigo-600",
       action: "Go to Account",
@@ -105,7 +105,7 @@ export default function QuickStartGuide() {
       {/* Hero Section */}
       <div className={`relative overflow-hidden border-b ${isDark ? 'border-slate-800/50 bg-gradient-to-b from-slate-900/50' : 'border-gray-200 bg-gradient-to-b from-white/50'} to-transparent`}>
         <div className="absolute inset-0 bg-grid-pattern opacity-5" />
-        
+
         <div className="absolute inset-0 overflow-hidden">
           <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl animate-pulse" />
           <div className="absolute bottom-1/4 left-1/4 w-96 h-96 bg-teal-500/10 rounded-full blur-3xl animate-pulse delay-1000" />
@@ -147,7 +147,7 @@ export default function QuickStartGuide() {
               transition={{ duration: 0.6, delay: 0.4 }}
               className={`text-xl sm:text-2xl max-w-3xl mx-auto ${isDark ? 'text-slate-300' : 'text-gray-700'}`}
             >
-              5 Simple Steps to Use SmarTrading Like a Pro
+              5 Simple Steps to Use INVSIO Like a Pro
             </motion.p>
           </motion.div>
         </div>
@@ -162,7 +162,7 @@ export default function QuickStartGuide() {
           className="mb-12 text-center"
         >
           <p className={`text-lg max-w-3xl mx-auto ${isDark ? 'text-slate-300' : 'text-gray-700'}`}>
-            Follow these steps to get the most out of SmarTrading. Each step builds on the previous one, creating a complete professional trading workflow.
+            Follow these steps to get the most out of INVSIO. Each step builds on the previous one, creating a complete professional trading workflow.
           </p>
         </motion.div>
 

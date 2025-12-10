@@ -23,8 +23,8 @@ export const TorchEffect = () => {
     }, [x, y]);
 
     // Create the gradient background style dynamically
-    // white, 6% opacity, 120px radius
-    const background = useMotionTemplate`radial-gradient(120px circle at ${x}px ${y}px, rgba(255,255,255,0.06), transparent 100%)`;
+    // white, 2% opacity, 150px radius
+    const background = useMotionTemplate`radial-gradient(150px circle at ${x}px ${y}px, rgba(255,255,255,0.02), transparent 100%)`;
 
     return (
         <motion.div

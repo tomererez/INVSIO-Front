@@ -17,6 +17,7 @@ import FAQ from './pages/FAQ'
 import Contact from './pages/Contact'
 import QuickStartGuide from './pages/QuickStartGuide'
 import Login from './pages/Login'
+import LoginTest from './pages/LoginTest'
 import Features from './pages/Features'
 import MarketParametersGuide from './pages/MarketParametersGuide'
 import { StarryBackground } from './components/layout/StarryBackground'
@@ -56,6 +57,7 @@ function App() {
                             <Route path="/contact" element={<Contact />} />
                             <Route path="/quickstartguide" element={<QuickStartGuide />} />
                             <Route path="/login" element={<Login />} />
+                            <Route path="/login-test" element={<LoginTest />} />
                         </Routes>
                     </div>
                 </Layout>

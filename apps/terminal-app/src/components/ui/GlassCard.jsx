@@ -1,4 +1,5 @@
 import React, { useRef, useState } from 'react';
+import { motion } from 'framer-motion';
 
 export const GlassCard = ({
     children,
@@ -50,4 +51,3 @@ export const GlassCard = ({
         </div>
     );
 };
-

@@ -1,9 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { api } from '@/api/client';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
+import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Eye, EyeOff, Check, Brain, AlertCircle } from 'lucide-react';
+import { Eye, EyeOff, Check, Brain } from 'lucide-react';
 import { GlassCard } from '../components/ui/glass-card';
 import { Button } from '../components/ui/button';
 
@@ -24,10 +21,7 @@ const GoogleIcon = () => (
     </svg>
 );
 
-export default function Login() {
-    const navigate = useNavigate();
-    const queryClient = useQueryClient();
-
+export const LoginTest = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [isLoading, setIsLoading] = useState(false);
@@ -39,25 +33,7 @@ export default function Login() {
 
     const isLogin = mode === 'login';
 
-    // Check if user is already authenticated
-    const { data: user, isLoading: checkingAuth } = useQuery({
-        queryKey: ['currentUser'],
-        queryFn: async () => {
-            const isAuth = await api.auth.isAuthenticated();
-            if (!isAuth) return null;
-            return await api.auth.me();
-        },
-        retry: false,
-    });
-
-    // If already logged in, redirect to dashboard
-    useEffect(() => {
-        if (user && !checkingAuth) {
-            navigate('/dashboard');
-        }
-    }, [user, checkingAuth, navigate]);
-
-    const handleSubmit = async (e) => {
+    const handleSubmit = (e) => {
         e.preventDefault();
         setError(null);
 
@@ -68,26 +44,10 @@ export default function Login() {
 
         setIsLoading(true);
 
-        try {
-            if (isLogin) {
-                // Login flow
-                const result = await api.auth.login(email, password);
-                if (result.success) {
-                    await queryClient.invalidateQueries({ queryKey: ['currentUser'] });
-                    navigate('/dashboard');
-                } else {
-                    setError(result.error || 'Invalid email or password');
-                }
-            } else {
-                // Register flow - TODO: Implement when API is ready
-                setError('Registration is coming soon!');
-            }
-        } catch (err) {
-            setError('An error occurred. Please try again.');
-            console.error('Auth error:', err);
-        } finally {
+        setTimeout(() => {
             setIsLoading(false);
-        }
+            console.log(isLogin ? 'Login submitted' : 'Register submitted');
+        }, 1500);
     };
 
     const handleForgotPassword = () => {
@@ -99,15 +59,6 @@ export default function Login() {
         setError(null);
         setAgreedToTerms(false);
     };
-
-    // Show loading state while checking authentication
-    if (checkingAuth) {
-        return (
-            <div className="min-h-screen h-screen flex items-center justify-center">
-                <div className="w-8 h-8 border-2 border-cyan-500 border-t-transparent rounded-full animate-spin" />
-            </div>
-        );
-    }
 
     return (
         <div className="min-h-screen h-screen flex flex-col items-center justify-center px-4 relative overflow-hidden">
@@ -217,14 +168,6 @@ export default function Login() {
                         </div>
 
                         <form onSubmit={handleSubmit} className="space-y-3" noValidate>
-                            {/* Error Message */}
-                            {error && (
-                                <div className="flex items-center gap-2 p-3 bg-red-500/10 border border-red-500/20 rounded-lg text-red-400 text-sm">
-                                    <AlertCircle className="w-4 h-4 flex-shrink-0" />
-                                    <span>{error}</span>
-                                </div>
-                            )}
-
                             {/* Email */}
                             <input
                                 id="email"
@@ -292,8 +235,8 @@ export default function Login() {
                                                     className="sr-only"
                                                 />
                                                 <div className={`w-5 h-5 rounded flex items-center justify-center transition-all ${agreedToTerms
-                                                        ? 'bg-cyan-500'
-                                                        : 'border-2 border-slate-500 group-hover:border-slate-400'
+                                                    ? 'bg-cyan-500'
+                                                    : 'border-2 border-slate-500 group-hover:border-slate-400'
                                                     }`}>
                                                     {agreedToTerms && <Check className="w-3 h-3 text-white" />}
                                                 </div>
@@ -307,6 +250,9 @@ export default function Login() {
                                     </motion.div>
                                 )}
                             </AnimatePresence>
+
+                            {/* Error */}
+                            {error && <p className="text-xs text-red-400 text-center">{error}</p>}
 
                             {/* Submit */}
                             <Button
@@ -362,4 +308,6 @@ export default function Login() {
             <div className="flex-grow max-h-16" />
         </div>
     );
-}
+};
+
+export default LoginTest;

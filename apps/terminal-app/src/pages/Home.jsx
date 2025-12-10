@@ -14,12 +14,12 @@ export default function Home() {
   useEffect(() => {
     const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
     setTheme(currentTheme);
-    
+
     const observer = new MutationObserver(() => {
       const newTheme = document.documentElement.getAttribute('data-theme') || 'dark';
       setTheme(newTheme);
     });
-    
+
     observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
     return () => observer.disconnect();
   }, []);
@@ -49,7 +49,7 @@ export default function Home() {
       {/* Hero Section */}
       <div className={`relative overflow-hidden border-b ${isDark ? 'border-slate-800/50' : 'border-gray-200'}`}>
         <div className="absolute inset-0 bg-grid-pattern opacity-5" />
-        
+
         <div className="absolute inset-0 overflow-hidden">
           <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl" />
           <div className="absolute bottom-1/4 left-1/4 w-96 h-96 bg-teal-500/10 rounded-full blur-3xl" />
@@ -89,9 +89,8 @@ export default function Home() {
                 {features.map((feature, index) => (
                   <div
                     key={index}
-                    className={`flex items-center gap-2 px-4 py-2 rounded-lg border ${
-                      isDark ? 'bg-slate-800/50 border-slate-700' : 'bg-white border-gray-200'
-                    }`}
+                    className={`flex items-center gap-2 px-4 py-2 rounded-lg border ${isDark ? 'bg-slate-800/50 border-slate-700' : 'bg-white border-gray-200'
+                      }`}
                   >
                     <div className="text-emerald-400">{feature.icon}</div>
                     <span className={`text-sm font-medium ${isDark ? 'text-white' : 'text-gray-900'}`}>
@@ -110,9 +109,8 @@ export default function Home() {
                   </button>
                 </Link>
                 <Link to={createPageUrl("Features")} className="w-full sm:w-auto">
-                  <button className={`w-full sm:w-auto px-8 py-4 rounded-xl font-semibold transition-all duration-200 border hover:scale-105 ${
-                    isDark ? 'bg-slate-800/50 text-white border-slate-700 hover:bg-slate-800' : 'bg-white text-gray-900 border-gray-300 hover:bg-gray-50'
-                  }`}>
+                  <button className={`w-full sm:w-auto px-8 py-4 rounded-xl font-semibold transition-all duration-200 border hover:scale-105 ${isDark ? 'bg-slate-800/50 text-white border-slate-700 hover:bg-slate-800' : 'bg-white text-gray-900 border-gray-300 hover:bg-gray-50'
+                    }`}>
                     View All Features
                   </button>
                 </Link>
@@ -130,9 +128,8 @@ export default function Home() {
               transition={{ duration: 0.6, delay: 0.2 }}
               className="relative hidden lg:block"
             >
-              <div className={`relative rounded-2xl border-2 overflow-hidden shadow-2xl ${
-                isDark ? 'border-slate-700 bg-slate-900' : 'border-gray-300 bg-white'
-              }`}>
+              <div className={`relative rounded-2xl border-2 overflow-hidden shadow-2xl ${isDark ? 'border-slate-700 bg-slate-900' : 'border-gray-300 bg-white'
+                }`}>
                 <div className={`h-12 flex items-center px-4 border-b ${isDark ? 'border-slate-800 bg-slate-800/50' : 'border-gray-200 bg-gray-50'}`}>
                   <div className="flex gap-2">
                     <div className="w-3 h-3 rounded-full bg-red-500" />
@@ -160,7 +157,7 @@ export default function Home() {
                   </div>
                 </div>
               </div>
-              
+
               {/* Floating badges */}
               <div className="absolute -top-4 -right-4 px-4 py-2 bg-emerald-500 text-white rounded-lg shadow-lg font-semibold text-sm">
                 AI-Powered
@@ -198,11 +195,10 @@ export default function Home() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            <Card className={`h-full ${
-              isDark 
-                ? 'bg-gradient-to-br from-emerald-900/20 to-teal-900/10 border-emerald-500/30 shadow-xl' 
+            <Card className={`h-full ${isDark
+                ? 'bg-gradient-to-br from-emerald-900/20 to-teal-900/10 border-emerald-500/30 shadow-xl'
                 : 'bg-gradient-to-br from-emerald-50 to-teal-50 border-emerald-200 shadow-lg'
-            }`}>
+              }`}>
               <CardContent className="p-8">
                 <div className="flex items-center gap-3 mb-8">
                   <div className="w-12 h-12 rounded-xl bg-emerald-500/20 flex items-center justify-center">
@@ -237,11 +233,10 @@ export default function Home() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6, delay: 0.3 }}
           >
-            <Card className={`h-full ${
-              isDark 
-                ? 'bg-gradient-to-br from-red-900/20 to-red-800/10 border-red-500/30 shadow-xl' 
+            <Card className={`h-full ${isDark
+                ? 'bg-gradient-to-br from-red-900/20 to-red-800/10 border-red-500/30 shadow-xl'
                 : 'bg-gradient-to-br from-red-50 to-red-50 border-red-200 shadow-lg'
-            }`}>
+              }`}>
               <CardContent className="p-8">
                 <div className="flex items-center gap-3 mb-8">
                   <div className="w-12 h-12 rounded-xl bg-red-500/20 flex items-center justify-center">
@@ -288,7 +283,7 @@ export default function Home() {
             <TrendingUp className="w-8 h-8 text-emerald-400" />
           </div>
           <h2 className={`text-4xl lg:text-5xl font-bold mb-4 ${isDark ? 'text-white' : 'text-gray-900'}`}>
-            Why Traders Fail — and How SmarTrading Fixes It
+            Why Traders Fail — and How INVSIO Fixes It
           </h2>
           <p className={`text-xl max-w-3xl mx-auto ${isDark ? 'text-slate-400' : 'text-gray-600'}`}>
             The difference isn't luck—it's mindset, methodology, and the right tools
@@ -301,11 +296,10 @@ export default function Home() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            <Card className={`h-full ${
-              isDark 
-                ? 'bg-gradient-to-br from-red-900/20 to-red-800/10 border-red-500/30 shadow-xl' 
+            <Card className={`h-full ${isDark
+                ? 'bg-gradient-to-br from-red-900/20 to-red-800/10 border-red-500/30 shadow-xl'
                 : 'bg-gradient-to-br from-red-50 to-red-100 border-red-300 shadow-lg'
-            }`}>
+              }`}>
               <CardContent className="p-10">
                 <div className="flex items-center gap-4 mb-10">
                   <div className="w-14 h-14 rounded-xl bg-red-500/20 flex items-center justify-center">
@@ -368,11 +362,10 @@ export default function Home() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6, delay: 0.3 }}
           >
-            <Card className={`h-full ${
-              isDark 
-                ? 'bg-gradient-to-br from-emerald-900/20 to-teal-900/10 border-emerald-500/30 shadow-xl' 
+            <Card className={`h-full ${isDark
+                ? 'bg-gradient-to-br from-emerald-900/20 to-teal-900/10 border-emerald-500/30 shadow-xl'
                 : 'bg-gradient-to-br from-emerald-50 to-teal-100 border-emerald-300 shadow-lg'
-            }`}>
+              }`}>
               <CardContent className="p-10">
                 <div className="flex items-center gap-4 mb-10">
                   <div className="w-14 h-14 rounded-xl bg-emerald-500/20 flex items-center justify-center">
@@ -436,15 +429,14 @@ export default function Home() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.4 }}
         >
-          <Card className={`max-w-4xl mx-auto ${
-            isDark 
-              ? 'bg-slate-900/50 border-emerald-500/30 shadow-xl' 
+          <Card className={`max-w-4xl mx-auto ${isDark
+              ? 'bg-slate-900/50 border-emerald-500/30 shadow-xl'
               : 'bg-white border-emerald-300 shadow-lg'
-          }`}>
+            }`}>
             <CardContent className="p-10 text-center">
               <Shield className="w-14 h-14 text-emerald-400 mx-auto mb-6" />
               <p className={`text-lg leading-relaxed ${isDark ? 'text-slate-300' : 'text-gray-700'}`}>
-                <span className={`font-bold ${isDark ? 'text-white' : 'text-gray-900'}`}>SmarTrading</span> gives you the tools to operate like smart money—analyze systematically, execute with discipline, and manage risk professionally.
+                <span className={`font-bold ${isDark ? 'text-white' : 'text-gray-900'}`}>INVSIO</span> gives you the tools to operate like smart money—analyze systematically, execute with discipline, and manage risk professionally.
               </p>
             </CardContent>
           </Card>
@@ -458,11 +450,10 @@ export default function Home() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
         >
-          <Card className={`${
-            isDark 
-              ? 'bg-gradient-to-br from-emerald-900/30 to-teal-900/30 border-emerald-500/30 shadow-2xl' 
+          <Card className={`${isDark
+              ? 'bg-gradient-to-br from-emerald-900/30 to-teal-900/30 border-emerald-500/30 shadow-2xl'
               : 'bg-gradient-to-br from-emerald-50 to-teal-100 border-emerald-300 shadow-xl'
-          } overflow-hidden`}>
+            } overflow-hidden`}>
             <CardContent className="p-12 md:p-16 text-center relative">
               <div className="absolute inset-0 bg-grid-pattern opacity-5" />
               <div className="relative">
@@ -480,9 +471,8 @@ export default function Home() {
                     </button>
                   </Link>
                   <Link to={createPageUrl("RiskCalculator")} className="w-full sm:w-auto">
-                    <button className={`w-full sm:w-auto px-8 py-4 rounded-xl font-semibold transition-all duration-200 border hover:scale-105 ${
-                      isDark ? 'bg-slate-800 text-white border-slate-700 hover:bg-slate-700' : 'bg-white text-gray-900 border-gray-300 hover:bg-gray-50'
-                    }`}>
+                    <button className={`w-full sm:w-auto px-8 py-4 rounded-xl font-semibold transition-all duration-200 border hover:scale-105 ${isDark ? 'bg-slate-800 text-white border-slate-700 hover:bg-slate-700' : 'bg-white text-gray-900 border-gray-300 hover:bg-gray-50'
+                      }`}>
                       Calculate Position Size
                     </button>
                   </Link>

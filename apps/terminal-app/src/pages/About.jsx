@@ -14,12 +14,12 @@ export default function About() {
   useEffect(() => {
     const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
     setTheme(currentTheme);
-    
+
     const observer = new MutationObserver(() => {
       const newTheme = document.documentElement.getAttribute('data-theme') || 'dark';
       setTheme(newTheme);
     });
-    
+
     observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
     return () => observer.disconnect();
   }, []);
@@ -86,7 +86,7 @@ export default function About() {
       {/* Hero Intro Section */}
       <div className={`relative overflow-hidden border-b ${isDark ? 'border-slate-800/50 bg-gradient-to-b from-slate-900/50' : 'border-gray-200 bg-gradient-to-b from-white/50'} to-transparent`}>
         <div className="absolute inset-0 bg-grid-pattern opacity-5" />
-        
+
         <div className="absolute inset-0 overflow-hidden">
           <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl animate-pulse" />
           <div className="absolute bottom-1/4 left-1/4 w-96 h-96 bg-teal-500/10 rounded-full blur-3xl animate-pulse delay-1000" />
@@ -119,9 +119,8 @@ export default function About() {
               transition={{ duration: 0.6, delay: 0.2 }}
               className="mb-8"
             >
-              <div className={`inline-block px-4 py-1.5 rounded-full border mb-6 ${
-                isDark ? 'bg-slate-800/50 border-slate-700' : 'bg-white border-gray-200'
-              }`}>
+              <div className={`inline-block px-4 py-1.5 rounded-full border mb-6 ${isDark ? 'bg-slate-800/50 border-slate-700' : 'bg-white border-gray-200'
+                }`}>
                 <span className={`text-sm font-medium ${isDark ? 'text-slate-300' : 'text-gray-700'}`}>
                   🧠 Professional Trading Intelligence Platform
                 </span>
@@ -134,7 +133,7 @@ export default function About() {
               transition={{ duration: 0.6, delay: 0.3 }}
               className="text-5xl sm:text-7xl font-bold mb-8 bg-gradient-to-l from-emerald-400 via-teal-400 to-cyan-400 bg-clip-text text-transparent"
             >
-              About SmarTrading
+              About INVSIO
             </motion.h1>
 
             <motion.p
@@ -165,11 +164,10 @@ export default function About() {
           className="grid md:grid-cols-2 lg:grid-cols-4 gap-6"
         >
           {valuePillars.map((pillar, index) => (
-            <Card 
+            <Card
               key={index}
-              className={`group hover:scale-105 transition-all duration-300 ${
-                isDark ? 'bg-slate-900/50 border-slate-800 hover:border-slate-700' : 'bg-white border-gray-200 hover:border-gray-300 shadow-lg'
-              }`}
+              className={`group hover:scale-105 transition-all duration-300 ${isDark ? 'bg-slate-900/50 border-slate-800 hover:border-slate-700' : 'bg-white border-gray-200 hover:border-gray-300 shadow-lg'
+                }`}
             >
               <CardContent className="p-6 text-center">
                 <div className={`w-16 h-16 bg-gradient-to-r ${pillar.color} rounded-2xl flex items-center justify-center mb-4 shadow-lg mx-auto group-hover:scale-110 transition-transform duration-300`}>
@@ -192,7 +190,7 @@ export default function About() {
         <div className={`h-px ${isDark ? 'bg-slate-800' : 'bg-gray-200'}`} />
       </div>
 
-      {/* What is SmarTrading */}
+      {/* What is INVSIO */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-20">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -206,18 +204,18 @@ export default function About() {
                   <Brain className="w-8 h-8 text-emerald-400" />
                 </div>
                 <h2 className={`text-3xl sm:text-4xl font-bold ${isDark ? 'text-white' : 'text-gray-900'}`}>
-                  What is SmarTrading?
+                  What is INVSIO?
                 </h2>
               </div>
               <div className={`space-y-5 text-lg leading-relaxed ${isDark ? 'text-slate-300' : 'text-gray-700'}`}>
                 <p>
-                  SmarTrading is a professional trading intelligence platform designed specifically for cryptocurrency futures traders who want to move beyond emotional, retail-style trading and adopt institutional-grade decision-making processes.
+                  INVSIO is a professional trading intelligence platform designed specifically for cryptocurrency futures traders who want to move beyond emotional, retail-style trading and adopt institutional-grade decision-making processes.
                 </p>
                 <p>
                   We provide a suite of analytical tools that decode market behavior using the same metrics that smart money institutions use: Cumulative Volume Delta (CVD), Open Interest, Funding Rates, and Price Action analysis.
                 </p>
                 <p>
-                  Combined with precision risk management calculators and a comprehensive trading journal, SmarTrading gives you everything you need to trade with confidence, discipline, and a professional edge.
+                  Combined with precision risk management calculators and a comprehensive trading journal, INVSIO gives you everything you need to trade with confidence, discipline, and a professional edge.
                 </p>
               </div>
             </CardContent>
@@ -232,9 +230,8 @@ export default function About() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.3 }}
         >
-          <Card className={`${
-            isDark ? 'bg-gradient-to-br from-blue-900/20 to-indigo-900/20 border-blue-500/30' : 'bg-gradient-to-br from-blue-50 to-indigo-50 border-blue-300'
-          }`}>
+          <Card className={`${isDark ? 'bg-gradient-to-br from-blue-900/20 to-indigo-900/20 border-blue-500/30' : 'bg-gradient-to-br from-blue-50 to-indigo-50 border-blue-300'
+            }`}>
             <CardContent className="p-8 sm:p-12">
               <div className="flex items-center gap-4 mb-8">
                 <div className={`w-14 h-14 ${isDark ? 'bg-blue-500/20' : 'bg-blue-100'} rounded-xl flex items-center justify-center`}>
@@ -245,7 +242,7 @@ export default function About() {
                 </h2>
               </div>
               <p className={`text-lg leading-relaxed ${isDark ? 'text-slate-300' : 'text-gray-700'}`}>
-                SmarTrading was born from a simple frustration: retail traders were consistently trading blind while institutions relied on superior data, structure, and discipline. We built SmarTrading to close that gap — giving every serious trader access to the same tools, insights, and methodologies used by professionals.
+                INVSIO was born from a simple frustration: retail traders were consistently trading blind while institutions relied on superior data, structure, and discipline. We built INVSIO to close that gap — giving every serious trader access to the same tools, insights, and methodologies used by professionals.
               </p>
             </CardContent>
           </Card>
@@ -292,9 +289,8 @@ export default function About() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.5 }}
         >
-          <Card className={`${
-            isDark ? 'bg-gradient-to-br from-purple-900/20 to-pink-900/20 border-purple-500/30' : 'bg-gradient-to-br from-purple-50 to-pink-50 border-purple-300'
-          }`}>
+          <Card className={`${isDark ? 'bg-gradient-to-br from-purple-900/20 to-pink-900/20 border-purple-500/30' : 'bg-gradient-to-br from-purple-50 to-pink-50 border-purple-300'
+            }`}>
             <CardContent className="p-8 sm:p-12 text-center">
               <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-600 rounded-2xl mb-6 shadow-lg">
                 <Eye className="w-8 h-8 text-white" />
@@ -328,7 +324,7 @@ export default function About() {
             Who Is This For?
           </h2>
           <p className={`text-lg max-w-3xl mx-auto ${isDark ? 'text-slate-400' : 'text-gray-600'}`}>
-            SmarTrading is built for serious crypto futures traders who are ready to evolve
+            INVSIO is built for serious crypto futures traders who are ready to evolve
           </p>
         </motion.div>
 
@@ -431,16 +427,14 @@ export default function About() {
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {coreValues.map((value, index) => (
-              <Card 
+              <Card
                 key={index}
-                className={`group hover:scale-105 transition-all duration-300 ${
-                  isDark ? 'bg-slate-900/50 border-slate-800 hover:border-amber-500/50' : 'bg-white border-gray-200 hover:border-amber-400 shadow-lg'
-                }`}
+                className={`group hover:scale-105 transition-all duration-300 ${isDark ? 'bg-slate-900/50 border-slate-800 hover:border-amber-500/50' : 'bg-white border-gray-200 hover:border-amber-400 shadow-lg'
+                  }`}
               >
                 <CardContent className="p-6">
-                  <div className={`w-12 h-12 rounded-xl flex items-center justify-center mb-4 ${
-                    isDark ? 'bg-amber-500/20' : 'bg-amber-100'
-                  }`}>
+                  <div className={`w-12 h-12 rounded-xl flex items-center justify-center mb-4 ${isDark ? 'bg-amber-500/20' : 'bg-amber-100'
+                    }`}>
                     <value.icon className="w-6 h-6 text-amber-400" />
                   </div>
                   <h3 className={`text-lg font-bold mb-2 ${isDark ? 'text-white' : 'text-gray-900'}`}>
@@ -473,7 +467,7 @@ export default function About() {
                   Our Philosophy
                 </h2>
               </div>
-              
+
               <div className={`space-y-8 text-lg ${isDark ? 'text-slate-300' : 'text-gray-700'}`}>
                 <div className={`p-6 rounded-xl ${isDark ? 'bg-cyan-500/5 border border-cyan-500/20' : 'bg-cyan-100/50 border border-cyan-200'}`}>
                   <h3 className={`text-2xl font-bold mb-3 ${isDark ? 'text-cyan-300' : 'text-cyan-700'}`}>
@@ -529,20 +523,18 @@ export default function About() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 1.1 }}
         >
-          <Card className={`${
-            isDark ? 'bg-gradient-to-br from-slate-800/50 to-slate-900/50 border-slate-700' : 'bg-gradient-to-br from-gray-100 to-white border-gray-300 shadow-xl'
-          }`}>
+          <Card className={`${isDark ? 'bg-gradient-to-br from-slate-800/50 to-slate-900/50 border-slate-700' : 'bg-gradient-to-br from-gray-100 to-white border-gray-300 shadow-xl'
+            }`}>
             <CardContent className="p-8 sm:p-12">
               <div className="max-w-3xl mx-auto text-center">
-                <div className={`inline-block px-4 py-2 rounded-full mb-6 ${
-                  isDark ? 'bg-slate-700/50' : 'bg-gray-200'
-                }`}>
+                <div className={`inline-block px-4 py-2 rounded-full mb-6 ${isDark ? 'bg-slate-700/50' : 'bg-gray-200'
+                  }`}>
                   <span className={`text-sm font-bold uppercase tracking-wide ${isDark ? 'text-slate-300' : 'text-gray-700'}`}>
                     A Message from the Founder
                   </span>
                 </div>
                 <p className={`text-xl leading-relaxed ${isDark ? 'text-slate-300' : 'text-gray-700'}`}>
-                  "SmarTrading was built with one goal — to give dedicated traders the tools to truly understand the market instead of guessing. I believe that every trader deserves access to professional-level intelligence, real data, and tools that build discipline and consistency."
+                  "INVSIO was built with one goal — to give dedicated traders the tools to truly understand the market instead of guessing. I believe that every trader deserves access to professional-level intelligence, real data, and tools that build discipline and consistency."
                 </p>
               </div>
             </CardContent>
@@ -557,20 +549,19 @@ export default function About() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 1.2 }}
         >
-          <Card className={`relative overflow-hidden ${
-            isDark ? 'bg-gradient-to-br from-emerald-900/30 to-teal-900/30 border-emerald-500/30' : 'bg-gradient-to-br from-emerald-50 to-teal-50 border-emerald-300'
-          }`}>
+          <Card className={`relative overflow-hidden ${isDark ? 'bg-gradient-to-br from-emerald-900/30 to-teal-900/30 border-emerald-500/30' : 'bg-gradient-to-br from-emerald-50 to-teal-50 border-emerald-300'
+            }`}>
             <div className="absolute inset-0 bg-grid-pattern opacity-5" />
-            
+
             <CardContent className="relative p-12 sm:p-16 text-center">
               <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-r from-emerald-500 to-teal-600 rounded-2xl mb-8 shadow-2xl shadow-emerald-500/50">
                 <Brain className="w-10 h-10 text-white" />
               </div>
-              
+
               <h3 className={`text-4xl sm:text-5xl font-bold mb-6 ${isDark ? 'text-white' : 'text-gray-900'}`}>
                 Ready to Trade Like a Professional?
               </h3>
-              
+
               <p className={`text-xl mb-10 max-w-3xl mx-auto leading-relaxed ${isDark ? 'text-slate-300' : 'text-gray-700'}`}>
                 Join traders who stopped guessing and started analyzing like Smart Money. Start making calculated, professional decisions today.
               </p>
@@ -583,13 +574,12 @@ export default function About() {
                   </Button>
                 </Link>
                 <Link to={createPageUrl("Features")}>
-                  <Button 
-                    variant="outline" 
-                    className={`px-8 py-6 text-lg font-bold rounded-xl transition-all duration-200 border-2 ${
-                      isDark 
-                        ? 'border-slate-600 bg-slate-800/50 text-white hover:bg-slate-800 hover:border-slate-500' 
+                  <Button
+                    variant="outline"
+                    className={`px-8 py-6 text-lg font-bold rounded-xl transition-all duration-200 border-2 ${isDark
+                        ? 'border-slate-600 bg-slate-800/50 text-white hover:bg-slate-800 hover:border-slate-500'
                         : 'border-gray-300 bg-white text-gray-900 hover:bg-gray-50 hover:border-gray-400'
-                    }`}
+                      }`}
                   >
                     Explore All Tools
                   </Button>
