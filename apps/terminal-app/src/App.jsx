@@ -21,6 +21,7 @@ import LoginTest from './pages/LoginTest'
 import Features from './pages/Features'
 import MarketParametersGuide from './pages/MarketParametersGuide'
 import { StarryBackground } from './components/layout/StarryBackground'
+import { AuthProvider } from './context/AuthContext'
 
 const queryClient = new QueryClient({
     defaultOptions: {
@@ -34,34 +35,36 @@ const queryClient = new QueryClient({
 function App() {
     return (
         <QueryClientProvider client={queryClient}>
-            <Router>
-                <Layout>
-                    <StarryBackground />
-                    <div className="relative z-10">
-                        <Routes>
-                            <Route path="/" element={<Dashboard />} />
-                            <Route path="/dashboard" element={<Dashboard />} />
-                            <Route path="/features" element={<Features />} />
-                            <Route path="/aimarketanalyzer" element={<AIMarketAnalyzer />} />
-                            <Route path="/aimarketanalyzerv21" element={<AIMarketAnalyzerV21 />} />
-                            <Route path="/technicalanalysis" element={<TechnicalAnalysis />} />
-                            <Route path="/aianalysis" element={<AIAnalysis />} />
-                            <Route path="/riskcalculator" element={<RiskCalculator />} />
-                            <Route path="/tradingjournal" element={<TradingJournal />} />
-                            <Route path="/cryptoguide" element={<CryptoGuide />} />
-                            <Route path="/parameters" element={<MarketParametersGuide />} />
-                            <Route path="/marketparametersguide" element={<MarketParametersGuide />} />
-                            <Route path="/settings" element={<Settings />} />
-                            <Route path="/myaccount" element={<MyAccount />} />
-                            <Route path="/faq" element={<FAQ />} />
-                            <Route path="/contact" element={<Contact />} />
-                            <Route path="/quickstartguide" element={<QuickStartGuide />} />
-                            <Route path="/login" element={<Login />} />
-                            <Route path="/login-test" element={<LoginTest />} />
-                        </Routes>
-                    </div>
-                </Layout>
-            </Router>
+            <AuthProvider>
+                <Router>
+                    <Layout>
+                        <StarryBackground />
+                        <div className="relative z-10">
+                            <Routes>
+                                <Route path="/" element={<Dashboard />} />
+                                <Route path="/dashboard" element={<Dashboard />} />
+                                <Route path="/features" element={<Features />} />
+                                <Route path="/aimarketanalyzer" element={<AIMarketAnalyzer />} />
+                                <Route path="/aimarketanalyzerv21" element={<AIMarketAnalyzerV21 />} />
+                                <Route path="/technicalanalysis" element={<TechnicalAnalysis />} />
+                                <Route path="/aianalysis" element={<AIAnalysis />} />
+                                <Route path="/riskcalculator" element={<RiskCalculator />} />
+                                <Route path="/tradingjournal" element={<TradingJournal />} />
+                                <Route path="/cryptoguide" element={<CryptoGuide />} />
+                                <Route path="/parameters" element={<MarketParametersGuide />} />
+                                <Route path="/marketparametersguide" element={<MarketParametersGuide />} />
+                                <Route path="/settings" element={<Settings />} />
+                                <Route path="/myaccount" element={<MyAccount />} />
+                                <Route path="/faq" element={<FAQ />} />
+                                <Route path="/contact" element={<Contact />} />
+                                <Route path="/quickstartguide" element={<QuickStartGuide />} />
+                                <Route path="/login" element={<Login />} />
+                                <Route path="/login-test" element={<LoginTest />} />
+                            </Routes>
+                        </div>
+                    </Layout>
+                </Router>
+            </AuthProvider>
             <Toaster />
         </QueryClientProvider>
     )

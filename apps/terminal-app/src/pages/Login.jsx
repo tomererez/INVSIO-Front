@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { api } from '@/api/client';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Eye, EyeOff, Check, Brain, AlertCircle } from 'lucide-react';
 import { GlassCard } from '../components/ui/glass-card';
@@ -24,9 +22,11 @@ const GoogleIcon = () => (
     </svg>
 );
 
+import { useAuth } from '../context/AuthContext';
+
 export default function Login() {
     const navigate = useNavigate();
-    const queryClient = useQueryClient();
+    const { login, signUp, user, loading: authLoading } = useAuth();
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -39,23 +39,12 @@ export default function Login() {
 
     const isLogin = mode === 'login';
 
-    // Check if user is already authenticated
-    const { data: user, isLoading: checkingAuth } = useQuery({
-        queryKey: ['currentUser'],
-        queryFn: async () => {
-            const isAuth = await api.auth.isAuthenticated();
-            if (!isAuth) return null;
-            return await api.auth.me();
-        },
-        retry: false,
-    });
-
     // If already logged in, redirect to dashboard
     useEffect(() => {
-        if (user && !checkingAuth) {
+        if (user && !authLoading) {
             navigate('/dashboard');
         }
-    }, [user, checkingAuth, navigate]);
+    }, [user, authLoading, navigate]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -71,16 +60,22 @@ export default function Login() {
         try {
             if (isLogin) {
                 // Login flow
-                const result = await api.auth.login(email, password);
-                if (result.success) {
-                    await queryClient.invalidateQueries({ queryKey: ['currentUser'] });
-                    navigate('/dashboard');
+                const { error } = await login(email, password);
+                if (error) {
+                    setError(error.message);
                 } else {
-                    setError(result.error || 'Invalid email or password');
+                    // Successful login will trigger the useEffect redirect
                 }
             } else {
-                // Register flow - TODO: Implement when API is ready
-                setError('Registration is coming soon!');
+                // Register flow
+                const { error } = await signUp(email, password);
+                if (error) {
+                    setError(error.message);
+                } else {
+                    // Typically Supabase requires email verification, but we can verify this later.
+                    // For now, assume success or handle "check email" message.
+                    setError('Registration successful! Please check your email to verify your account.');
+                }
             }
         } catch (err) {
             setError('An error occurred. Please try again.');
@@ -101,7 +96,7 @@ export default function Login() {
     };
 
     // Show loading state while checking authentication
-    if (checkingAuth) {
+    if (authLoading) {
         return (
             <div className="min-h-screen h-screen flex items-center justify-center">
                 <div className="w-8 h-8 border-2 border-cyan-500 border-t-transparent rounded-full animate-spin" />
@@ -292,8 +287,8 @@ export default function Login() {
                                                     className="sr-only"
                                                 />
                                                 <div className={`w-5 h-5 rounded flex items-center justify-center transition-all ${agreedToTerms
-                                                        ? 'bg-cyan-500'
-                                                        : 'border-2 border-slate-500 group-hover:border-slate-400'
+                                                    ? 'bg-cyan-500'
+                                                    : 'border-2 border-slate-500 group-hover:border-slate-400'
                                                     }`}>
                                                     {agreedToTerms && <Check className="w-3 h-3 text-white" />}
                                                 </div>
