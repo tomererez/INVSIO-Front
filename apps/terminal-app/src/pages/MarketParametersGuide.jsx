@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-    TrendingUp, Activity, DollarSign, BarChart2,
+    TrendingUp, TrendingDown, Activity, DollarSign, BarChart2,
     Layers, BookOpen, ArrowRight, CheckCircle2, Zap
 } from 'lucide-react';
 import { GlassCard } from '@/components/ui/glass-card';
@@ -678,29 +678,130 @@ const OIVisual = () => {
 
 
 const FundingVisual = () => {
+    const [fundingState, setFundingState] = useState('positive');
+
+    useEffect(() => {
+        const timer = setInterval(() => {
+            setFundingState(prev => prev === 'positive' ? 'negative' : 'positive');
+        }, 5000);
+        return () => clearInterval(timer);
+    }, []);
+
+    const isPositive = fundingState === 'positive';
+
     return (
-        <div className="relative w-full h-48 bg-black/20 rounded-xl overflow-hidden flex flex-col items-center justify-center border border-white/5 p-6">
-            <div className="w-full h-2 bg-white/10 rounded-full relative mb-8">
-                <div className="absolute left-1/2 top-0 bottom-0 w-0.5 bg-white/20 -translate-x-1/2 h-4 -mt-1" />
+        <div className="relative w-full h-64 bg-black/20 rounded-xl overflow-hidden flex flex-col border border-white/5 transition-colors duration-500 group">
+            {/* Ambient Backlight based on state */}
+            <div className={`absolute inset-0 opacity-20 transition-colors duration-1000 ${isPositive ? 'bg-gradient-to-br from-emerald-500/20 to-transparent' : 'bg-gradient-to-bl from-rose-500/20 to-transparent'}`} />
+
+            {/* Top Section: Market Price Context */}
+            <div className="relative z-10 pt-6 px-6 text-center">
+                <div className="inline-flex items-center justify-center gap-2 mb-2">
+                    <div className={`text-xs font-bold transition-colors duration-300 ${isPositive ? 'text-emerald-400' : 'text-slate-500'}`}>PERP PRICE</div>
+                    <div className="text-slate-600 font-mono text-xs">{isPositive ? '>' : '<'}</div>
+                    <div className={`text-xs font-bold transition-colors duration-300 ${!isPositive ? 'text-rose-400' : 'text-slate-500'}`}>SPOT PRICE</div>
+                </div>
+                <AnimatePresence mode="wait">
+                    <motion.div
+                        key={fundingState}
+                        initial={{ opacity: 0, y: 5 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -5 }}
+                        className={`text-lg font-mono font-bold tracking-tight ${isPositive ? 'text-emerald-400' : 'text-rose-400'}`}
+                    >
+                        {isPositive ? 'Premium (Bullish)' : 'Discount (Bearish)'}
+                    </motion.div>
+                </AnimatePresence>
+            </div>
+
+            {/* Middle Section: Payment Flow */}
+            <div className="flex-1 relative flex items-center justify-between px-8 z-10">
+
+                {/* LONGS Container */}
                 <motion.div
-                    className="absolute top-1/2 -translate-y-1/2 w-6 h-6 rounded-full bg-emerald-500 shadow-[0_0_15px_rgba(16,185,129,0.5)] border-2 border-white"
-                    initial={{ left: "50%" }}
-                    whileInView={{ left: ["50%", "80%", "50%", "20%", "50%"] }}
-                    transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                />
+                    animate={{ scale: isPositive ? 1.1 : 0.9, opacity: isPositive ? 1 : 0.5 }}
+                    className="flex flex-col items-center gap-2"
+                >
+                    <div className="w-12 h-12 rounded-xl bg-emerald-500/20 border border-emerald-500/50 flex items-center justify-center text-emerald-400 shadow-[0_0_15px_rgba(16,185,129,0.2)]">
+                        <TrendingUp className="w-6 h-6" />
+                    </div>
+                    <div className="text-[10px] font-bold text-emerald-400 uppercase tracking-widest">Longs</div>
+                </motion.div>
+
+                {/* Animation Stream */}
+                <div className="flex-1 mx-4 relative h-12 flex items-center justify-center">
+                    {/* Visual Track */}
+                    <div className="absolute inset-x-0 h-1 bg-white/5 rounded-full overflow-hidden">
+                        <div className={`h-full w-full opacity-20 ${isPositive ? 'bg-emerald-500' : 'bg-rose-500'}`} />
+                    </div>
+
+                    {/* Moving Particles */}
+                    <div className="absolute inset-0 flex items-center justify-center overflow-hidden">
+                        <AnimatePresence mode="wait">
+                            {isPositive ? (
+                                <motion.div key="pos-flow" className="w-full h-full relative">
+                                    {[0, 1, 2].map(i => (
+                                        <motion.div
+                                            key={i}
+                                            className="absolute top-1/2 w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_8px_#34d399] -mt-1"
+                                            initial={{ left: "0%", opacity: 0 }}
+                                            animate={{ left: "100%", opacity: [0, 1, 1, 0] }}
+                                            transition={{ duration: 1.5, repeat: Infinity, delay: i * 0.4, ease: "linear" }}
+                                        />
+                                    ))}
+                                </motion.div>
+                            ) : (
+                                <motion.div key="neg-flow" className="w-full h-full relative">
+                                    {[0, 1, 2].map(i => (
+                                        <motion.div
+                                            key={i}
+                                            className="absolute top-1/2 w-2 h-2 rounded-full bg-rose-400 shadow-[0_0_8px_#fb7185] -mt-1"
+                                            initial={{ right: "0%", opacity: 0 }}
+                                            animate={{ right: "100%", opacity: [0, 1, 1, 0] }}
+                                            transition={{ duration: 1.5, repeat: Infinity, delay: i * 0.4, ease: "linear" }}
+                                        />
+                                    ))}
+                                </motion.div>
+                            )}
+                        </AnimatePresence>
+                    </div>
+
+                    {/* Center Badge */}
+                    <div className="bg-black/80 border border-white/10 px-2 py-1 rounded text-[9px] font-bold text-slate-400 uppercase tracking-wider relative z-10 backdrop-blur-sm">
+                        Funding Fee
+                    </div>
+                </div>
+
+                {/* SHORTS Container */}
+                <motion.div
+                    animate={{ scale: !isPositive ? 1.1 : 0.9, opacity: !isPositive ? 1 : 0.5 }}
+                    className="flex flex-col items-center gap-2"
+                >
+                    <div className="w-12 h-12 rounded-xl bg-rose-500/20 border border-rose-500/50 flex items-center justify-center text-rose-400 shadow-[0_0_15px_rgba(244,63,94,0.2)]">
+                        <TrendingDown className="w-6 h-6" />
+                    </div>
+                    <div className="text-[10px] font-bold text-rose-400 uppercase tracking-widest">Shorts</div>
+                </motion.div>
+
             </div>
 
-            <div className="flex justify-between w-full text-[10px] uppercase font-bold tracking-wider">
-                <div className="text-rose-400 text-center">
-                    Shorts Pay Longs<br />(Negative)
-                </div>
-                <div className="text-emerald-400 text-center">
-                    Longs Pay Shorts<br />(Positive)
-                </div>
-            </div>
-
-            <div className="mt-6 text-xs text-slate-400 text-center">
-                Extreme rates often signal potential reversals.
+            {/* Bottom Explainer */}
+            <div className="p-4 bg-white/5 text-center z-10 border-t border-white/5">
+                <AnimatePresence mode="wait">
+                    <motion.div
+                        key={fundingState}
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        className="text-xs text-slate-300"
+                    >
+                        {isPositive ? (
+                            <>Longs are <span className="text-emerald-400 font-bold">paying</span> Shorts to hold positions.</>
+                        ) : (
+                            <>Shorts are <span className="text-rose-400 font-bold">paying</span> Longs to hold positions.</>
+                        )}
+                    </motion.div>
+                </AnimatePresence>
             </div>
         </div>
     );
