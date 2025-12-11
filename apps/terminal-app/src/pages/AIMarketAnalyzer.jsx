@@ -169,11 +169,11 @@ Return ONLY valid JSON.`;
     }
   };
 
-  const getBiasColor = (bias) => {
+  const getBiasColor = (bias, isDarkMode = true) => {
     const b = bias?.toLowerCase();
-    if (b === 'bullish') return 'text-emerald-400';
-    if (b === 'bearish') return 'text-red-400';
-    return 'text-amber-400';
+    if (b === 'bullish') return isDarkMode ? 'text-emerald-400' : 'text-emerald-600';
+    if (b === 'bearish') return isDarkMode ? 'text-red-400' : 'text-red-600';
+    return isDarkMode ? 'text-amber-400' : 'text-amber-700';
   };
 
   const getBiasBg = (bias) => {
@@ -250,9 +250,9 @@ Return ONLY valid JSON.`;
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center gap-2">
                     <Activity className="w-5 h-5 text-violet-400" />
-                    <h3 className={`text-lg font-bold ${isDark ? 'text-white' : 'text-gray-900'}`}>
+                    <h2 className={`text-lg font-bold ${isDark ? 'text-white' : 'text-gray-900'}`}>
                       Live Market Data
-                    </h3>
+                    </h2>
                   </div>
                   <Button onClick={runFullAnalysis} variant="ghost" size="sm">
                     <RefreshCw className="w-4 h-4" />
@@ -282,7 +282,7 @@ Return ONLY valid JSON.`;
 
                   <div>
                     <div className={`text-xs ${isDark ? 'text-slate-500' : 'text-gray-500'}`}>AI Bias</div>
-                    <div className={`text-lg font-bold ${getBiasColor(marketData.finalDecision?.bias)}`}>
+                    <div className={`text-lg font-bold ${getBiasColor(marketData.finalDecision?.bias, isDark)}`}>
                       {marketData.finalDecision?.bias || 'WAIT'}
                     </div>
                     <div className={`text-xs ${isDark ? 'text-slate-400' : 'text-gray-600'}`}>
@@ -320,15 +320,15 @@ Return ONLY valid JSON.`;
                   <div className="flex items-center gap-4">
                     <div className={`w-16 h-16 rounded-2xl flex items-center justify-center ${getBiasBg(analysis.market_bias)}`}>
                       {analysis.market_bias?.toLowerCase() === 'bullish' ? (
-                        <TrendingUp className={`w-8 h-8 ${getBiasColor(analysis.market_bias)}`} />
+                        <TrendingUp className={`w-8 h-8 ${getBiasColor(analysis.market_bias, isDark)}`} />
                       ) : analysis.market_bias?.toLowerCase() === 'bearish' ? (
-                        <TrendingDown className={`w-8 h-8 ${getBiasColor(analysis.market_bias)}`} />
+                        <TrendingDown className={`w-8 h-8 ${getBiasColor(analysis.market_bias, isDark)}`} />
                       ) : (
-                        <Activity className={`w-8 h-8 ${getBiasColor(analysis.market_bias)}`} />
+                        <Activity className={`w-8 h-8 ${getBiasColor(analysis.market_bias, isDark)}`} />
                       )}
                     </div>
                     <div>
-                      <h2 className={`text-4xl font-black ${getBiasColor(analysis.market_bias)}`}>
+                      <h2 className={`text-4xl font-black ${getBiasColor(analysis.market_bias, isDark)}`}>
                         {analysis.market_bias?.toUpperCase()}
                       </h2>
                       <div className="flex items-center gap-3 mt-1">
@@ -367,7 +367,7 @@ Return ONLY valid JSON.`;
                       </div>
                     </div>
                     <Badge className={`mb-3 ${getBiasBg(analysis.macro_view.bias)}`}>
-                      <span className={getBiasColor(analysis.macro_view.bias)}>
+                      <span className={getBiasColor(analysis.macro_view.bias, isDark)}>
                         {analysis.macro_view.bias}
                       </span>
                     </Badge>
@@ -412,7 +412,7 @@ Return ONLY valid JSON.`;
                       </div>
                     </div>
                     <Badge className={`mb-3 ${getBiasBg(analysis.micro_view.bias)}`}>
-                      <span className={getBiasColor(analysis.micro_view.bias)}>
+                      <span className={getBiasColor(analysis.micro_view.bias, isDark)}>
                         {analysis.micro_view.bias}
                       </span>
                     </Badge>
@@ -458,7 +458,7 @@ Return ONLY valid JSON.`;
                       </div>
                     </div>
                     <Badge className={`mb-3 ${getBiasBg(analysis.scalping_view.bias)}`}>
-                      <span className={getBiasColor(analysis.scalping_view.bias)}>
+                      <span className={getBiasColor(analysis.scalping_view.bias, isDark)}>
                         {analysis.scalping_view.bias}
                       </span>
                     </Badge>

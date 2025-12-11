@@ -1,9 +1,10 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { ArrowRight, Activity, Zap, TrendingUp, TrendingDown } from 'lucide-react';
 import { Button } from '../ui/button';
 import { ComparisonSection } from './ComparisonSection';
 import { config } from '@/config';
+import { AlertsSkeleton } from '../AlertsSkeleton';
 
 // Alert data for the phone mockup
 const ALERTS = [
@@ -30,6 +31,13 @@ const ALERTS = [
 export const Hero = () => {
     const containerRef = useRef(null);
     const { scrollY } = useScroll();
+    const [isAlertsLoading, setIsAlertsLoading] = useState(true);
+
+    // Simulate alerts loading (e.g., data fetch or animation readiness)
+    useEffect(() => {
+        const timer = setTimeout(() => setIsAlertsLoading(false), 100);
+        return () => clearTimeout(timer);
+    }, []);
 
     // Scroll Animations (Parallax)
     const yBackground = useTransform(scrollY, [0, 1000], [0, 400]);
@@ -107,7 +115,7 @@ export const Hero = () => {
 
             {/* Phone Mockup Visual (Foreground Parallax) */}
             <motion.div
-                style={{ y: yPhone }}
+                style={{ y: yPhone, willChange: 'transform', transform: 'translateZ(0)' }}
                 initial={{ opacity: 0, scale: 0.9, rotateX: 20 }}
                 animate={{ opacity: 1, scale: 1, rotateX: 0 }}
                 transition={{ duration: 1, delay: 0.4, type: "spring" }}
@@ -129,61 +137,65 @@ export const Hero = () => {
                         </div>
 
                         {/* Simulated Animated Feed List - Now with real alert content */}
-                        <div className="flex-1 p-4 relative overflow-hidden mask-image-b">
-                            <div className="space-y-3">
-                                {ALERTS.map((alert, i) => (
-                                    <motion.div
-                                        key={i}
-                                        initial={{ opacity: 0, y: 20 }}
-                                        animate={{ opacity: 1, y: 0 }}
-                                        transition={{ delay: 1 + (i * 0.2), duration: 0.5 }}
-                                        className="bg-white/5 border border-white/5 rounded-xl p-4 backdrop-blur-md hover:bg-white/10 transition-colors"
-                                    >
-                                        <div className="flex items-center justify-between mb-2">
-                                            <div className="flex items-center gap-2">
-                                                {alert.bias === 'LONG' ? (
-                                                    <TrendingUp className="w-3.5 h-3.5 text-emerald-400" />
-                                                ) : (
-                                                    <TrendingDown className="w-3.5 h-3.5 text-rose-400" />
-                                                )}
-                                                <h3 className="text-white text-xs font-semibold tracking-wide">{alert.title}</h3>
+                        <div className="flex-1 p-4 relative overflow-hidden mask-image-b min-h-[340px]">
+                            {isAlertsLoading ? (
+                                <AlertsSkeleton />
+                            ) : (
+                                <div className="space-y-3">
+                                    {ALERTS.map((alert, i) => (
+                                        <motion.div
+                                            key={i}
+                                            initial={{ opacity: 0, y: 20 }}
+                                            animate={{ opacity: 1, y: 0 }}
+                                            transition={{ delay: 1 + (i * 0.2), duration: 0.5 }}
+                                            className="bg-white/5 border border-white/5 rounded-xl p-4 backdrop-blur-md hover:bg-white/10 transition-colors"
+                                        >
+                                            <div className="flex items-center justify-between mb-2">
+                                                <div className="flex items-center gap-2">
+                                                    {alert.bias === 'LONG' ? (
+                                                        <TrendingUp className="w-3.5 h-3.5 text-emerald-400" />
+                                                    ) : (
+                                                        <TrendingDown className="w-3.5 h-3.5 text-rose-400" />
+                                                    )}
+                                                    <h3 className="text-white text-xs font-semibold tracking-wide">{alert.title}</h3>
+                                                </div>
+                                                <div className={`text-[9px] font-bold px-1.5 py-0.5 rounded border ${alert.bias === 'LONG'
+                                                    ? 'bg-emerald-500/10 border-emerald-500/20 text-emerald-400'
+                                                    : 'bg-rose-500/10 border-rose-500/20 text-rose-400'
+                                                    }`}>
+                                                    {alert.bias} {alert.confidence}
+                                                </div>
                                             </div>
-                                            <div className={`text-[9px] font-bold px-1.5 py-0.5 rounded border ${alert.bias === 'LONG'
-                                                ? 'bg-emerald-500/10 border-emerald-500/20 text-emerald-400'
-                                                : 'bg-rose-500/10 border-rose-500/20 text-rose-400'
-                                                }`}>
-                                                {alert.bias} {alert.confidence}
+
+                                            <p className="text-[11px] text-slate-400 leading-snug mb-3 font-light">
+                                                {alert.subtext.split('→').map((part, idx, arr) => (
+                                                    <React.Fragment key={idx}>
+                                                        {part.trim()}
+                                                        {idx < arr.length - 1 && <span className="text-slate-600 mx-1">→</span>}
+                                                    </React.Fragment>
+                                                ))}
+                                            </p>
+
+                                            {/* Confidence Bar */}
+                                            <div className="h-1 w-full bg-white/5 rounded-full overflow-hidden">
+                                                <motion.div
+                                                    initial={{ width: 0 }}
+                                                    animate={{ width: alert.confidence }}
+                                                    transition={{ delay: 1.5 + (i * 0.2), duration: 1 }}
+                                                    className={`h-full rounded-full ${alert.bias === 'LONG' ? 'bg-emerald-500' : 'bg-rose-500'
+                                                        }`}
+                                                />
                                             </div>
-                                        </div>
+                                        </motion.div>
+                                    ))}
 
-                                        <p className="text-[11px] text-slate-400 leading-snug mb-3 font-light">
-                                            {alert.subtext.split('→').map((part, idx, arr) => (
-                                                <React.Fragment key={idx}>
-                                                    {part.trim()}
-                                                    {idx < arr.length - 1 && <span className="text-slate-600 mx-1">→</span>}
-                                                </React.Fragment>
-                                            ))}
-                                        </p>
-
-                                        {/* Confidence Bar */}
-                                        <div className="h-1 w-full bg-white/5 rounded-full overflow-hidden">
-                                            <motion.div
-                                                initial={{ width: 0 }}
-                                                animate={{ width: alert.confidence }}
-                                                transition={{ delay: 1.5 + (i * 0.2), duration: 1 }}
-                                                className={`h-full rounded-full ${alert.bias === 'LONG' ? 'bg-emerald-500' : 'bg-rose-500'
-                                                    }`}
-                                            />
-                                        </div>
-                                    </motion.div>
-                                ))}
-
-                                {/* Faded partial card at bottom to imply more content */}
-                                <div className="bg-white/5 border border-white/5 rounded-xl p-4 backdrop-blur-md opacity-30">
-                                    <div className="h-3 w-24 bg-slate-700 rounded-full mb-2" />
-                                    <div className="h-2 w-full bg-slate-800 rounded-full" />
+                                    {/* Faded partial card at bottom to imply more content */}
+                                    <div className="bg-white/5 border border-white/5 rounded-xl p-4 backdrop-blur-md opacity-30">
+                                        <div className="h-3 w-24 bg-slate-700 rounded-full mb-2" />
+                                        <div className="h-2 w-full bg-slate-800 rounded-full" />
+                                    </div>
                                 </div>
-                            </div>
+                            )}
                         </div>
 
                         {/* Bottom Nav Hint */}

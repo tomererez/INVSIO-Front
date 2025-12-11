@@ -54,7 +54,7 @@ const KPICard = ({ title, value, sub, colorClass, glowClass, icon: Icon }) => (
       <Icon className={`w-8 h-8 ${colorClass}`} />
     </div>
     <div>
-      <h3 className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2 flex items-center gap-2">
+      <h3 className="text-xs font-bold text-slate-300 uppercase tracking-wider mb-2 flex items-center gap-2">
         <Icon className={`w-4 h-4 ${colorClass}`} />
         {title}
       </h3>
@@ -429,9 +429,9 @@ export default function TradingJournal() {
           {/* Portfolio Growth */}
           <GlassCard className="lg:col-span-2 p-6 flex flex-col">
             <div className="flex justify-between items-center mb-4">
-              <h3 className="text-sm font-bold text-white flex items-center gap-2">
+              <h2 className="text-sm font-bold text-white flex items-center gap-2">
                 <TrendingUp className="w-4 h-4 text-indigo-400" /> Portfolio Growth Over Time
-              </h3>
+              </h2>
               <div className="flex bg-white/5 rounded-lg p-0.5">
                 {(['7D', '1M', '1Y', 'YTD']).map(range => (
                   <button
@@ -472,9 +472,9 @@ export default function TradingJournal() {
           {/* Asset Allocation */}
           <GlassCard className="p-6 flex flex-col">
             <div className="flex justify-between items-center mb-4">
-              <h3 className="text-sm font-bold text-white flex items-center gap-2">
+              <h2 className="text-sm font-bold text-white flex items-center gap-2">
                 <PieChartIcon className="w-4 h-4 text-cyan-400" /> PnL Breakdown by Asset
-              </h3>
+              </h2>
             </div>
             <div className="h-[200px] w-full relative">
               {assetData.length > 0 ? (
@@ -541,7 +541,7 @@ export default function TradingJournal() {
             {/* Cumulative PnL Line */}
             <GlassCard className="lg:col-span-2 p-6 h-[300px]">
               <div className="flex justify-between items-center mb-6">
-                <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider">Daily Net Cumulative PnL</h3>
+                <h2 className="text-xs font-bold text-slate-400 uppercase tracking-wider">Daily Net Cumulative PnL</h2>
                 <div className="flex bg-white/5 rounded-lg p-0.5">
                   {(['7D', '14D', '1M']).map(range => (
                     <button
@@ -573,7 +573,7 @@ export default function TradingJournal() {
 
             {/* Net Daily PnL Bar */}
             <GlassCard className="lg:col-span-1 p-6 h-[300px]">
-              <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-6">Net Daily PnL</h3>
+              <h2 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-6">Net Daily PnL</h2>
               <ResponsiveContainer width="100%" height="85%">
                 <BarChart data={dailyPnLData.slice(-14)} margin={{ top: 20, right: 10, left: 0, bottom: 5 }}>
                   <defs>
@@ -701,8 +701,8 @@ export default function TradingJournal() {
           <div className="xl:col-span-1 h-full">
             <GlassCard className="h-full flex flex-col p-0">
               <div className="p-4 border-b border-white/5 flex items-center justify-between bg-white/[0.02]">
-                <h3 className="text-sm font-bold text-white">Recently Closed Trades</h3>
-                <button className="p-1 hover:bg-white/5 rounded text-slate-400 hover:text-white">
+                <h2 className="text-sm font-bold text-white">Recently Closed Trades</h2>
+                <button className="p-1 hover:bg-white/5 rounded text-slate-400 hover:text-white" aria-label="More options">
                   <MoreHorizontal className="w-4 h-4" />
                 </button>
               </div>

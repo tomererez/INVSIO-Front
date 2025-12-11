@@ -337,7 +337,7 @@ function LayoutContent({ children }) {
                         </div>
 
                         <div className="flex lg:hidden items-center gap-2">
-                            <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="p-2 rounded-lg transition-colors text-slate-400 hover:text-white">
+                            <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="p-2 rounded-lg transition-colors text-slate-400 hover:text-white" aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}>
                                 {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
                             </button>
                         </div>

@@ -73,11 +73,11 @@ const StatCard = ({ label, value, sub, icon: Icon, trend, delay = 0 }) => {
         </div>
 
         <div>
-          <div className="text-[11px] font-bold text-slate-500 uppercase tracking-widest mb-1">
+          <div className="text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-1">
             {label}
           </div>
           <div className="text-3xl font-light tracking-tight text-white mb-1">{value}</div>
-          <div className="text-xs text-slate-500 font-medium">{sub}</div>
+          <div className="text-xs text-slate-400 font-medium">{sub}</div>
         </div>
       </GlassCard>
     </motion.div>
@@ -449,7 +449,7 @@ export default function Dashboard() {
               <div className="flex items-center justify-between mb-6">
                 <div className="flex items-center gap-2">
                   <TrendingUp className="w-5 h-5 text-emerald-400" />
-                  <h3 className="text-lg font-medium text-white">Equity Curve</h3>
+                  <h2 className="text-lg font-medium text-white">Equity Curve</h2>
                 </div>
               </div>
 
@@ -499,7 +499,7 @@ export default function Dashboard() {
               <GlassCard className="p-6 h-full flex flex-col">
                 <div className="flex items-center gap-2 mb-6">
                   <BookOpen className="w-5 h-5 text-amber-400" />
-                  <h3 className="text-lg font-medium text-white">Journal Insights</h3>
+                  <h2 className="text-lg font-medium text-white">Journal Insights</h2>
                 </div>
 
                 <p className="text-xs text-slate-500 mb-4">Track your best and worst trades</p>
@@ -556,7 +556,7 @@ export default function Dashboard() {
                   <div className="p-1.5 rounded bg-indigo-500/20 text-indigo-400">
                     <Brain className="w-5 h-5" />
                   </div>
-                  <h3 className="text-lg font-medium text-white">AI Coach</h3>
+                  <h2 className="text-lg font-medium text-white">AI Coach</h2>
                 </div>
 
                 <p className="text-xs text-slate-500 mb-4">Get personalized trading insights</p>
@@ -627,7 +627,7 @@ export default function Dashboard() {
                 <div className="w-10 h-10 rounded-xl bg-emerald-500/10 flex items-center justify-center">
                   <User className="w-5 h-5 text-emerald-400" />
                 </div>
-                <h3 className="text-xl font-medium text-white">Account Information</h3>
+                <h2 className="text-xl font-medium text-white">Account Information</h2>
               </div>
               <div className="space-y-5">
                 <div>
@@ -658,7 +658,7 @@ export default function Dashboard() {
                 <div className="w-10 h-10 rounded-xl bg-emerald-500/10 flex items-center justify-center">
                   <DollarSign className="w-5 h-5 text-emerald-400" />
                 </div>
-                <h3 className="text-xl font-medium text-white">Portfolio Overview</h3>
+                <h2 className="text-xl font-medium text-white">Portfolio Overview</h2>
               </div>
               <div className="space-y-5">
                 <div>
@@ -685,7 +685,7 @@ export default function Dashboard() {
               <div className="w-10 h-10 rounded-xl bg-emerald-500/10 flex items-center justify-center">
                 <DollarSign className="w-5 h-5 text-emerald-400" />
               </div>
-              <h3 className="text-xl font-medium text-white">Portfolio & Fee Settings</h3>
+              <h2 className="text-xl font-medium text-white">Portfolio & Fee Settings</h2>
             </div>
             <div className="grid md:grid-cols-3 gap-6 mb-6">
               <div>
@@ -732,7 +732,7 @@ export default function Dashboard() {
               <div className="w-10 h-10 rounded-xl bg-purple-500/10 flex items-center justify-center">
                 <Settings className="w-5 h-5 text-purple-400" />
               </div>
-              <h3 className="text-xl font-medium text-white">Trading Preferences</h3>
+              <h2 className="text-xl font-medium text-white">Trading Preferences</h2>
             </div>
             <div className="grid md:grid-cols-2 gap-6 mb-6">
               <div>
