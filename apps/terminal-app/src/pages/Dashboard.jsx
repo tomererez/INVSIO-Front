@@ -333,22 +333,23 @@ export default function Dashboard() {
   return (
     <div className="min-h-screen pt-24 pb-12 px-4 md:px-8 max-w-[1600px] mx-auto">
       {/* 1. HEADER SECTION */}
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-10 gap-6">
+      <div className="relative flex flex-col md:flex-row justify-between items-start md:items-end mb-10 gap-6">
+        {/* Gentle Nebula Glow */}
+        <div className="absolute -top-20 -left-20 w-[300px] h-[200px] bg-indigo-500/10 rounded-full blur-[100px] pointer-events-none" />
+        <div className="absolute -top-10 -left-10 w-[200px] h-[150px] bg-cyan-500/5 rounded-full blur-[80px] pointer-events-none" />
         <div>
           <motion.div
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
-            className="flex items-center gap-3 mb-2"
+            className="mb-2"
           >
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-500/20 to-teal-500/20 flex items-center justify-center border border-emerald-500/20 text-emerald-400">
-              <Activity className="w-5 h-5" />
-            </div>
-            <h1 className="text-3xl md:text-4xl font-semibold text-white tracking-tight">
-              Welcome back, {user?.user_metadata?.full_name?.split(" ")[0] || "Trader"}
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-light tracking-tight">
+              <span className="text-white">Welcome back, </span>
+              <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 to-cyan-400 font-normal">{user?.user_metadata?.full_name?.split(" ")[0] || "Trader"}</span>
             </h1>
           </motion.div>
 
-          <div className="flex flex-col sm:flex-row sm:items-center gap-3 text-sm text-slate-400 ml-1">
+          <div className="flex flex-col sm:flex-row sm:items-center gap-3 text-base text-slate-400 ml-1">
             <span>{currentDate}</span>
           </div>
         </div>
