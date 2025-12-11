@@ -145,10 +145,11 @@ export const Hero = () => {
                                     {ALERTS.map((alert, i) => (
                                         <motion.div
                                             key={i}
-                                            initial={{ opacity: 0, y: 20 }}
-                                            animate={{ opacity: 1, y: 0 }}
-                                            transition={{ delay: 1 + (i * 0.2), duration: 0.5 }}
+                                            initial={{ opacity: 0 }}
+                                            animate={{ opacity: 1 }}
+                                            transition={{ delay: 0.5 + (i * 0.15), duration: 0.4 }}
                                             className="bg-white/5 border border-white/5 rounded-xl p-4 backdrop-blur-md hover:bg-white/10 transition-colors"
+                                            style={{ minHeight: '96px' }} // Reserve exact space
                                         >
                                             <div className="flex items-center justify-between mb-2">
                                                 <div className="flex items-center gap-2">
