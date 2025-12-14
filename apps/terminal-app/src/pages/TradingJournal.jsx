@@ -24,6 +24,7 @@ import {
 
 import AddTradeModal from "../components/trading-journal/AddTradeModal";
 import ImportCSVModal from "../components/trading-journal/ImportCSVModal";
+import { PageHeader } from "../components/PageHeader";
 import TradeCard from "../components/trading-journal/TradeCard";
 import AIInsightsButton from "../components/trading-journal/AIInsightsButton";
 import { CryptoTicker } from "../components/trading-journal/CryptoTicker";
@@ -330,71 +331,68 @@ export default function TradingJournal() {
         </FeatureGate>
 
         {/* 1. HEADER */}
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-8 gap-4">
-          <div>
-            <h1 className="text-3xl font-light text-white mb-1">Professional Trading Journal</h1>
-            <p className="text-slate-400 text-sm">
-              Hello {user?.full_name?.split(' ')[0] || 'Trader'}! Document and analyze your trading
-            </p>
-          </div>
-          <div className="flex flex-wrap gap-2">
-            <Popover open={showDatePicker} onOpenChange={setShowDatePicker}>
-              <PopoverTrigger asChild>
-                <Button variant="secondary" size="sm" className="bg-white/5 border-white/10 text-slate-300 hover:bg-white/10">
-                  <CalendarIcon className="w-3.5 h-3.5 mr-2" />
-                  {formatDateRange()}
-                  {(dateRange.from || dateRange.to) && (
-                    <X className="w-3 h-3 ml-2 hover:text-red-400" onClick={(e) => { e.stopPropagation(); clearDateRange(); }} />
-                  )}
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent className="w-auto p-4 bg-slate-900 border-slate-800" align="end">
-                <div className="space-y-4">
-                  <div className="text-sm font-semibold text-white mb-2">Select Date Range</div>
-                  <div className="flex gap-4">
-                    <div>
-                      <label className="text-xs text-slate-400 mb-1 block">From</label>
-                      <Calendar
-                        mode="single"
-                        selected={dateRange.from}
-                        onSelect={(date) => setDateRange(prev => ({ ...prev, from: date }))}
-                        className="rounded-md border border-slate-800 bg-slate-900"
-                      />
-                    </div>
-                    <div>
-                      <label className="text-xs text-slate-400 mb-1 block">To</label>
-                      <Calendar
-                        mode="single"
-                        selected={dateRange.to}
-                        onSelect={(date) => setDateRange(prev => ({ ...prev, to: date }))}
-                        disabled={(date) => dateRange.from && date < dateRange.from}
-                        className="rounded-md border border-slate-800 bg-slate-900"
-                      />
-                    </div>
+        <PageHeader
+          title="Professional"
+          highlightText="Trading Journal"
+          subtitle={`Hello ${user?.user_metadata?.full_name?.split(' ')[0] || 'Trader'}! Document and analyze your trading`}
+          variant="indigo"
+        >
+          <Popover open={showDatePicker} onOpenChange={setShowDatePicker}>
+            <PopoverTrigger asChild>
+              <Button variant="secondary" size="sm" className="bg-white/5 border-white/10 text-slate-300 hover:bg-white/10">
+                <CalendarIcon className="w-3.5 h-3.5 mr-2" />
+                {formatDateRange()}
+                {(dateRange.from || dateRange.to) && (
+                  <X className="w-3 h-3 ml-2 hover:text-red-400" onClick={(e) => { e.stopPropagation(); clearDateRange(); }} />
+                )}
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-auto p-4 bg-slate-900 border-slate-800" align="end">
+              <div className="space-y-4">
+                <div className="text-sm font-semibold text-white mb-2">Select Date Range</div>
+                <div className="flex gap-4">
+                  <div>
+                    <label className="text-xs text-slate-400 mb-1 block">From</label>
+                    <Calendar
+                      mode="single"
+                      selected={dateRange.from}
+                      onSelect={(date) => setDateRange(prev => ({ ...prev, from: date }))}
+                      className="rounded-md border border-slate-800 bg-slate-900"
+                    />
                   </div>
-                  <div className="flex gap-2">
-                    <Button size="sm" variant="outline" onClick={() => { clearDateRange(); setShowDatePicker(false); }} className="flex-1 bg-slate-800 hover:bg-slate-700 text-white border-slate-700">
-                      Clear
-                    </Button>
-                    <Button size="sm" onClick={() => setShowDatePicker(false)} className="flex-1 bg-emerald-600 hover:bg-emerald-500 text-white">
-                      Apply
-                    </Button>
+                  <div>
+                    <label className="text-xs text-slate-400 mb-1 block">To</label>
+                    <Calendar
+                      mode="single"
+                      selected={dateRange.to}
+                      onSelect={(date) => setDateRange(prev => ({ ...prev, to: date }))}
+                      disabled={(date) => dateRange.from && date < dateRange.from}
+                      className="rounded-md border border-slate-800 bg-slate-900"
+                    />
                   </div>
                 </div>
-              </PopoverContent>
-            </Popover>
+                <div className="flex gap-2">
+                  <Button size="sm" variant="outline" onClick={() => { clearDateRange(); setShowDatePicker(false); }} className="flex-1 bg-slate-800 hover:bg-slate-700 text-white border-slate-700">
+                    Clear
+                  </Button>
+                  <Button size="sm" onClick={() => setShowDatePicker(false)} className="flex-1 bg-emerald-600 hover:bg-emerald-500 text-white">
+                    Apply
+                  </Button>
+                </div>
+              </div>
+            </PopoverContent>
+          </Popover>
 
-            <FeatureGate feature="csv_import">
-              <Button onClick={() => setShowImportModal(true)} variant="secondary" size="sm" className="bg-white/5 border-white/10 text-slate-300 hover:bg-white/10">
-                <Download className="w-3.5 h-3.5 mr-2" /> Import CSV
-              </Button>
-            </FeatureGate>
-
-            <Button onClick={() => setShowAddModal(true)} size="sm" className="bg-emerald-600 hover:bg-emerald-500 border-emerald-500/50 shadow-lg shadow-emerald-900/20">
-              <Plus className="w-3.5 h-3.5 mr-2" /> New Trade
+          <FeatureGate feature="csv_import">
+            <Button onClick={() => setShowImportModal(true)} variant="secondary" size="sm" className="bg-white/5 border-white/10 text-slate-300 hover:bg-white/10">
+              <Download className="w-3.5 h-3.5 mr-2" /> Import CSV
             </Button>
-          </div>
-        </div>
+          </FeatureGate>
+
+          <Button onClick={() => setShowAddModal(true)} size="sm" className="bg-emerald-600 hover:bg-emerald-500 border-emerald-500/50 shadow-lg shadow-emerald-900/20">
+            <Plus className="w-3.5 h-3.5 mr-2" /> New Trade
+          </Button>
+        </PageHeader>
 
         {/* 2. KPI CARDS */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
@@ -733,7 +731,7 @@ export default function TradingJournal() {
             {showImportModal && <ImportCSVModal onClose={() => setShowImportModal(false)} />}
           </AnimatePresence>
         </FeatureGate>
-      </div>
-    </div>
+      </div >
+    </div >
   );
 }

@@ -8,6 +8,7 @@ import {
 } from 'lucide-react';
 import { GlassCard } from '../components/ui/glass-card';
 import { Button } from '../components/ui/marketing-button';
+import { PageHeader } from '../components/PageHeader';
 
 // --- VISUAL HELPERS ---
 
@@ -116,36 +117,25 @@ Best regards,
       <div className="max-w-7xl mx-auto px-6 relative z-10">
 
         {/* HERO SECTION */}
-        <div className="text-center max-w-3xl mx-auto mb-20">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-300 text-[10px] font-bold uppercase tracking-widest backdrop-blur-md mb-6"
+        <div className="mb-20">
+          <PageHeader
+            title="Establish"
+            highlightText="Connection."
+            subtitle={<span>Questions about the terminal? Enterprise inquiries? <br className="hidden md:block" />Our team is ready to deploy assistance.</span>}
+            variant="indigo"
           >
-            <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-indigo-500"></span>
-            </span>
-            Systems Online
-          </motion.div>
-
-          <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="text-5xl md:text-7xl font-light text-white mb-6 tracking-tight"
-          >
-            Establish <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-cyan-400 font-normal">Connection.</span>
-          </motion.h1>
-
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-            className="text-xl text-slate-400 font-light"
-          >
-            Questions about the terminal? Enterprise inquiries? <br className="hidden md:block" />
-            Our team is ready to deploy assistance.
-          </motion.p>
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-300 text-[10px] font-bold uppercase tracking-widest backdrop-blur-md h-fit mt-2"
+            >
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-indigo-500"></span>
+              </span>
+              Systems Online
+            </motion.div>
+          </PageHeader>
         </div>
 
         {/* MAIN CONTENT GRID */}

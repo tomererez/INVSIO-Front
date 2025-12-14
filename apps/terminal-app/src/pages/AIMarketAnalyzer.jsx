@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Sparkles, TrendingUp, TrendingDown, Activity, Zap, Loader2, AlertTriangle, RefreshCw, Target, Brain, BarChart3, Crosshair } from "lucide-react";
 import { api } from "@/api/client";
 import { motion } from "framer-motion";
+import { PageHeader } from "../components/PageHeader";
 
 export default function AIMarketAnalyzer() {
   const [loading, setLoading] = useState(false);
@@ -194,43 +195,30 @@ Return ONLY valid JSON.`;
       <div className="max-w-7xl mx-auto space-y-8">
 
         {/* Hero Header */}
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="text-center"
+        <PageHeader
+          title="AI Market"
+          highlightText="Analyzer"
+          subtitle="Multi-Timeframe Intelligence • Whale Tracking • Smart Money Flow"
+          variant="cyan"
         >
-          <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-violet-500 via-purple-500 to-fuchsia-500 rounded-2xl mb-4 shadow-2xl shadow-purple-500/30">
-            <Brain className="w-10 h-10 text-white" />
-          </div>
-          <h1 className="text-5xl font-black mb-3 bg-gradient-to-r from-violet-400 via-purple-400 to-fuchsia-400 bg-clip-text text-transparent">
-            AI Market Analyzer
-          </h1>
-          <p className={`text-lg ${isDark ? 'text-slate-400' : 'text-gray-600'}`}>
-            Multi-Timeframe Intelligence • Whale Tracking • Smart Money Flow
-          </p>
-        </motion.div>
-
-        {/* CTA Button */}
-        <div className="flex justify-center">
           <Button
             onClick={runFullAnalysis}
             disabled={loading}
-            size="lg"
-            className="relative overflow-hidden group bg-gradient-to-r from-violet-600 via-purple-600 to-fuchsia-600 hover:from-violet-500 hover:via-purple-500 hover:to-fuchsia-500 text-white shadow-2xl shadow-purple-500/50 px-12 py-6 text-xl font-bold rounded-xl transition-all duration-300 hover:scale-105"
+            className="bg-gradient-to-r from-violet-600 via-purple-600 to-fuchsia-600 hover:from-violet-500 hover:via-purple-500 hover:to-fuchsia-500 text-white shadow-lg shadow-purple-500/20 md:text-lg h-12 px-6"
           >
             {loading ? (
               <>
-                <Loader2 className="w-6 h-6 mr-3 animate-spin" />
-                Analyzing Market...
+                <Loader2 className="w-5 h-5 mr-2 animate-spin" />
+                Analyzing...
               </>
             ) : (
               <>
-                <Sparkles className="w-6 h-6 mr-3 group-hover:rotate-12 transition-transform" />
-                Run Full Market Scan
+                <Sparkles className="w-5 h-5 mr-2 group-hover:rotate-12 transition-transform" />
+                Run Full Scan
               </>
             )}
           </Button>
-        </div>
+        </PageHeader>
 
         {/* Error Display */}
         {error && (

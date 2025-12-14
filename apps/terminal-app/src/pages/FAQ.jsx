@@ -5,6 +5,7 @@ import {
   Search, Plus, Minus, Box, DollarSign,
   Zap, Shield, HelpCircle, MessageCircle, Mail, ArrowRight
 } from 'lucide-react';
+import { PageHeader } from '../components/PageHeader';
 import { GlassCard } from '../components/ui/glass-card';
 import { Button } from '../components/ui/marketing-button';
 import { Link } from 'react-router-dom';
@@ -211,23 +212,13 @@ export default function FAQ() {
       <div className="max-w-4xl mx-auto relative z-10">
 
         {/* Header Section */}
-        <div className="text-center mb-16">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-indigo-300 text-[10px] font-bold uppercase tracking-widest mb-6 backdrop-blur-md"
-          >
-            <HelpCircle className="w-3.5 h-3.5" /> Knowledge Base
-          </motion.div>
-
-          <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-            className="text-4xl md:text-6xl font-light text-white mb-6 tracking-tight"
-          >
-            How can we <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-cyan-400 font-normal">help?</span>
-          </motion.h1>
+        <div className="mb-16">
+          <PageHeader
+            title="How can we"
+            highlightText="help?"
+            subtitle="Knowledge Base & Support"
+            variant="indigo"
+          />
 
           {/* Search Bar */}
           <motion.div

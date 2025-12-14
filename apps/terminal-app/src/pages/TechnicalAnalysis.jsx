@@ -1,14 +1,16 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Card, CardContent } from "@/components/ui/card";
-import { 
+import {
   BarChart3,
   Activity,
   DollarSign,
   TrendingUp,
   Zap,
+
   Layers
 } from "lucide-react";
+import { PageHeader } from "../components/PageHeader";
 
 export default function TechnicalAnalysis() {
   const [theme, setTheme] = useState('dark');
@@ -24,12 +26,12 @@ export default function TechnicalAnalysis() {
   useEffect(() => {
     const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
     setTheme(currentTheme);
-    
+
     const observer = new MutationObserver(() => {
       const newTheme = document.documentElement.getAttribute('data-theme') || 'dark';
       setTheme(newTheme);
     });
-    
+
     observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
     return () => observer.disconnect();
   }, []);
@@ -56,54 +58,13 @@ export default function TechnicalAnalysis() {
   return (
     <div className={`min-h-screen ${isDark ? 'bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950' : 'bg-gradient-to-br from-gray-50 via-white to-gray-100'}`}>
       {/* Hero Section */}
-      <div className={`relative overflow-hidden border-b ${isDark ? 'border-slate-800/50' : 'border-gray-200'}`}>
-        <div className="absolute inset-0 bg-grid-pattern opacity-5" />
-        
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl animate-pulse" />
-          <div className="absolute bottom-1/4 left-1/4 w-96 h-96 bg-teal-500/10 rounded-full blur-3xl animate-pulse delay-1000" />
-        </div>
-
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 py-16">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease: appleEasing }}
-            className="text-center"
-          >
-            <motion.div
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.45, ease: appleEasing }}
-              className="inline-flex mb-6"
-            >
-              <div className="relative">
-                <div className="absolute inset-0 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-2xl blur-xl opacity-40" />
-                <div className="relative w-14 h-14 bg-gradient-to-r from-emerald-500 to-teal-600 rounded-2xl flex items-center justify-center shadow-2xl">
-                  <BarChart3 className="w-7 h-7 text-white" />
-                </div>
-              </div>
-            </motion.div>
-
-            <motion.h1
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.08, ease: appleEasing }}
-              className="text-4xl sm:text-5xl font-bold mb-4 bg-gradient-to-r from-emerald-400 via-teal-400 to-cyan-400 bg-clip-text text-transparent"
-            >
-              Technical Analyzer
-            </motion.h1>
-            
-            <motion.p
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.48, delay: 0.12, ease: appleEasing }}
-              className={`text-lg max-w-2xl mx-auto leading-relaxed ${isDark ? 'text-slate-400' : 'text-gray-600'}`}
-            >
-              Real-time charting with Smart Money metrics
-            </motion.p>
-          </motion.div>
-        </div>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6">
+        <PageHeader
+          title="Technical"
+          highlightText="Analyzer"
+          subtitle="Real-time charting with Smart Money metrics"
+          variant="emerald"
+        />
       </div>
 
       {/* Main Content */}
@@ -143,23 +104,22 @@ export default function TechnicalAnalysis() {
                 <Layers className="w-5 h-5 text-emerald-400" />
                 Smart Money Indicators
               </h3>
-              
+
               <div className="flex flex-wrap gap-3">
                 {indicators.map((indicator) => {
                   const Icon = indicator.icon;
                   const isActive = activeIndicators[indicator.key];
-                  
+
                   return (
                     <button
                       key={indicator.key}
                       onClick={() => toggleIndicator(indicator.key)}
-                      className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all duration-200 ${
-                        isActive
-                          ? 'bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-lg'
-                          : isDark
-                            ? 'bg-slate-800 text-slate-300 hover:bg-slate-700'
-                            : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                      }`}
+                      className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all duration-200 ${isActive
+                        ? 'bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-lg'
+                        : isDark
+                          ? 'bg-slate-800 text-slate-300 hover:bg-slate-700'
+                          : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                        }`}
                     >
                       <Icon className="w-4 h-4" />
                       <span className="font-medium text-sm">{indicator.label}</span>

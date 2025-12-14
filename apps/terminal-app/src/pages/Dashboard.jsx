@@ -4,6 +4,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { motion } from "framer-motion";
 import { Link, useNavigate } from "react-router-dom";
 import { createPageUrl } from "../utils";
+import { PageHeader } from "../components/PageHeader";
 import {
   TrendingUp,
   TrendingDown,
@@ -333,45 +334,31 @@ export default function Dashboard() {
   return (
     <div className="min-h-screen pt-24 pb-12 px-4 md:px-8 max-w-[1600px] mx-auto">
       {/* 1. HEADER SECTION */}
-      <div className="relative flex flex-col md:flex-row justify-between items-start md:items-end mb-10 gap-6">
-        {/* Gentle Nebula Glow */}
-        <div className="absolute -top-20 -left-20 w-[300px] h-[200px] bg-indigo-500/10 rounded-full blur-[100px] pointer-events-none" />
-        <div className="absolute -top-10 -left-10 w-[200px] h-[150px] bg-cyan-500/5 rounded-full blur-[80px] pointer-events-none" />
-        <div>
-          <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="mb-2"
-          >
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-light tracking-tight">
-              <span className="text-white">Welcome back, </span>
-              <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 to-cyan-400 font-normal">{user?.user_metadata?.full_name?.split(" ")[0] || "Trader"}</span>
-            </h1>
-          </motion.div>
-
-          <div className="flex flex-col sm:flex-row sm:items-center gap-3 text-base text-slate-400 ml-1">
-            <span>{currentDate}</span>
+      <div className="mb-10">
+        <PageHeader
+          title="Welcome back,"
+          highlightText={user?.user_metadata?.full_name?.split(" ")[0] || "Trader"}
+          subtitle={currentDate}
+          variant="indigo"
+        >
+          <div className="flex flex-wrap gap-3">
+            <Link to={createPageUrl("RiskCalculator")}>
+              <Button className="bg-emerald-600 hover:bg-emerald-500 border-emerald-500/50 shadow-emerald-900/20 text-white">
+                <FileText className="w-4 h-4 mr-2" /> New Position
+              </Button>
+            </Link>
+            <Link to={createPageUrl("TradingJournal")}>
+              <Button variant="outline" className="border-white/10 hover:bg-white/5 text-white">
+                <Plus className="w-4 h-4 mr-2" /> Add Trade
+              </Button>
+            </Link>
+            <Link to={createPageUrl("CryptoAnalyzer")}>
+              <Button variant="outline" className="border-white/10 hover:bg-white/5 text-white">
+                <Brain className="w-4 h-4 mr-2" /> Launch AI Coach
+              </Button>
+            </Link>
           </div>
-        </div>
-
-        {/* Action Buttons */}
-        <div className="flex flex-wrap gap-3">
-          <Link to={createPageUrl("RiskCalculator")}>
-            <Button className="bg-emerald-600 hover:bg-emerald-500 border-emerald-500/50 shadow-emerald-900/20 text-white">
-              <FileText className="w-4 h-4 mr-2" /> New Position
-            </Button>
-          </Link>
-          <Link to={createPageUrl("TradingJournal")}>
-            <Button variant="outline" className="border-white/10 hover:bg-white/5 text-white">
-              <Plus className="w-4 h-4 mr-2" /> Add Trade
-            </Button>
-          </Link>
-          <Link to={createPageUrl("CryptoAnalyzer")}>
-            <Button variant="outline" className="border-white/10 hover:bg-white/5 text-white">
-              <Brain className="w-4 h-4 mr-2" /> Launch AI Coach
-            </Button>
-          </Link>
-        </div>
+        </PageHeader>
       </div>
 
       {/* Market Bar */}

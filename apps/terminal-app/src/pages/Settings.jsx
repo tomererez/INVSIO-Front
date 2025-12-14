@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import { motion } from "framer-motion";
 import { Settings as SettingsIcon, DollarSign, TrendingUp, Percent, Wallet, AlertCircle, CheckCircle2 } from "lucide-react";
 import { useLanguage } from "../components/LanguageContext";
+import { PageHeader } from "../components/PageHeader";
 
 export default function Settings() {
   const { t, language } = useLanguage();
@@ -112,28 +113,12 @@ export default function Settings() {
   return (
     <div className={`min-h-screen ${isDark ? 'bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950' : 'bg-gradient-to-br from-gray-50 via-white to-gray-100'}`} dir={language === 'he' ? 'rtl' : 'ltr'}>
       {/* Hero Section */}
-      <div className={`relative overflow-hidden border-b ${isDark ? 'border-slate-800/50 bg-gradient-to-b from-slate-900/50' : 'border-gray-200 bg-gradient-to-b from-white/50'} to-transparent`}>
-        <div className="absolute inset-0 bg-grid-pattern opacity-5" />
-        <div className="relative max-w-5xl mx-auto px-4 sm:px-6 py-12">
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="text-center"
-          >
-            <div className="flex items-center justify-center gap-3 mb-6">
-              <div className="w-14 h-14 bg-gradient-to-r from-purple-500 to-pink-600 rounded-2xl flex items-center justify-center shadow-lg shadow-purple-500/30">
-                <SettingsIcon className="w-8 h-8 text-white" />
-              </div>
-            </div>
-            <h1 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-l from-purple-400 via-pink-400 to-purple-400 bg-clip-text text-transparent">
-              {language === 'he' ? 'הגדרות' : 'Settings'}
-            </h1>
-            <p className={`text-lg md:text-xl font-semibold ${isDark ? 'text-slate-300' : 'text-gray-700'}`}>
-              {language === 'he' ? 'נהל את התיק והעמלות שלך' : 'Manage your portfolio and fees'}
-            </p>
-          </motion.div>
-        </div>
+      <div className="max-w-5xl mx-auto px-4 sm:px-6">
+        <PageHeader
+          title={language === 'he' ? 'הגדרות' : 'Settings'}
+          subtitle={language === 'he' ? 'נהל את התיק והעמלות שלך' : 'Manage your portfolio and fees'}
+          variant="purple"
+        />
       </div>
 
       {/* Main Content */}

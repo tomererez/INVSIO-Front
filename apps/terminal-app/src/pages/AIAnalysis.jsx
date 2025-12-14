@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { motion } from "framer-motion";
 import { Sparkles, Hand, Brain } from "lucide-react";
+import { PageHeader } from "../components/PageHeader";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useLanguage } from "../components/LanguageContext";
 
@@ -23,12 +24,12 @@ export default function AIAnalysis() {
   useEffect(() => {
     const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
     setTheme(currentTheme);
-    
+
     const observer = new MutationObserver(() => {
       const newTheme = document.documentElement.getAttribute('data-theme') || 'dark';
       setTheme(newTheme);
     });
-    
+
     observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
     return () => observer.disconnect();
   }, []);
@@ -64,7 +65,7 @@ export default function AIAnalysis() {
       const convertedPriceAction = convertPriceAction(priceAction);
       const convertedCVD = convertCVD(cvd);
       const convertedOI = convertOI(openInterest);
-      
+
       const foundScenario = getScenario(convertedPriceAction, convertedCVD, convertedOI, language);
       setScenario(foundScenario);
     } else {
@@ -75,69 +76,28 @@ export default function AIAnalysis() {
   return (
     <div className={`min-h-screen ${isDark ? 'bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950' : 'bg-gradient-to-br from-gray-50 via-white to-gray-100'}`} dir={language === 'he' ? 'rtl' : 'ltr'}>
       {/* Hero Section */}
-      <div className={`relative overflow-hidden border-b ${isDark ? 'border-slate-800/50' : 'border-gray-200'}`}>
-        <div className="absolute inset-0 bg-grid-pattern opacity-5" />
-        
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl animate-pulse" />
-          <div className="absolute bottom-1/4 left-1/4 w-96 h-96 bg-teal-500/10 rounded-full blur-3xl animate-pulse delay-1000" />
-        </div>
-
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 py-16">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease: appleEasing }}
-            className="text-center"
-          >
-            <motion.div
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.45, ease: appleEasing }}
-              className="inline-flex mb-6"
-            >
-              <div className="relative">
-                <div className="absolute inset-0 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-2xl blur-xl opacity-40" />
-                <div className="relative w-14 h-14 bg-gradient-to-r from-emerald-500 to-teal-600 rounded-2xl flex items-center justify-center shadow-2xl">
-                  <Brain className="w-7 h-7 text-white" />
-                </div>
-              </div>
-            </motion.div>
-
-            <motion.h1
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.08, ease: appleEasing }}
-              className="text-4xl sm:text-5xl font-bold mb-4 bg-gradient-to-r from-emerald-400 via-teal-400 to-cyan-400 bg-clip-text text-transparent"
-            >
-              AI Technical Analysis
-            </motion.h1>
-            
-            <motion.p
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.48, delay: 0.12, ease: appleEasing }}
-              className={`text-lg max-w-2xl mx-auto leading-relaxed ${isDark ? 'text-slate-400' : 'text-gray-600'}`}
-            >
-              AI-powered chart analysis and institutional scenario modeling
-            </motion.p>
-          </motion.div>
-        </div>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6">
+        <PageHeader
+          title="AI Technical"
+          highlightText="Analysis"
+          subtitle="AI-powered chart analysis and institutional scenario modeling"
+          variant="cyan"
+        />
       </div>
 
       {/* Tabs */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
         <Tabs defaultValue="auto" className="w-full">
           <TabsList className={`grid w-full max-w-2xl mx-auto grid-cols-2 mb-8 p-1 rounded-xl ${isDark ? 'bg-slate-900 border border-slate-800' : 'bg-white border border-gray-200 shadow-lg'}`}>
-            <TabsTrigger 
-              value="auto" 
+            <TabsTrigger
+              value="auto"
               className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-emerald-600 data-[state=active]:to-teal-600 data-[state=active]:text-white rounded-lg transition-all duration-200 flex items-center gap-2"
             >
               <Sparkles className="w-4 h-4" />
               <span className="font-semibold">Auto Analysis</span>
             </TabsTrigger>
-            
-            <TabsTrigger 
+
+            <TabsTrigger
               value="manual"
               className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-emerald-600 data-[state=active]:to-teal-600 data-[state=active]:text-white rounded-lg transition-all duration-200 flex items-center gap-2"
             >
@@ -172,7 +132,7 @@ export default function AIAnalysis() {
                         {language === 'he' ? 'בחר את כל הפרמטרים' : 'Select All Parameters'}
                       </h3>
                       <p className={`text-lg max-w-md mx-auto ${isDark ? 'text-slate-500' : 'text-gray-500'}`}>
-                        {language === 'he' 
+                        {language === 'he'
                           ? 'לאחר בחירת כל 3 הפרמטרים, תוצג כאן הפרשנות המלאה של מצב השוק'
                           : 'After selecting all 3 parameters, the complete market interpretation will be displayed here'
                         }

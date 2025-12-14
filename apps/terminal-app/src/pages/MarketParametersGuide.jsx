@@ -4,6 +4,7 @@ import {
     TrendingUp, TrendingDown, Activity, DollarSign, BarChart2,
     Layers, BookOpen, ArrowRight, CheckCircle2, Zap
 } from 'lucide-react';
+import { PageHeader } from '../components/PageHeader';
 import { GlassCard } from '@/components/ui/glass-card';
 import { useNavigate } from 'react-router-dom';
 
@@ -1015,30 +1016,21 @@ export default function MarketParametersGuide() {
         <div className="min-h-screen pt-32 pb-20 px-6 max-w-6xl mx-auto relative cursor-default">
 
             {/* Header */}
-            <div className="text-center mb-20 relative z-10">
-                <motion.div
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-emerald-300 text-[10px] font-bold uppercase tracking-widest mb-6 backdrop-blur-md"
+            <div className="mb-20 relative z-10">
+                <PageHeader
+                    title="Market Parameters"
+                    highlightText="Guide"
+                    subtitle={<span>Master the institutional metrics that drive market decisions. <br />Stop guessing. Start reading the flow.</span>}
+                    variant="emerald"
                 >
-                    <BookOpen className="w-3.5 h-3.5" /> Educational Resources
-                </motion.div>
-                <motion.h1
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className="text-5xl md:text-6xl font-light text-white mb-6"
-                >
-                    Market Parameters <span className="text-emerald-400 font-normal">Guide</span>
-                </motion.h1>
-                <motion.p
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.1 }}
-                    className="text-xl text-slate-400 font-light max-w-2xl mx-auto"
-                >
-                    Master the institutional metrics that drive market decisions. <br />
-                    Stop guessing. Start reading the flow.
-                </motion.p>
+                    <motion.div
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-emerald-300 text-[10px] font-bold uppercase tracking-widest backdrop-blur-md h-fit mt-2"
+                    >
+                        <BookOpen className="w-3.5 h-3.5" /> Educational Resources
+                    </motion.div>
+                </PageHeader>
             </div>
 
             {/* CONTENT BLOCKS */}
